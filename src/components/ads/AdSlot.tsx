@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface AdSlotProps {
   slotId?: string;
@@ -24,12 +24,57 @@ export function AdSlot({
   label = "Sponsor Advertisement",
 }: AdSlotProps) {
   const adRef = useRef<HTMLModElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const pushedRef = useRef(false);
+  const [clickShieldActive, setClickShieldActive] = useState(false);
   const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-3164350596356343";
 
   useEffect(() => {
-    // Standard Google AdSense queue initialization with React StrictMode guard
-    if (typeof window !== "undefined" && adRef.current && !pushedRef.current) {
+    if (typeof window === "undefined") return;
+
+    // Check existing session click frequency (max 3 clicks per session to prevent IVT flags)
+    try {
+      const stored = sessionStorage.getItem("cp_ad_clicks");
+      if (stored && parseInt(stored, 10) >= 3) {
+        setClickShieldActive(true);
+        return;
+      }
+    } catch {
+      // Ignore storage errors
+    }
+
+    // Monitor iframe click/focus transitions
+    const handleBlur = () => {
+      if (
+        containerRef.current &&
+        document.activeElement &&
+        containerRef.current.contains(document.activeElement)
+      ) {
+        try {
+          const stored = sessionStorage.getItem("cp_ad_clicks");
+          const count = (stored ? parseInt(stored, 10) : 0) + 1;
+          sessionStorage.setItem("cp_ad_clicks", count.toString());
+          if (count >= 3) {
+            setClickShieldActive(true);
+          }
+        } catch {
+          // Ignore
+        }
+      }
+    };
+
+    window.addEventListener("blur", handleBlur);
+    return () => window.removeEventListener("blur", handleBlur);
+  }, []);
+
+  useEffect(() => {
+    // Standard Google AdSense queue initialization with React StrictMode and click shield guard
+    if (
+      typeof window !== "undefined" &&
+      adRef.current &&
+      !pushedRef.current &&
+      !clickShieldActive
+    ) {
       try {
         if (process.env.NODE_ENV === "production") {
           (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -39,7 +84,7 @@ export function AdSlot({
         console.warn("AdSense push initialization error:", err);
       }
     }
-  }, []);
+  }, [clickShieldActive]);
 
   // Standard CLS prevention heights based on format
   const heightClasses = {
@@ -51,6 +96,7 @@ export function AdSlot({
 
   return (
     <div
+      ref={containerRef}
       className={`my-8 w-full overflow-hidden rounded-xl border border-dashed border-[#DCDCD2] bg-[#F4F4F0]/60 p-3 transition-all ${heightClasses} ${className}`}
     >
       <div className="mb-1.5 flex items-center justify-between text-[11px] font-medium tracking-wider uppercase text-slate-400">
@@ -59,16 +105,27 @@ export function AdSlot({
       </div>
 
       <div className="relative flex min-h-[90px] w-full items-center justify-center">
-        {/* Production AdSense Script Container */}
-        <ins
-          ref={adRef}
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client={clientId}
-          data-ad-slot={slotId}
-          data-ad-format={format}
-          data-full-width-responsive={responsive ? "true" : "false"}
-        />
+        {clickShieldActive ? (
+          <div className="flex flex-col items-center justify-center p-4 text-center">
+            <span className="text-xs font-semibold text-slate-600">
+              Ad display temporarily paused for this session
+            </span>
+            <span className="mt-1 text-[10px] text-slate-400">
+              Invalid click shield active to protect advertising network integrity
+            </span>
+          </div>
+        ) : (
+          /* Production AdSense Script Container */
+          <ins
+            ref={adRef}
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-client={clientId}
+            data-ad-slot={slotId}
+            data-ad-format={format}
+            data-full-width-responsive={responsive ? "true" : "false"}
+          />
+        )}
 
         {/* Development & Staging Layout Preservation Fallback */}
         {process.env.NODE_ENV !== "production" && (

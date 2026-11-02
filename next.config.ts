@@ -1,21 +1,25 @@
 import type { NextConfig } from "next";
 
+const isProd = process.env.NODE_ENV === "production";
+
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
     value: `
       default-src 'self';
-      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://adservice.google.com https://tpc.googlesyndication.com https://www.googletagservices.com https://fundingchoicesmessages.google.com https://*.google.com https://*.googlesyndication.com;
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://adservice.google.com https://tpc.googlesyndication.com https://www.googletagservices.com https://fundingchoicesmessages.google.com https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://*.googleadservices.com https://va.vercel-scripts.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-      img-src 'self' data: blob: https://pagead2.googlesyndication.com https://*.google.com https://*.gstatic.com https://*.doubleclick.net https://*.googlesyndication.com;
+      img-src 'self' data: blob: https://pagead2.googlesyndication.com https://*.google.com https://*.gstatic.com https://*.doubleclick.net https://*.googlesyndication.com https://*.googleadservices.com;
       font-src 'self' data: https://fonts.gstatic.com;
-      connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://adservice.google.com https://fundingchoicesmessages.google.com https://*.google.com https://*.googlesyndication.com https://vitals.vercel-insights.com https://va.vercel-scripts.com;
-      frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://*.google.com;
+      connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://adservice.google.com https://fundingchoicesmessages.google.com https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://*.googleadservices.com https://vitals.vercel-insights.com https://va.vercel-scripts.com;
+      frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net;
+      worker-src 'self' blob:;
+      media-src 'self' https://*.googlesyndication.com https://*.doubleclick.net;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
       frame-ancestors 'none';
-      upgrade-insecure-requests;
+      ${isProd ? "upgrade-insecure-requests;" : ""}
     `
       .replace(/\s{2,}/g, " ")
       .trim(),

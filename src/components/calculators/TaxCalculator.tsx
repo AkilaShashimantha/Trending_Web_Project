@@ -12,11 +12,15 @@ import {
   ChevronUp,
   Copy,
   DollarSign,
+  Download,
   HelpCircle,
   Info,
   PieChart,
   Printer,
+  RotateCcw,
+  Save,
   ShieldAlert,
+  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 
@@ -29,6 +33,13 @@ export function TaxCalculator() {
     presets,
     copyShareableLink,
     copiedShareUrl,
+    hasSavedScenario,
+    savedNotification,
+    saveToLocalStorage,
+    loadFromLocalStorage,
+    clearLocalStorage,
+    exportAsJson,
+    exportAsCsv,
   } = useTaxController();
 
   const [showAdvancedDeductions, setShowAdvancedDeductions] = useState(true);
@@ -530,6 +541,78 @@ export function TaxCalculator() {
                   <div className="text-[10px] text-amberWarm-700 font-medium">Due: {q.dueDate}</div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Local-First Client Storage & Export (100% Device Private) */}
+          <div className="rounded-2xl border border-emeraldTactile-200 bg-emeraldTactile-50/50 p-5 shadow-xs">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-emeraldTactile-700" />
+                <h3 className="text-xs font-bold tracking-wider uppercase text-emeraldTactile-900">
+                  Local-First Device Privacy
+                </h3>
+              </div>
+              <span className="inline-flex items-center rounded-full bg-emeraldTactile-100 px-2 py-0.5 text-[10px] font-semibold text-emeraldTactile-800">
+                Zero Cloud Storage
+              </span>
+            </div>
+            <p className="mt-1 text-[11px] leading-relaxed text-slate-600">
+              Tax figures stay 100% on this browser. Save your scenario locally or export directly without server transmission.
+            </p>
+
+            {savedNotification && (
+              <div className="mt-2.5 rounded-lg bg-emeraldTactile-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs">
+                {savedNotification}
+              </div>
+            )}
+
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                onClick={saveToLocalStorage}
+                className="flex items-center gap-1.5 rounded-lg bg-spruce-800 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-spruce-700"
+              >
+                <Save className="h-3.5 w-3.5" />
+                <span>Save to Device</span>
+              </button>
+
+              {hasSavedScenario && (
+                <>
+                  <button
+                    onClick={loadFromLocalStorage}
+                    className="flex items-center gap-1.5 rounded-lg border border-[#DCDCD2] bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 transition hover:bg-[#F4F4F0]"
+                  >
+                    <span>Restore Saved</span>
+                  </button>
+                  <button
+                    onClick={clearLocalStorage}
+                    className="flex items-center gap-1.5 rounded-lg border border-red-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-50"
+                    title="Clear saved data"
+                  >
+                    <RotateCcw className="h-3.5 w-3.5" />
+                    <span>Reset</span>
+                  </button>
+                </>
+              )}
+
+              <div className="flex items-center gap-1 ml-auto">
+                <button
+                  onClick={exportAsCsv}
+                  className="flex items-center gap-1 rounded-lg border border-[#DCDCD2] bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-[#F4F4F0]"
+                  title="Export Schedule SE & Tax Breakdown as CSV"
+                >
+                  <Download className="h-3 w-3 text-slate-500" />
+                  <span>CSV</span>
+                </button>
+                <button
+                  onClick={exportAsJson}
+                  className="flex items-center gap-1 rounded-lg border border-[#DCDCD2] bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-[#F4F4F0]"
+                  title="Export Full Calculation JSON"
+                >
+                  <Download className="h-3 w-3 text-slate-500" />
+                  <span>JSON</span>
+                </button>
+              </div>
             </div>
           </div>
 

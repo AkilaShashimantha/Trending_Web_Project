@@ -89,19 +89,21 @@ function createIco(pngBuffers) {
 // Spruce: [15, 56, 44]
 // Emerald: [16, 185, 129]
 // Amber: [245, 158, 11]
-function renderPixel(x, y, w, h) {
+function renderPixel(x, y, w, h, solidBackground = false) {
   // Normalize coordinates to 0..1
   const nx = (x + 0.5) / w;
   const ny = (y + 0.5) / h;
 
-  // Squircle rounded corners
-  const cx = Math.abs(nx - 0.5) * 2;
-  const cy = Math.abs(ny - 0.5) * 2;
-  // Corner radius roughly 0.22 of size
-  if (cx > 0.6 && cy > 0.6) {
-    const cornerDist = Math.hypot(cx - 0.6, cy - 0.6);
-    if (cornerDist > 0.4) {
-      return [0, 0, 0, 0]; // Transparent outside
+  // Squircle rounded corners (only for transparent-capable icons, not Apple touch icons)
+  if (!solidBackground) {
+    const cx = Math.abs(nx - 0.5) * 2;
+    const cy = Math.abs(ny - 0.5) * 2;
+    // Corner radius roughly 0.22 of size
+    if (cx > 0.6 && cy > 0.6) {
+      const cornerDist = Math.hypot(cx - 0.6, cy - 0.6);
+      if (cornerDist > 0.4) {
+        return [0, 0, 0, 0]; // Transparent outside
+      }
     }
   }
 
@@ -145,9 +147,12 @@ function renderPixel(x, y, w, h) {
   return [r, g, b, a];
 }
 
-const p16 = createPng(16, 16, renderPixel);
-const p32 = createPng(32, 32, renderPixel);
-const p48 = createPng(48, 48, renderPixel);
+const renderPixelTransparent = (x, y, w, h) => renderPixel(x, y, w, h, false);
+const renderPixelSolid = (x, y, w, h) => renderPixel(x, y, w, h, true);
+
+const p16 = createPng(16, 16, renderPixelTransparent);
+const p32 = createPng(32, 32, renderPixelTransparent);
+const p48 = createPng(48, 48, renderPixelTransparent);
 
 const icoBuffer = createIco([
   { width: 16, height: 16, data: p16 },
@@ -161,4 +166,16 @@ const appIcoPath = path.join(__dirname, '..', 'src', 'app', 'favicon.ico');
 fs.writeFileSync(publicIcoPath, icoBuffer);
 fs.writeFileSync(appIcoPath, icoBuffer);
 
-console.log('Successfully written favicon.ico to public/ and src/app/, size:', icoBuffer.length);
+// Apple Touch Icon (180x180, iOS requires solid background without transparent corners)
+const appleIcon = createPng(180, 180, renderPixelSolid);
+fs.writeFileSync(path.join(__dirname, '..', 'public', 'apple-touch-icon.png'), appleIcon);
+fs.writeFileSync(path.join(__dirname, '..', 'src', 'app', 'apple-icon.png'), appleIcon);
+
+// Android / PWA Icons (192x192, 512x512)
+const p192 = createPng(192, 192, renderPixelTransparent);
+const p512 = createPng(512, 512, renderPixelTransparent);
+fs.writeFileSync(path.join(__dirname, '..', 'public', 'icon-192.png'), p192);
+fs.writeFileSync(path.join(__dirname, '..', 'public', 'icon-512.png'), p512);
+
+console.log('Successfully written favicon.ico, apple-touch-icon.png (180x180), icon-192.png, and icon-512.png');
+

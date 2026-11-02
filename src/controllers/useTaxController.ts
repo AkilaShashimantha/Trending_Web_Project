@@ -156,6 +156,154 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
     });
   }, [inputs]);
 
+  const [hasSavedScenario, setHasSavedScenario] = useState(false);
+  const [savedNotification, setSavedNotification] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      if (localStorage.getItem("cashpulse_tax_scenario_v1")) {
+        setHasSavedScenario(true);
+      }
+    } catch {
+      // Ignore localStorage read errors in restricted contexts
+    }
+  }, []);
+
+  const saveToLocalStorage = useCallback(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem("cashpulse_tax_scenario_v1", JSON.stringify(inputs));
+      setHasSavedScenario(true);
+      setSavedNotification("Saved to this device!");
+      setTimeout(() => setSavedNotification(null), 3000);
+    } catch {
+      setSavedNotification("Failed to save to local storage");
+      setTimeout(() => setSavedNotification(null), 3000);
+    }
+  }, [inputs]);
+
+  const loadFromLocalStorage = useCallback(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const data = localStorage.getItem("cashpulse_tax_scenario_v1");
+      if (data) {
+        const parsed = JSON.parse(data);
+        setInputs((prev) => ({ ...prev, ...parsed }));
+        setSavedNotification("Restored saved scenario!");
+        setTimeout(() => setSavedNotification(null), 3000);
+      }
+    } catch {
+      // Ignore parse errors
+    }
+  }, []);
+
+  const clearLocalStorage = useCallback(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.removeItem("cashpulse_tax_scenario_v1");
+      setHasSavedScenario(false);
+      setInputs(DEFAULT_TAX_INPUTS);
+      setSavedNotification("Reset to defaults");
+      setTimeout(() => setSavedNotification(null), 3000);
+    } catch {
+      // Ignore
+    }
+  }, []);
+
+  const exportAsJson = useCallback(() => {
+    if (typeof window === "undefined") return;
+    const exportData = {
+      app: "CashPulse FinTech Suite - TaxEstimator Online",
+      url: "https://taxestimator.online",
+      privacyNotice: "100% Client-Side calculation. Zero data transmitted to remote servers.",
+      exportTimestamp: new Date().toISOString(),
+      inputs,
+      results: {
+        taxYear: inputs.taxYear,
+        filingStatus: inputs.filingStatus,
+        gross1099Income: inputs.gross1099Income,
+        netScheduleCProfit: results.netBusinessProfit,
+        selfEmploymentTaxScheduleSE: results.totalSelfEmploymentTax,
+        qbiDeductionSection199A: results.qbiDeduction,
+        taxableIncome: results.taxableIncome,
+        federalIncomeTax: results.federalIncomeTax,
+        stateIncomeTax: results.stateTaxAmount,
+        stateName: results.stateName,
+        totalTaxLiability: results.totalEstimatedTax,
+        effectiveTaxRatePercent: results.overallEffectiveRate,
+        quarterlyVouchers1040ES: results.quarterlyPayments,
+      },
+    };
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `cashpulse-tax-estimate-${inputs.taxYear}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }, [inputs, results]);
+
+  const exportAsCsv = useCallback(() => {
+    if (typeof window === "undefined") return;
+    const rows = [
+      ["CashPulse 1099 Freelance Tax Estimate", `Tax Year ${inputs.taxYear}`],
+      ["Export Date", new Date().toLocaleDateString()],
+      ["Privacy Assurance", "100% Local Processing - Zero Server Tracking"],
+      [],
+      ["Line Item", "Amount / Value"],
+      ["Tax Year", inputs.taxYear],
+      ["Filing Status", inputs.filingStatus],
+      ["State", `${results.stateName} (${inputs.stateCode})`],
+      ["Gross 1099 Revenue", inputs.gross1099Income.toFixed(2)],
+      ["W-2 Salary (Dual-Income)", inputs.w2Income.toFixed(2)],
+      ["Schedule C Business Expenses", inputs.businessExpenses.toFixed(2)],
+      ["Home Office Deduction", inputs.homeOfficeDeduction.toFixed(2)],
+      ["Self-Employed Health Insurance", inputs.healthInsurancePremiums.toFixed(2)],
+      ["SEP-IRA / Solo 401(k) Contribution", inputs.sepIraContribution.toFixed(2)],
+      ["Net Schedule C Profit", results.netBusinessProfit.toFixed(2)],
+      ["Self-Employment Tax (Schedule SE 15.3%)", results.totalSelfEmploymentTax.toFixed(2)],
+      ["Section 199A QBI 20% Deduction", results.qbiDeduction.toFixed(2)],
+      ["Federal Taxable Income", results.taxableIncome.toFixed(2)],
+      ["Federal Income Tax", results.federalIncomeTax.toFixed(2)],
+      ["State Income Tax", results.stateTaxAmount.toFixed(2)],
+      ["TOTAL ESTIMATED ANNUAL TAX BURDEN", results.totalEstimatedTax.toFixed(2)],
+      ["Effective Total Tax Rate", `${results.overallEffectiveRate}%`],
+      [],
+      ["IRS 1040-ES Quarterly Estimated Vouchers", "Amount", "Due Date"],
+      ...results.quarterlyPayments.map((q) => [
+        `${q.quarter} (${q.periodLabel})`,
+        q.amount.toFixed(2),
+        q.dueDate,
+      ]),
+    ];
+
+    const csvContent = rows
+      .map((row) =>
+        row
+          .map((cell) => {
+            const str = String(cell ?? "");
+            if (str.includes(",") || str.includes('"') || str.includes("\n")) {
+              return `"${str.replace(/"/g, '""')}"`;
+            }
+            return str;
+          })
+          .join(",")
+      )
+      .join("\r\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `cashpulse-tax-estimate-${inputs.taxYear}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }, [inputs, results]);
+
   return {
     inputs,
     results,
@@ -164,5 +312,12 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
     presets: TAX_PRESETS,
     copyShareableLink,
     copiedShareUrl,
+    hasSavedScenario,
+    savedNotification,
+    saveToLocalStorage,
+    loadFromLocalStorage,
+    clearLocalStorage,
+    exportAsJson,
+    exportAsCsv,
   };
 }
