@@ -5,10 +5,10 @@ import { Navbar } from "../components/ui/Navbar";
 import { Footer } from "../components/ui/Footer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cashpulse.vercel.app"),
+  metadataBase: new URL("https://taxestimator.online"),
   title: {
-    default: "CashPulse | Solopreneur Wealth & Tax Engines",
-    template: "%s | CashPulse",
+    default: "TaxEstimator Online | 1099 Freelance, Fee & Wealth Engines",
+    template: "%s | TaxEstimator Online",
   },
   description:
     "Precision financial calculators for solopreneurs, independent creators, and freelancers. 1099 Self-Employment Tax Estimator, Stripe/PayPal Fee Optimizer, and HYSA Compound Wealth vs Inflation Shield.",
@@ -22,18 +22,18 @@ export const metadata: Metadata = {
     "inflation calculator",
     "solopreneur finance",
   ],
-  authors: [{ name: "CashPulse Engineering Team" }],
+  authors: [{ name: "TaxEstimator Online Engineering Team" }],
   openGraph: {
-    title: "CashPulse | Solopreneur Wealth & Tax Engines",
+    title: "TaxEstimator Online | 1099 Freelance, Fee & Wealth Engines",
     description:
       "Engineered for modern freelancers and creators. Accurate Schedule SE calculations, reverse invoice fee pass-through, and inflation-adjusted HYSA compounding.",
-    url: "https://cashpulse.vercel.app",
-    siteName: "CashPulse",
+    url: "https://taxestimator.online",
+    siteName: "TaxEstimator Online",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "CashPulse | Solopreneur Wealth & Tax Engines",
+    title: "TaxEstimator Online | 1099 Freelance, Fee & Wealth Engines",
     description:
       "Calculators for 1099 self-employment taxes, Stripe/PayPal processor cuts, and HYSA real purchasing power.",
   },

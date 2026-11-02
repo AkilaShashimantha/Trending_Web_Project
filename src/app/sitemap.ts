@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://cashpulse.vercel.app";
+  const baseUrl = "https://taxestimator.online";
   const currentDate = new Date().toISOString();
 
   return [
