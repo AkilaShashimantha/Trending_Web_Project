@@ -25,7 +25,7 @@ export function AdSlot({
 }: AdSlotProps) {
   const adRef = useRef<HTMLModElement | null>(null);
   const pushedRef = useRef(false);
-  const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-0000000000000000";
+  const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-3164350596356343";
 
   useEffect(() => {
     // Standard Google AdSense queue initialization with React StrictMode guard
