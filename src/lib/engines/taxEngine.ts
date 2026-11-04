@@ -254,13 +254,13 @@ export function calculateFreelanceTaxes(inputs: TaxInputs): TaxCalculationResult
     return { totalTax: tax, breakdown };
   };
 
-  const computeStateTaxForIncome = (income: number): number => {
+  const computeStateTaxForIncome = (income: number, stateBaseIncome: number): number => {
     if (customStateTaxRate !== undefined && customStateTaxRate >= 0) {
-      return income * (customStateTaxRate / 100);
+      return roundCurrency(income * (customStateTaxRate / 100));
     }
     return calculateStateTax({
       stateCode,
-      taxableIncome: income,
+      taxableIncome: stateBaseIncome,
       filingStatus,
       netProfit: netBusinessProfit,
     }).stateTaxAmount;
@@ -269,7 +269,7 @@ export function calculateFreelanceTaxes(inputs: TaxInputs): TaxCalculationResult
   const { totalTax: federalIncomeTax, breakdown: federalBrackets } =
     computeFederalTaxForIncome(taxableIncome);
 
-  const stateTaxAmount = computeStateTaxForIncome(taxableIncome);
+  const stateTaxAmount = computeStateTaxForIncome(taxableIncome, adjustedGrossIncome);
   const stateName =
     customStateTaxRate !== undefined && customStateTaxRate >= 0
       ? `Custom (${customStateTaxRate}%)`
@@ -283,7 +283,7 @@ export function calculateFreelanceTaxes(inputs: TaxInputs): TaxCalculationResult
   if (w2Income > 0) {
     const w2TaxableIncome = Math.max(0, w2Income - standardDeduction);
     const w2FedTax = computeFederalTaxForIncome(w2TaxableIncome).totalTax;
-    const w2StateTax = computeStateTaxForIncome(w2TaxableIncome);
+    const w2StateTax = computeStateTaxForIncome(w2TaxableIncome, w2Income);
     const w2SS = Math.min(w2Income, wageBase) * 0.062;
     const w2Med = w2Income * 0.0145;
     const w2AddlMed = Math.max(0, w2Income - addMedicareThreshold) * 0.009;
@@ -301,11 +301,11 @@ export function calculateFreelanceTaxes(inputs: TaxInputs): TaxCalculationResult
   const combinedTotalTax = roundCurrency(w2TaxWithheldEstimate + totalFreelanceTax);
 
   const effectiveFederalIncomeRate =
-    taxableIncome > 0 ? (federalIncomeTax / taxableIncome) * 100 : 0;
+    taxableIncome > 0 ? roundCurrency((federalIncomeTax / taxableIncome) * 100) : 0;
   const effectiveStateRate =
-    taxableIncome > 0 ? (stateTaxAmount / taxableIncome) * 100 : 0;
+    adjustedGrossIncome > 0 ? roundCurrency((stateTaxAmount / adjustedGrossIncome) * 100) : 0;
   const overallEffectiveRate =
-    gross1099Income > 0 ? (totalFreelanceTax / gross1099Income) * 100 : 0;
+    gross1099Income > 0 ? roundCurrency((totalFreelanceTax / gross1099Income) * 100) : 0;
 
   // Freelance Net Take-Home (revenue minus business expenses minus freelance taxes)
   const freelanceTakeHome = Math.max(0, netBusinessProfit - totalFreelanceTax);

@@ -21,6 +21,9 @@ describe("Security and Privacy Configuration", () => {
     expect(headerMap.get("Strict-Transport-Security")).toContain("max-age=63072000");
     expect(headerMap.get("Permissions-Policy")).toContain("camera=()");
     expect(headerMap.get("Permissions-Policy")).toContain("browsing-topics=()");
+    expect(headerMap.get("X-DNS-Prefetch-Control")).toBe("on");
+    expect(headerMap.get("X-XSS-Protection")).toBe("1; mode=block");
+    expect(headerMap.get("Cross-Origin-Opener-Policy")).toBe("same-origin-allow-popups");
 
     // Content Security Policy audit
     const csp = headerMap.get("Content-Security-Policy") || "";

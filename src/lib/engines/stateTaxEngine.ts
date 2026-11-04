@@ -38,8 +38,8 @@ export interface CalculateStateTaxOptions {
 /**
  * Normalizes input code/slug to find the corresponding StateTaxData
  */
-export function getStateTaxData(codeOrSlug: string): StateTaxData | undefined {
-  if (!codeOrSlug) return undefined;
+export function getStateTaxData(codeOrSlug: unknown): StateTaxData | undefined {
+  if (!codeOrSlug || typeof codeOrSlug !== "string") return undefined;
   const upper = codeOrSlug.trim().toUpperCase();
   if (STATE_DATA_BY_CODE[upper]) {
     return STATE_DATA_BY_CODE[upper];
@@ -84,20 +84,26 @@ export function calculateStateTax(
   const baseIncome = Math.max(0, rawTaxableIncome || 0);
 
   // 1. Custom rate override check
-  if (customRate !== undefined && customRate >= 0) {
-    const taxAmount = roundCurrency(baseIncome * (customRate / 100));
+  if (
+    customRate !== undefined &&
+    typeof customRate === "number" &&
+    !isNaN(customRate) &&
+    customRate >= 0
+  ) {
+    const clampedRate = Math.min(100, Math.max(0, customRate));
+    const taxAmount = roundCurrency(baseIncome * (clampedRate / 100));
     const effectiveRate =
       baseIncome > 0 ? roundCurrency((taxAmount / baseIncome) * 100) : 0;
     return {
-      stateCode: stateData?.code || stateCode.toUpperCase(),
-      stateName: stateData?.name || `Custom Rate (${customRate}%)`,
+      stateCode: stateData?.code || (stateCode ? stateCode.toUpperCase() : "CUSTOM"),
+      stateName: stateData?.name || `Custom Rate (${clampedRate}%)`,
       taxType: "flat",
       grossIncome: baseIncome,
       stateStandardDeduction: 0,
       stateTaxableIncome: baseIncome,
       stateTaxAmount: taxAmount,
       effectiveStateRate: effectiveRate,
-      marginalRate: customRate,
+      marginalRate: clampedRate,
       bracketsBreakdown: [
         {
           bracketRate: customRate / 100,

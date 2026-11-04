@@ -194,7 +194,13 @@ export function TaxCalculator({ initialStateCode, defaultValues }: TaxCalculator
                   >
                     {sortedStates.map(([code, data]) => (
                       <option key={code} value={code}>
-                        {data.name} ({data.type === "none" ? "0% Tax" : data.type})
+                        {data.name} (
+                        {data.type === "none"
+                          ? "0% Tax"
+                          : data.type === "flat" && data.rate
+                          ? `${(data.rate * 100).toFixed(2)}% Flat`
+                          : "Graduated"}
+                        )
                       </option>
                     ))}
                     <option value="OTHER">Other State (4.5% Nat&apos;l Avg)</option>

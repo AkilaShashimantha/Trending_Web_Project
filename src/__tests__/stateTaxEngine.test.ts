@@ -232,7 +232,15 @@ describe("stateTaxEngine - 50 US States + DC Tax Calculation & Data", () => {
       expect(fallback.marginalRate).toBe(4.5);
     });
 
-    it("honors custom rate overrides accurately", () => {
+    it("handles non-string inputs to getStateTaxData gracefully without throwing", () => {
+      expect(getStateTaxData(null)).toBeUndefined();
+      expect(getStateTaxData(undefined)).toBeUndefined();
+      expect(getStateTaxData(123 as any)).toBeUndefined();
+      expect(getStateTaxData({} as any)).toBeUndefined();
+      expect(getStateTaxData(true as any)).toBeUndefined();
+    });
+
+    it("honors custom rate overrides accurately and clamps above 100", () => {
       const custom = calculateStateTax({
         stateCode: "CA",
         taxableIncome: 100000,
@@ -240,6 +248,87 @@ describe("stateTaxEngine - 50 US States + DC Tax Calculation & Data", () => {
       });
       expect(custom.stateTaxAmount).toBe(7250);
       expect(custom.marginalRate).toBe(7.25);
+
+      const clamped = calculateStateTax({
+        stateCode: "CA",
+        taxableIncome: 100000,
+        customRate: 150,
+      });
+      expect(clamped.stateTaxAmount).toBe(100000);
+      expect(clamped.marginalRate).toBe(100);
+    });
+  });
+
+  describe("Editorial Guide Rich Content Verification", () => {
+    it("guarantees 800+ words of localized editorial guide for every US state + DC", () => {
+      const allStates = getAllStates();
+      for (const st of allStates) {
+        const guide = st.editorialGuide;
+        const textParts = [
+          guide.overview,
+          guide.rateBreakdown,
+          guide.freelanceSpecificRules,
+          guide.standardDeductionGuide,
+          guide.estimatedTaxesGuide,
+          guide.localTaxDetails,
+          ...guide.faqs.map((f) => `${f.question} ${f.answer}`),
+        ];
+        const combined = textParts.join(" ");
+        const wordCount = combined.trim().split(/\s+/).filter(Boolean).length;
+        expect(
+          wordCount,
+          `Editorial guide for ${st.name} (${st.code}) must have >= 800 words, got ${wordCount}`
+        ).toBeGreaterThanOrEqual(800);
+      }
+    });
+  });
+
+  describe("Freelance Tax Engine Integration (AGI State Base)", () => {
+    it("calculates Pennsylvania flat tax on AGI without double-deducting federal standard deduction or QBI", async () => {
+      const { calculateFreelanceTaxes } = await import("../lib/engines/taxEngine");
+      const result = calculateFreelanceTaxes({
+        taxYear: "2025",
+        filingStatus: "single",
+        gross1099Income: 100000,
+        w2Income: 0,
+        businessExpenses: 0,
+        homeOfficeDeduction: 0,
+        healthInsurancePremiums: 0,
+        sepIraContribution: 0,
+        otherDeductions: 0,
+        stateCode: "PA",
+      });
+
+      // Net business profit = $100,000
+      // Deductible SE tax = $7,064.78 -> AGI = $92,935.22
+      // PA has 3.07% flat tax with $0 standard deduction.
+      // Expected PA tax = roundCurrency(92,935.22 * 0.0307) = $2,853.11
+      // If it erroneously used federal taxable income ($62,348.18), PA tax would be $1,914.09.
+      expect(result.stateTaxAmount).toBe(2853.11);
+      expect(result.effectiveStateRate).toBeCloseTo(3.07, 1);
+    });
+
+    it("calculates California progressive tax on AGI minus CA standard deduction", async () => {
+      const { calculateFreelanceTaxes } = await import("../lib/engines/taxEngine");
+      const result = calculateFreelanceTaxes({
+        taxYear: "2025",
+        filingStatus: "single",
+        gross1099Income: 100000,
+        w2Income: 0,
+        businessExpenses: 0,
+        homeOfficeDeduction: 0,
+        healthInsurancePremiums: 0,
+        sepIraContribution: 0,
+        otherDeductions: 0,
+        stateCode: "CA",
+      });
+
+      // AGI is $92,935.22. CA standard deduction is $5,540.
+      // CA Taxable Income = $92,935.22 - $5,540 = $87,395.22.
+      // CA tax on $87,395.22 is > $4,000.
+      // If double-deducted with federal standard deduction and QBI, CA taxable income would be $56,808.18 (tax < $2,500).
+      expect(result.stateTaxAmount).toBeGreaterThan(4000);
+      expect(result.stateTaxAmount).toBeLessThan(6000);
     });
   });
 

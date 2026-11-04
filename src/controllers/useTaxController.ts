@@ -139,12 +139,16 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
     []
   );
 
-  const applyPreset = useCallback((preset: Partial<TaxInputs>) => {
-    setInputs((prev) => ({
-      ...prev,
-      ...preset,
-    }));
-  }, []);
+  const applyPreset = useCallback(
+    (preset: Partial<TaxInputs>) => {
+      setInputs((prev) => ({
+        ...prev,
+        ...preset,
+        ...(initialOverrides?.stateCode ? { stateCode: initialOverrides.stateCode } : {}),
+      }));
+    },
+    [initialOverrides?.stateCode]
+  );
 
   const results: TaxCalculationResult = useMemo(() => {
     return calculateFreelanceTaxes(inputs);
@@ -217,13 +221,16 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
     try {
       localStorage.removeItem("cashpulse_tax_scenario_v1");
       setHasSavedScenario(false);
-      setInputs(DEFAULT_TAX_INPUTS);
+      setInputs({
+        ...DEFAULT_TAX_INPUTS,
+        ...(initialOverrides?.stateCode ? { stateCode: initialOverrides.stateCode } : {}),
+      });
       setSavedNotification("Reset to defaults");
       setTimeout(() => setSavedNotification(null), 3000);
     } catch {
       // Ignore
     }
-  }, []);
+  }, [initialOverrides?.stateCode]);
 
   const exportAsJson = useCallback(() => {
     if (typeof window === "undefined") return;

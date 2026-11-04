@@ -100,15 +100,44 @@ export default async function StateTaxEstimatorPage({ params }: PageProps) {
     })),
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://taxestimator.online",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "1099 Freelance Estimator",
+        item: "https://taxestimator.online/tools/freelance-tax-estimator",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: `${name} 1099 Calculator`,
+        item: `https://taxestimator.online/tools/freelance-tax-estimator/${stateData.slug}`,
+      },
+    ],
+  };
+
   const noTaxStates = allStates.filter((s) => s.taxType === "none");
   const flatTaxStates = allStates.filter((s) => s.taxType === "flat");
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      {/* Schema.org FAQ Structured Data for Rich Snippets */}
+      {/* Schema.org FAQ & Breadcrumb Structured Data for Rich Snippets */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* Breadcrumb Navigation */}

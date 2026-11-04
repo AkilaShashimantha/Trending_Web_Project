@@ -55,7 +55,7 @@ export function getStatePreference(): string | null {
   if (typeof document === "undefined") return null;
 
   try {
-    const cookies = document.cookie ? document.cookie.split("; ") : [];
+    const cookies = document.cookie ? document.cookie.split(/;\s*/) : [];
     for (const cookie of cookies) {
       const [name, ...valParts] = cookie.split("=");
       if (name.trim() === PREF_STATE_COOKIE_NAME) {
@@ -81,5 +81,6 @@ export function getStatePreference(): string | null {
  */
 export function clearStatePreference(): void {
   if (typeof document === "undefined") return;
-  document.cookie = `${PREF_STATE_COOKIE_NAME}=; path=/; max-age=0; SameSite=Lax`;
+  const isHttps = typeof window !== "undefined" && window.location.protocol === "https:";
+  document.cookie = `${PREF_STATE_COOKIE_NAME}=; path=/; max-age=0; SameSite=Lax${isHttps ? "; Secure" : ""}`;
 }
