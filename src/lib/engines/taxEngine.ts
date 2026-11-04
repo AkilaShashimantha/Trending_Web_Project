@@ -120,6 +120,8 @@ const ADDITIONAL_MEDICARE_THRESHOLDS: Record<FilingStatus, number> = {
   head_of_household: 200000,
 };
 
+import { calculateStateTax, getAllStates } from "./stateTaxEngine";
+
 export interface StateTaxDefinition {
   name: string;
   type: "none" | "flat" | "graduated";
@@ -127,104 +129,22 @@ export interface StateTaxDefinition {
   effectiveEstimate: (taxableIncome: number) => number;
 }
 
-export const US_STATE_TAX_DATA: Record<string, StateTaxDefinition> = {
-  TX: { name: "Texas", type: "none", effectiveEstimate: () => 0 },
-  FL: { name: "Florida", type: "none", effectiveEstimate: () => 0 },
-  WA: { name: "Washington", type: "none", effectiveEstimate: () => 0 },
-  NV: { name: "Nevada", type: "none", effectiveEstimate: () => 0 },
-  WY: { name: "Wyoming", type: "none", effectiveEstimate: () => 0 },
-  SD: { name: "South Dakota", type: "none", effectiveEstimate: () => 0 },
-  TN: { name: "Tennessee", type: "none", effectiveEstimate: () => 0 },
-  IL: {
-    name: "Illinois",
-    type: "flat",
-    rate: 0.0495,
-    effectiveEstimate: (inc) => Math.max(0, inc) * 0.0495,
-  },
-  PA: {
-    name: "Pennsylvania",
-    type: "flat",
-    rate: 0.0307,
-    effectiveEstimate: (inc) => Math.max(0, inc) * 0.0307,
-  },
-  CO: {
-    name: "Colorado",
-    type: "flat",
-    rate: 0.044,
-    effectiveEstimate: (inc) => Math.max(0, inc) * 0.044,
-  },
-  MA: {
-    name: "Massachusetts",
-    type: "flat",
-    rate: 0.05,
-    effectiveEstimate: (inc) => Math.max(0, inc) * 0.05,
-  },
-  NC: {
-    name: "North Carolina",
-    type: "flat",
-    rate: 0.045,
-    effectiveEstimate: (inc) => Math.max(0, inc) * 0.045,
-  },
-  CA: {
-    name: "California",
-    type: "graduated",
-    effectiveEstimate: (inc) => {
-      if (inc <= 0) return 0;
-      // Representative California progressive tax calculation
-      const brackets = [
-        { max: 10412, rate: 0.01 },
-        { max: 24684, rate: 0.02 },
-        { max: 38959, rate: 0.04 },
-        { max: 54081, rate: 0.06 },
-        { max: 68350, rate: 0.08 },
-        { max: 349137, rate: 0.093 },
-        { max: 418961, rate: 0.103 },
-        { max: 698271, rate: 0.113 },
-        { max: Infinity, rate: 0.123 },
-      ];
-      let tax = 0;
-      let prevMax = 0;
-      for (const b of brackets) {
-        if (inc > prevMax) {
-          const taxableSlice = Math.min(inc, b.max) - prevMax;
-          tax += taxableSlice * b.rate;
-          prevMax = b.max;
-        } else {
-          break;
-        }
-      }
-      return tax;
+export const US_STATE_TAX_DATA: Record<string, StateTaxDefinition> = Object.fromEntries(
+  getAllStates().map((state) => [
+    state.code,
+    {
+      name: state.name,
+      type: (state.taxType === "progressive" ? "graduated" : state.taxType) as "none" | "flat" | "graduated",
+      rate: state.flatRate,
+      effectiveEstimate: (taxableIncome: number) =>
+        calculateStateTax({
+          stateCode: state.code,
+          taxableIncome,
+          filingStatus: "single",
+        }).stateTaxAmount,
     },
-  },
-  NY: {
-    name: "New York",
-    type: "graduated",
-    effectiveEstimate: (inc) => {
-      if (inc <= 0) return 0;
-      const brackets = [
-        { max: 8500, rate: 0.04 },
-        { max: 11700, rate: 0.045 },
-        { max: 13900, rate: 0.0525 },
-        { max: 80650, rate: 0.055 },
-        { max: 215400, rate: 0.06 },
-        { max: 1077550, rate: 0.0685 },
-        { max: Infinity, rate: 0.0965 },
-      ];
-      let tax = 0;
-      let prevMax = 0;
-      for (const b of brackets) {
-        if (inc > prevMax) {
-          const taxableSlice = Math.min(inc, b.max) - prevMax;
-          tax += taxableSlice * b.rate;
-          prevMax = b.max;
-        } else {
-          break;
-        }
-      }
-      return tax;
-    },
-  },
-};
+  ])
+);
 
 /**
  * Pure zero-dependency 1099 Self-Employment and Federal/State Tax calculation engine.
@@ -337,11 +257,13 @@ export function calculateFreelanceTaxes(inputs: TaxInputs): TaxCalculationResult
   const computeStateTaxForIncome = (income: number): number => {
     if (customStateTaxRate !== undefined && customStateTaxRate >= 0) {
       return income * (customStateTaxRate / 100);
-    } else if (US_STATE_TAX_DATA[stateCode]) {
-      return US_STATE_TAX_DATA[stateCode].effectiveEstimate(income);
-    } else {
-      return income * 0.045;
     }
+    return calculateStateTax({
+      stateCode,
+      taxableIncome: income,
+      filingStatus,
+      netProfit: netBusinessProfit,
+    }).stateTaxAmount;
   };
 
   const { totalTax: federalIncomeTax, breakdown: federalBrackets } =

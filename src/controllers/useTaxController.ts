@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { calculateFreelanceTaxes } from "../lib/engines/taxEngine";
 import { FilingStatus, TaxCalculationResult, TaxInputs, TaxYear } from "../models/tax.model";
+import { getStatePreference, saveStatePreference } from "../lib/utils/cookieUtils";
 
 export const TAX_PRESETS: {
   label: string;
@@ -85,38 +86,51 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
   const [copiedShareUrl, setCopiedShareUrl] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined" || !window.location.search) return;
+    if (typeof window === "undefined") return;
     try {
-      const params = new URLSearchParams(window.location.search);
       const updates: Partial<TaxInputs> = {};
-      if (params.has("year")) {
-        const y = params.get("year");
-        if (y === "2024" || y === "2025") updates.taxYear = y as TaxYear;
+      if (window.location.search) {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has("year")) {
+          const y = params.get("year");
+          if (y === "2024" || y === "2025") updates.taxYear = y as TaxYear;
+        }
+        if (params.has("status")) {
+          const s = params.get("status") as FilingStatus;
+          if (["single", "married_joint", "married_separate", "head_of_household"].includes(s)) {
+            updates.filingStatus = s;
+          }
+        }
+        if (params.has("gross")) updates.gross1099Income = Math.max(0, Number(params.get("gross")) || 0);
+        if (params.has("w2")) updates.w2Income = Math.max(0, Number(params.get("w2")) || 0);
+        if (params.has("exp")) updates.businessExpenses = Math.max(0, Number(params.get("exp")) || 0);
+        if (params.has("home")) updates.homeOfficeDeduction = Math.max(0, Number(params.get("home")) || 0);
+        if (params.has("health")) updates.healthInsurancePremiums = Math.max(0, Number(params.get("health")) || 0);
+        if (params.has("sep")) updates.sepIraContribution = Math.max(0, Number(params.get("sep")) || 0);
+        if (params.has("state")) updates.stateCode = params.get("state") || "CA";
       }
-      if (params.has("status")) {
-        const s = params.get("status") as FilingStatus;
-        if (["single", "married_joint", "married_separate", "head_of_household"].includes(s)) {
-          updates.filingStatus = s;
+
+      // If state is not overridden in query params and not passed in initialOverrides, check preference cookie
+      if (!updates.stateCode && !initialOverrides?.stateCode) {
+        const savedPref = getStatePreference();
+        if (savedPref) {
+          updates.stateCode = savedPref;
         }
       }
-      if (params.has("gross")) updates.gross1099Income = Math.max(0, Number(params.get("gross")) || 0);
-      if (params.has("w2")) updates.w2Income = Math.max(0, Number(params.get("w2")) || 0);
-      if (params.has("exp")) updates.businessExpenses = Math.max(0, Number(params.get("exp")) || 0);
-      if (params.has("home")) updates.homeOfficeDeduction = Math.max(0, Number(params.get("home")) || 0);
-      if (params.has("health")) updates.healthInsurancePremiums = Math.max(0, Number(params.get("health")) || 0);
-      if (params.has("sep")) updates.sepIraContribution = Math.max(0, Number(params.get("sep")) || 0);
-      if (params.has("state")) updates.stateCode = params.get("state") || "CA";
 
       if (Object.keys(updates).length > 0) {
         setInputs((prev) => ({ ...prev, ...updates }));
       }
     } catch {
-      // Ignore query parse error
+      // Ignore query or cookie parse error
     }
-  }, []);
+  }, [initialOverrides?.stateCode]);
 
   const updateInput = useCallback(
     <K extends keyof TaxInputs>(key: K, value: TaxInputs[K]) => {
+      if (key === "stateCode" && typeof value === "string") {
+        saveStatePreference(value);
+      }
       setInputs((prev) => ({
         ...prev,
         [key]: value,

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useTaxController } from "../../controllers/useTaxController";
 import { formatCurrency, formatPercent } from "../../lib/utils";
-import { FilingStatus, TaxYear } from "../../models/tax.model";
+import { FilingStatus, TaxInputs, TaxYear } from "../../models/tax.model";
 import { US_STATE_TAX_DATA } from "../../lib/engines/taxEngine";
 import {
   Calendar,
@@ -24,7 +24,19 @@ import {
   Sparkles,
 } from "lucide-react";
 
-export function TaxCalculator() {
+interface TaxCalculatorProps {
+  initialStateCode?: string;
+  defaultValues?: Partial<TaxInputs>;
+}
+
+export function TaxCalculator({ initialStateCode, defaultValues }: TaxCalculatorProps = {}) {
+  const initialOverrides = React.useMemo(() => {
+    return {
+      ...(initialStateCode ? { stateCode: initialStateCode } : {}),
+      ...defaultValues,
+    };
+  }, [initialStateCode, defaultValues]);
+
   const {
     inputs,
     results,
@@ -40,10 +52,16 @@ export function TaxCalculator() {
     clearLocalStorage,
     exportAsJson,
     exportAsCsv,
-  } = useTaxController();
+  } = useTaxController(initialOverrides);
 
   const [showAdvancedDeductions, setShowAdvancedDeductions] = useState(true);
   const [showBracketDetails, setShowBracketDetails] = useState(false);
+
+  const sortedStates = React.useMemo(() => {
+    return Object.entries(US_STATE_TAX_DATA).sort((a, b) =>
+      a[1].name.localeCompare(b[1].name)
+    );
+  }, []);
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -174,7 +192,7 @@ export function TaxCalculator() {
                     onChange={(e) => updateInput("stateCode", e.target.value)}
                     className="mt-1.5 w-full rounded-lg border border-[#E2E8F0] bg-[#FBFBF9] px-3 py-2 text-xs font-medium text-slate-900 focus:border-emeraldTactile focus:bg-white focus:outline-none"
                   >
-                    {Object.entries(US_STATE_TAX_DATA).map(([code, data]) => (
+                    {sortedStates.map(([code, data]) => (
                       <option key={code} value={code}>
                         {data.name} ({data.type === "none" ? "0% Tax" : data.type})
                       </option>

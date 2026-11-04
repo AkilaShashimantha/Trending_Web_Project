@@ -67,4 +67,37 @@ describe("Security and Privacy Configuration", () => {
     expect(svgContent).toContain("#059669"); // Emerald
     expect(svgContent).toContain("#D97706"); // Amber
   });
+
+  it("ensures client preference cookies enforce SameSite=Lax with zero personal data leakage", () => {
+    // Cookie module check
+    const cookieUtilsPath = path.join(process.cwd(), "src", "lib", "utils", "cookieUtils.ts");
+    expect(fs.existsSync(cookieUtilsPath)).toBe(true);
+    const content = fs.readFileSync(cookieUtilsPath, "utf8");
+
+    // Must mandate SameSite=Lax and Secure
+    expect(content).toContain("SameSite=Lax");
+    expect(content).toContain("Secure");
+    expect(content).toContain("VALID_STATE_CODES");
+
+    // Must not allow storing user financial details
+    expect(content).not.toContain("gross1099Income");
+    expect(content).not.toContain("w2Income");
+    expect(content).not.toContain("netBusinessProfit");
+    expect(content).not.toContain("ssn");
+  });
+
+  it("ensures sitemap.ts programmatically exposes all 51 US states + DC", async () => {
+    const sitemapMod = await import("../app/sitemap");
+    const sitemapFn = sitemapMod.default;
+    const entries = sitemapFn();
+
+    expect(entries.length).toBeGreaterThanOrEqual(51 + 8);
+
+    const urls = entries.map((e) => e.url);
+    expect(urls).toContain("https://taxestimator.online/tools/freelance-tax-estimator/california");
+    expect(urls).toContain("https://taxestimator.online/tools/freelance-tax-estimator/texas");
+    expect(urls).toContain("https://taxestimator.online/tools/freelance-tax-estimator/new-york");
+    expect(urls).toContain("https://taxestimator.online/tools/freelance-tax-estimator/florida");
+    expect(urls).toContain("https://taxestimator.online/tools/freelance-tax-estimator/district-of-columbia");
+  });
 });

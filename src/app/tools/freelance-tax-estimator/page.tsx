@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { TaxCalculator } from "../../../components/calculators/TaxCalculator";
 import { AdSlot } from "../../../components/ads/AdSlot";
+import { getAllStates } from "../../../lib/engines/stateTaxEngine";
 import {
   AlertCircle,
   BookOpen,
@@ -8,6 +10,7 @@ import {
   CheckCircle,
   FileText,
   HelpCircle,
+  MapPin,
   ShieldAlert,
   Sparkles,
 } from "lucide-react";
@@ -59,6 +62,8 @@ export default function FreelanceTaxEstimatorPage() {
     ],
   };
 
+  const allStates = getAllStates();
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       {/* Schema.org FAQ Structured Data for Google Rich Snippets */}
@@ -79,6 +84,31 @@ export default function FreelanceTaxEstimatorPage() {
         <p className="mt-2 max-w-3xl text-sm text-slate-600 leading-relaxed">
           Estimate your complete federal, state, and self-employment tax burden with IRS 2024 &amp; 2025 progressive brackets, the 20% Section 199A Qualified Business Income deduction, and quarterly estimated payment vouchers.
         </p>
+
+        {/* State Quick Switcher */}
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[#FBFBF9] border border-[#EAEAE3] p-4">
+          <div className="flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-spruce-800" />
+            <span className="text-xs font-bold text-slate-800">
+              State Specific 1099 Calculators:
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {["california", "texas", "new-york", "florida", "washington", "illinois", "pennsylvania"].map((slug) => {
+              const st = allStates.find((s) => s.slug === slug);
+              if (!st) return null;
+              return (
+                <Link
+                  key={slug}
+                  href={`/tools/freelance-tax-estimator/${slug}`}
+                  className="rounded-lg border border-[#EAEAE3] bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:border-emeraldTactile hover:text-emeraldTactile transition"
+                >
+                  {st.name} {st.taxType === "none" ? "(0%)" : ""}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* Top Banner AdSlot */}
@@ -229,6 +259,27 @@ export default function FreelanceTaxEstimatorPage() {
           </section>
         </div>
       </article>
+
+      {/* 50 State Directory */}
+      <section className="mt-12 rounded-3xl border border-[#EAEAE3] bg-white p-8 sm:p-10">
+        <h3 className="text-xl font-bold text-slate-900 mb-2">
+          50 US States + DC Freelance Tax Calculators
+        </h3>
+        <p className="text-xs text-slate-600 mb-6 leading-relaxed">
+          Access localized tax brackets, state standard deductions, and estimated quarterly vouchers for every US jurisdiction:
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+          {allStates.map((st) => (
+            <Link
+              key={st.slug}
+              href={`/tools/freelance-tax-estimator/${st.slug}`}
+              className="rounded-lg border border-[#F4F4F0] bg-[#FBFBF9] px-2.5 py-1.5 text-xs text-slate-700 hover:border-emeraldTactile hover:text-emeraldTactile transition truncate"
+            >
+              {st.name} {st.taxType === "none" ? "(0%)" : ""}
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* Bottom AdSlot Unit */}
       <AdSlot slotId="tax-banner-bottom" format="rectangle" label="Financial Advisory" />

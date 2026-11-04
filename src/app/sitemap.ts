@@ -1,10 +1,11 @@
 import { MetadataRoute } from "next";
+import { getAllStates } from "../lib/engines/stateTaxEngine";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://taxestimator.online";
   const currentDate = new Date().toISOString();
 
-  return [
+  const coreRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: currentDate,
@@ -60,4 +61,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.4,
     },
   ];
+
+  const stateRoutes: MetadataRoute.Sitemap = getAllStates().map((state) => ({
+    url: `${baseUrl}/tools/freelance-tax-estimator/${state.slug}`,
+    lastModified: currentDate,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  return [...coreRoutes, ...stateRoutes];
 }

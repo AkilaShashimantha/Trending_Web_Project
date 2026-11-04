@@ -56,6 +56,10 @@ declare module "lucide-react" {
   export const Download: LucideIcon;
   export const Save: LucideIcon;
   export const RotateCcw: LucideIcon;
+  export const MapPin: LucideIcon;
+  export const Building2: LucideIcon;
+  export const ChevronRight: LucideIcon;
+  export const Landmark: LucideIcon;
 
   const icons: Record<string, LucideIcon>;
   export default icons;
