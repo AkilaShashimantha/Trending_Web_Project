@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { getAllStates } from "../lib/engines/stateTaxEngine";
+import { getAllNewsArticles } from "../lib/data/newsArticles";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://taxestimator.online";
@@ -11,6 +12,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/news`,
+      lastModified: currentDate,
+      changeFrequency: "daily",
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/tools/freelance-tax-estimator`,
@@ -69,5 +76,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...coreRoutes, ...stateRoutes];
+  const newsRoutes: MetadataRoute.Sitemap = getAllNewsArticles().map((article) => ({
+    url: `${baseUrl}/news/${article.slug}`,
+    lastModified: article.updatedAt,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  return [...coreRoutes, ...stateRoutes, ...newsRoutes];
 }

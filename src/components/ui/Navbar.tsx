@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Calculator, DollarSign, Menu, ShieldCheck, TrendingUp, X } from "lucide-react";
+import { Calculator, DollarSign, Menu, Newspaper, ShieldCheck, TrendingUp, X } from "lucide-react";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -27,6 +27,12 @@ export function Navbar() {
       label: "HYSA Wealth vs Inflation",
       icon: TrendingUp,
       tag: "Real Yield",
+    },
+    {
+      href: "/news",
+      label: "News Desk",
+      icon: Newspaper,
+      tag: "Editorial",
     },
     {
       href: "/about",

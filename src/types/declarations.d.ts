@@ -60,6 +60,12 @@ declare module "lucide-react" {
   export const Building2: LucideIcon;
   export const ChevronRight: LucideIcon;
   export const Landmark: LucideIcon;
+  export const ArrowLeft: LucideIcon;
+  export const Clock: LucideIcon;
+  export const Filter: LucideIcon;
+  export const Newspaper: LucideIcon;
+  export const Rss: LucideIcon;
+  export const UserCheck: LucideIcon;
 
   const icons: Record<string, LucideIcon>;
   export default icons;

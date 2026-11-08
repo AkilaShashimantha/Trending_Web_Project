@@ -55,6 +55,71 @@ export function Footer() {
                   HYSA Wealth vs Inflation Shield
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/tools/freelance-tax-estimator/texas"
+                  className="hover:text-emeraldTactile-300 transition-colors"
+                >
+                  State-by-State Tax Hub
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* News & Editorial */}
+          <div>
+            <h3 className="text-xs font-semibold tracking-wider uppercase text-slate-100">
+              News &amp; Regulatory
+            </h3>
+            <ul className="mt-3 space-y-2 text-xs">
+              <li>
+                <Link
+                  href="/news"
+                  className="hover:text-emeraldTactile-300 transition-colors font-medium text-emeraldTactile-400"
+                >
+                  Tax &amp; Money News Desk &rarr;
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/news/2025-2026-irs-tax-brackets-freelancers"
+                  className="hover:text-emeraldTactile-300 transition-colors line-clamp-1"
+                >
+                  2025/26 IRS Brackets
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/news/fed-rate-decision-hysa-wealth-impact"
+                  className="hover:text-emeraldTactile-300 transition-colors line-clamp-1"
+                >
+                  Fed Rate Cuts &amp; HYSA
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/news/stripe-paypal-merchant-fee-hikes-how-to-pass-fees"
+                  className="hover:text-emeraldTactile-300 transition-colors line-clamp-1"
+                >
+                  Stripe &amp; PayPal Fee Guide
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/news/irs-form-1099k-threshold-rules-guide"
+                  className="hover:text-emeraldTactile-300 transition-colors line-clamp-1"
+                >
+                  IRS Form 1099-K Rules
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/news/lowest-tax-states-for-freelancers-2025"
+                  className="hover:text-emeraldTactile-300 transition-colors line-clamp-1"
+                >
+                  CA vs TX vs FL Tax Study
+                </Link>
+              </li>
             </ul>
           </div>
 
