@@ -25,9 +25,11 @@ export function FaqAccordion({ faqs }: FaqAccordionProps) {
           <div key={idx} className="transition-colors">
             <button
               type="button"
+              id={`faq-question-${idx}`}
               onClick={() => toggleIndex(idx)}
               className="flex w-full items-center justify-between gap-4 p-5 text-left text-sm font-bold text-slate-900 hover:bg-[#FBFBF9] focus:outline-none focus:bg-[#FBFBF9]"
               aria-expanded={isOpen}
+              aria-controls={`faq-answer-${idx}`}
             >
               <span>{faq.question}</span>
               <ChevronDown
@@ -37,7 +39,12 @@ export function FaqAccordion({ faqs }: FaqAccordionProps) {
               />
             </button>
             {isOpen && (
-              <div className="px-5 pb-5 pt-1 text-xs sm:text-sm leading-relaxed text-slate-600 bg-[#FBFBF9]/40">
+              <div
+                id={`faq-answer-${idx}`}
+                role="region"
+                aria-labelledby={`faq-question-${idx}`}
+                className="px-5 pb-5 pt-1 text-xs sm:text-sm leading-relaxed text-slate-600 bg-[#FBFBF9]/40"
+              >
                 {faq.answer}
               </div>
             )}

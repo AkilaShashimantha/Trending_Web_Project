@@ -44,14 +44,15 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: "Article Not Found | CashPulse News Desk",
+      title: "Article Not Found",
     };
   }
 
   const url = `https://taxestimator.online/news/${article.slug}`;
+  const imageUrl = article.image || "https://taxestimator.online/icon-512.png";
 
   return {
-    title: `${article.title} | TaxEstimator News Desk`,
+    title: article.title,
     description: article.summary,
     alternates: {
       canonical: url,
@@ -66,13 +67,69 @@ export async function generateMetadata({
       modifiedTime: article.updatedAt,
       authors: [article.author.name],
       tags: article.tags,
+      images: [
+        {
+          url: imageUrl,
+          width: 512,
+          height: 512,
+          alt: article.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: article.headline,
       description: article.summary,
+      images: [imageUrl],
     },
   };
+}
+
+function renderContentParagraph(text: string, pIdx: number) {
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const elements: (string | React.ReactNode)[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      elements.push(text.substring(lastIndex, match.index));
+    }
+    const label = match[1];
+    const href = match[2];
+
+    if (href.startsWith("/")) {
+      elements.push(
+        <Link
+          key={`${pIdx}-${match.index}`}
+          href={href}
+          className="font-semibold text-emeraldTactile-700 underline decoration-emeraldTactile-300 underline-offset-2 transition hover:text-emeraldTactile-800 hover:decoration-emeraldTactile-600"
+        >
+          {label}
+        </Link>
+      );
+    } else {
+      elements.push(
+        <a
+          key={`${pIdx}-${match.index}`}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-emeraldTactile-700 underline decoration-emeraldTactile-300 underline-offset-2 transition hover:text-emeraldTactile-800 hover:decoration-emeraldTactile-600 inline-flex items-center gap-0.5"
+        >
+          <span>{label}</span>
+          <ExternalLink className="h-3 w-3 inline" />
+        </a>
+      );
+    }
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    elements.push(text.substring(lastIndex));
+  }
+
+  return <p key={pIdx}>{elements}</p>;
 }
 
 export default async function NewsArticlePage({ params }: NewsArticlePageProps) {
@@ -103,6 +160,10 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
     "@type": "NewsArticle",
     headline: article.headline,
     description: article.summary,
+    image: [
+      article.image || "https://taxestimator.online/icon-512.png",
+      "https://taxestimator.online/apple-touch-icon.png",
+    ],
     datePublished: article.publishedAt,
     dateModified: article.updatedAt,
     mainEntityOfPage: {
@@ -113,6 +174,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
       "@type": "Person",
       name: article.author.name,
       jobTitle: article.author.role,
+      url: "https://taxestimator.online/about",
     },
     publisher: {
       "@type": "Organization",
@@ -120,7 +182,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
       url: "https://taxestimator.online",
       logo: {
         "@type": "ImageObject",
-        url: "https://taxestimator.online/icon.svg",
+        url: "https://taxestimator.online/icon-512.png",
       },
     },
     articleSection: article.category,
@@ -316,9 +378,9 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
             </h2>
 
             <div className="text-sm sm:text-base leading-relaxed text-slate-700 space-y-4">
-              {section.content.split("\n\n").map((para, pIdx) => (
-                <p key={pIdx}>{para}</p>
-              ))}
+              {section.content.split("\n\n").map((para, pIdx) =>
+                renderContentParagraph(para, pIdx)
+              )}
             </div>
 
             {/* Key Points Callout if present */}
@@ -453,7 +515,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
               </p>
             </div>
 
-            <div className="shrink-0">
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
               <Link
                 href={article.relatedTool.href}
                 className="inline-flex items-center gap-2 rounded-xl bg-emeraldTactile-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-emeraldTactile-500 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-emeraldTactile-400"
@@ -461,6 +523,15 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
                 <span>{article.relatedTool.ctaText}</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
+              {article.relatedTool.secondaryHref && article.relatedTool.secondaryCtaText && (
+                <Link
+                  href={article.relatedTool.secondaryHref}
+                  className="inline-flex items-center gap-2 rounded-xl border border-emeraldTactile-400/50 bg-white/10 backdrop-blur-sm px-6 py-3.5 text-sm font-bold text-white shadow-md transition hover:bg-white/20 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-emeraldTactile-400"
+                >
+                  <span>{article.relatedTool.secondaryCtaText}</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              )}
             </div>
           </div>
         </section>

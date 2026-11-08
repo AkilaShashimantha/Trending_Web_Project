@@ -22,6 +22,7 @@ const RAW_ARTICLES: NewsArticle[] = [
       name: "IRS Revenue Procedure 2024-40 (Tax Inflation Adjustments for Tax Year 2025)",
       url: "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2025",
     },
+    image: "https://taxestimator.online/icon-512.png",
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -172,6 +173,7 @@ const RAW_ARTICLES: NewsArticle[] = [
       name: "Federal Reserve Board FOMC Policy Decisions & Projections",
       url: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
     },
+    image: "https://taxestimator.online/icon-512.png",
     relatedTool: {
       href: "/tools/hysa-compound-calculator",
       name: "HYSA Wealth vs Inflation Shield",
@@ -305,6 +307,7 @@ const RAW_ARTICLES: NewsArticle[] = [
       name: "Stripe Official Pricing & Merchant Surcharging Compliance Schedule",
       url: "https://stripe.com/pricing",
     },
+    image: "https://taxestimator.online/icon-512.png",
     relatedTool: {
       href: "/tools/stripe-fee-calculator",
       name: "Stripe & PayPal Fee Optimizer",
@@ -448,6 +451,7 @@ const RAW_ARTICLES: NewsArticle[] = [
       name: "IRS Notice 2024-85 & Fact Sheet FS-2024-34 on Form 1099-K Phase-In",
       url: "https://www.irs.gov/newsroom/irs-announces-delay-in-form-1099-k-reporting-threshold-for-third-party-platform-transactions",
     },
+    image: "https://taxestimator.online/icon-512.png",
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -583,12 +587,16 @@ const RAW_ARTICLES: NewsArticle[] = [
       name: "Tax Foundation State Individual Income Tax Rates and Brackets for 2025",
       url: "https://taxfoundation.org/data/all/state/state-income-tax-rates-2025/",
     },
+    image: "https://taxestimator.online/icon-512.png",
     relatedTool: {
       href: "/tools/freelance-tax-estimator/texas",
       name: "Texas Freelance Tax Estimator",
-      ctaText: "Compare Texas vs California Net Payouts",
+      ctaText: "Model Texas Take-Home (0% State Tax)",
       description:
-        "Switch between our dedicated state calculators for Texas, California, Florida, and 47 other states to see your exact take-home pay.",
+        "Switch between our dedicated state calculation engines for Texas, California, and all 50 states to discover your exact net take-home pay after state and federal tax deductions.",
+      secondaryHref: "/tools/freelance-tax-estimator/california",
+      secondaryName: "California Freelance Tax Estimator",
+      secondaryCtaText: "Model California Take-Home (13.3% Top Rate)",
     },
     personaExample: {
       personaName: "David",
@@ -609,7 +617,7 @@ const RAW_ARTICLES: NewsArticle[] = [
         {
           label: "California State Income Tax",
           value: "$11,215.00",
-          detail: "Progressive California FTB brackets up to 9.3%",
+          detail: "Progressive California FTB brackets up to 9.3% (model in California Tax Estimator)",
         },
         {
           label: "California LLC Minimum Annual Tax",
@@ -619,7 +627,7 @@ const RAW_ARTICLES: NewsArticle[] = [
         {
           label: "Texas State Income Tax",
           value: "$0.00",
-          detail: "No individual state income tax under TX Constitution",
+          detail: "No individual state income tax under TX Constitution (model in Texas Tax Estimator)",
         },
         {
           label: "Texas Franchise Tax (Margin Tax)",
@@ -684,7 +692,7 @@ const RAW_ARTICLES: NewsArticle[] = [
         id: "actionable-state-decision-matrix",
         title: "The Solopreneur Relocation Decision Matrix",
         content:
-          "Relocating solely for tax reasons only makes economic sense if your annual state tax savings exceed your moving costs, cost-of-living adjustments, and potential loss of client networking proximity.\n\nAt $80,000 net profit, moving from California to Texas saves ~$4,100 per year. At $150,000 net profit, the savings surge to ~$10,800. At $250,000 net profit, you save over $19,500 annually. Use our state-by-state calculators to model your exact threshold before making a cross-country move.",
+          "Relocating solely for tax reasons only makes economic sense if your annual state tax savings exceed your moving costs, cost-of-living adjustments, and potential loss of client networking proximity.\n\nAt $80,000 net profit, moving from California to Texas saves ~$4,100 per year. At $150,000 net profit, the savings surge to ~$10,800. At $250,000 net profit, you save over $19,500 annually.\n\nSimulate your personalized numbers with our [Texas Freelance Tax Estimator](/tools/freelance-tax-estimator/texas) and [California Freelance Tax Estimator](/tools/freelance-tax-estimator/california) to model your exact break-even threshold before packing moving trucks.",
       },
     ],
     faqs: [

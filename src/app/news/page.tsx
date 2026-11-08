@@ -5,7 +5,7 @@ import { NewsHubView } from "../../components/news/NewsHubView";
 import { Newspaper, Rss, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Tax & Money News Desk | TaxEstimator Online",
+  title: "Tax & Money News Desk",
   description:
     "Actionable regulatory intelligence, IRS bracket updates, processor fee breakdowns, and real yield models for independent solopreneurs and freelancers.",
   alternates: {
@@ -21,12 +21,21 @@ export const metadata: Metadata = {
     url: "https://taxestimator.online/news",
     siteName: "TaxEstimator Online",
     type: "website",
+    images: [
+      {
+        url: "https://taxestimator.online/icon-512.png",
+        width: 512,
+        height: 512,
+        alt: "Tax & Money News Desk | TaxEstimator Online",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Tax & Money News Desk | TaxEstimator Online",
     description:
       "Actionable tax policy, IRS updates, processor fee breakdowns, and real yield models for independent creators.",
+    images: ["https://taxestimator.online/icon-512.png"],
   },
 };
 
@@ -47,7 +56,7 @@ export default function NewsHubPage() {
       url: "https://taxestimator.online",
       logo: {
         "@type": "ImageObject",
-        url: "https://taxestimator.online/icon.svg",
+        url: "https://taxestimator.online/icon-512.png",
       },
     },
     hasPart: articles.map((article) => ({

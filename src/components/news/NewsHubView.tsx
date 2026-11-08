@@ -29,13 +29,16 @@ export function NewsHubView({ articles, featuredArticle }: NewsHubViewProps) {
 
   return (
     <div className="space-y-12">
-      {/* Featured Article Hero */}
-      <section aria-labelledby="featured-article-heading">
-        <h2 id="featured-article-heading" className="sr-only">
-          Featured Analysis
-        </h2>
-        <NewsCard article={featuredArticle} featured />
-      </section>
+      {/* Featured Article Hero - Shown on All Topics or when featured article matches selected category */}
+      {(selectedCategory === "All Topics" ||
+        featuredArticle.category.toLowerCase() === selectedCategory.toLowerCase()) && (
+        <section aria-labelledby="featured-article-heading">
+          <h2 id="featured-article-heading" className="sr-only">
+            Featured Analysis
+          </h2>
+          <NewsCard article={featuredArticle} featured />
+        </section>
+      )}
 
       {/* AdSlot Unit */}
       <AdSlot slotId="news-hub-top" format="horizontal" label="Editorial Sponsor" />
@@ -58,7 +61,7 @@ export function NewsHubView({ articles, featuredArticle }: NewsHubViewProps) {
                   key={category}
                   type="button"
                   onClick={() => setSelectedCategory(category)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-spruce-800 focus:ring-offset-1 ${
                     isSelected
                       ? "bg-spruce-800 text-white shadow-xs"
                       : "bg-[#F4F4F0] text-slate-700 hover:bg-[#EAEAE3]"

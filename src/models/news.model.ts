@@ -19,6 +19,9 @@ export const RelatedToolSchema = z.object({
   name: z.string().min(2),
   ctaText: z.string().min(2),
   description: z.string().optional(),
+  secondaryHref: z.string().optional(),
+  secondaryName: z.string().optional(),
+  secondaryCtaText: z.string().optional(),
 });
 export type RelatedTool = z.infer<typeof RelatedToolSchema>;
 
@@ -69,6 +72,7 @@ export const NewsArticleSchema = z.object({
   tags: z.array(z.string()).min(1),
   category: z.string().default("Tax Updates"),
   readTime: z.string().min(2), // e.g., "6 min read"
+  image: z.string().optional(),
   primarySource: PrimarySourceSchema,
   relatedTool: RelatedToolSchema,
   personaExample: PersonaExampleSchema.optional(),
@@ -78,3 +82,4 @@ export const NewsArticleSchema = z.object({
 });
 
 export type NewsArticle = z.infer<typeof NewsArticleSchema>;
+
