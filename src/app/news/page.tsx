@@ -95,23 +95,20 @@ export default function NewsHubPage() {
           </p>
         </div>
 
-        {/* RSS Feed Link */}
-        <div className="flex items-center gap-3">
+        {/* Quick Calculator Action CTAs (Human-Friendly) */}
+        <div className="flex flex-wrap items-center gap-3">
           <Link
-            href="/rss.xml"
-            target="_blank"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[#DCDCD2] bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-[#F4F4F0] hover:text-slate-900 transition shadow-xs"
+            href="/tools/freelance-tax-estimator"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-spruce-800 px-4 py-2.5 text-xs font-semibold text-white hover:bg-spruce-700 transition shadow-xs"
           >
-            <Rss className="h-3.5 w-3.5 text-amberWarm-600" />
-            <span>RSS 2.0 Feed</span>
+            <Sparkles className="h-3.5 w-3.5 text-emeraldTactile-400" />
+            <span>Launch Tax Calculator</span>
           </Link>
           <Link
-            href="/news-sitemap.xml"
-            target="_blank"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[#DCDCD2] bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-[#F4F4F0] hover:text-slate-900 transition shadow-xs"
+            href="/tools/freelance-tax-estimator/california"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[#DCDCD2] bg-white px-3.5 py-2.5 text-xs font-semibold text-slate-700 hover:bg-[#F4F4F0] hover:text-slate-900 transition shadow-xs"
           >
-            <Newspaper className="h-3.5 w-3.5 text-spruce-800" />
-            <span>News Sitemap</span>
+            <span>50-State Directory &rarr;</span>
           </Link>
         </div>
       </div>
