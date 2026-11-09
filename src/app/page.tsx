@@ -55,8 +55,41 @@ export default function HomePage() {
 
   const latestNews = getRecentNewsArticles(3);
 
+  const siteJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://taxestimator.online/#website",
+        name: "TaxEstimator Online",
+        alternateName: ["TaxEstimator", "TaxEstimator.online"],
+        url: "https://taxestimator.online/",
+        description:
+          "Precision 1099 freelance tax estimator, Stripe/PayPal processing fee calculator, and HYSA inflation calculator for US freelancers and solopreneurs.",
+        publisher: {
+          "@id": "https://taxestimator.online/#organization",
+        },
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://taxestimator.online/#organization",
+        name: "TaxEstimator Online",
+        url: "https://taxestimator.online/",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://taxestimator.online/icon-512.png",
+        },
+      },
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      {/* Google Site Name & Organization Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+      />
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-3xl border border-[#EAEAE3] bg-gradient-to-b from-[#F4F4F0] to-[#FBFBF9] p-8 sm:p-12 lg:p-16 text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-emeraldTactile-200 bg-emeraldTactile-50 px-3 py-1 text-xs font-semibold text-emeraldTactile-800 mb-6">
