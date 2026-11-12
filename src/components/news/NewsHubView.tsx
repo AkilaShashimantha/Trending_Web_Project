@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { NewsArticle } from "../../models/news.model";
 import { NewsCard } from "./NewsCard";
-import { Filter, Newspaper, ShieldCheck, Sparkles, TrendingUp } from "lucide-react";
+import { Filter, ShieldCheck } from "lucide-react";
 import { AdSlot } from "../ads/AdSlot";
 
 interface NewsHubViewProps {
@@ -16,10 +17,7 @@ export function NewsHubView({ articles, featuredArticle }: NewsHubViewProps) {
 
   const categories = [
     "All Topics",
-    "IRS Regulations",
-    "Banking & Rates",
-    "Merchant Fees",
-    "State Taxes",
+    ...Array.from(new Set(articles.map((a) => a.category))),
   ];
 
   const filteredArticles =
@@ -41,7 +39,7 @@ export function NewsHubView({ articles, featuredArticle }: NewsHubViewProps) {
       )}
 
       {/* AdSlot Unit */}
-      <AdSlot slotId="news-hub-top" format="horizontal" label="Editorial Sponsor" />
+      <AdSlot slotId="news-hub-top" format="horizontal" label="Advertisement" />
 
       {/* Category Pills Filter */}
       <section aria-label="Topic Filter">
@@ -94,20 +92,23 @@ export function NewsHubView({ articles, featuredArticle }: NewsHubViewProps) {
       </section>
 
       {/* Mid-Page AdSlot */}
-      <AdSlot slotId="news-hub-mid" format="horizontal" label="Market Analysis Sponsor" />
+      <AdSlot slotId="news-hub-mid" format="horizontal" label="Advertisement" />
 
       {/* Editorial Standards & Methodology Box */}
       <section className="rounded-3xl border border-[#EAEAE3] bg-gradient-to-br from-white to-[#FBFBF9] p-8 sm:p-10 shadow-xs">
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-emeraldTactile-200 bg-emeraldTactile-50 px-3 py-1 text-xs font-semibold text-emeraldTactile-800">
             <ShieldCheck className="h-3.5 w-3.5 text-emeraldTactile-600" />
-            <span>CashPulse Editorial Charter</span>
+            <span>TaxEstimator Online Editorial Charter</span>
           </div>
           <h3 className="mt-3 text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
             Pure Primary-Source Journalism. Zero Sponsored Opinions.
           </h3>
           <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Every analysis published on the CashPulse News Desk is verified against official primary government sources—including IRS Revenue Procedures, Federal Reserve FOMC statements, and state tax authority codes. We embed pure mathematical calculators so you can verify the numbers against your own business ledger.
+            Every analysis published on the TaxEstimator Online News Desk is verified against official primary government sources—including IRS Revenue Procedures, Federal Reserve FOMC statements, and state tax authority codes. We embed pure mathematical calculators so you can verify the numbers against your own business ledger.{" "}
+            <Link href="/about#editorial-standards" className="font-semibold text-emeraldTactile-700 underline underline-offset-2 hover:text-emeraldTactile-800">
+              Read our Editorial &amp; Verification Standards &rarr;
+            </Link>
           </p>
         </div>
 

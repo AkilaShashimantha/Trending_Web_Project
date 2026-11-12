@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Shield, Sparkles, HeartHandshake, ExternalLink } from "lucide-react";
+import { Shield, Sparkles, ExternalLink } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -12,12 +12,12 @@ export function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emeraldTactile-600 font-mono font-bold text-white">
-                CP
+                TE
               </div>
-              <span className="text-xl font-bold tracking-tight text-white">CashPulse</span>
+              <span className="text-xl font-bold tracking-tight text-white">TaxEstimator Online</span>
             </div>
             <p className="mt-3 max-w-md text-xs leading-relaxed text-slate-300">
-              CashPulse is a high-precision financial simulation suite engineered for modern solopreneurs, digital nomads, and independent creators. Built with pure zero-dependency mathematical calculation engines reflecting current IRS guidelines and platform fee schedules.
+              TaxEstimator Online is a high-precision financial simulation suite engineered for modern solopreneurs, digital nomads, and independent creators. Built with pure zero-dependency mathematical calculation engines reflecting 2024–2026 IRS guidelines and published platform fee schedules.
             </p>
             <div className="mt-4 flex items-center gap-2 text-[11px] text-emeraldTactile-300">
               <Sparkles className="h-3.5 w-3.5" />
@@ -146,12 +146,17 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/about" className="hover:text-emeraldTactile-300 transition-colors">
-                  Editorial Methodology & Sources
+                  About &amp; Methodology
+                </Link>
+              </li>
+              <li>
+                <Link href="/about#editorial-standards" className="hover:text-emeraldTactile-300 transition-colors">
+                  Editorial &amp; Verification Standards
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="hover:text-emeraldTactile-300 transition-colors">
-                  Contact & Support
+                  Contact &amp; Support
                 </Link>
               </li>
             </ul>
@@ -183,20 +188,20 @@ export function Footer() {
             <Shield className="mt-0.5 h-4 w-4 shrink-0 text-amberWarm-500" />
             <div>
               <span className="font-semibold text-slate-200">Legal Disclaimer: </span>
-              CashPulse is strictly an informational and educational simulation tool. Calculations are mathematical estimations based on public IRS schedules, published payment gateway fee structures, and compound interest formulas. CashPulse does not provide certified public accountant (CPA) advice, registered financial planning, legal counsel, or tax representation. Always verify with a licensed CPA or tax attorney for your specific tax filings.
+              TaxEstimator Online is strictly an informational and educational simulation tool. Calculations are mathematical estimations based on public IRS schedules, published payment gateway fee structures, and compound interest formulas. TaxEstimator Online does not provide certified public accountant (CPA) advice, registered financial planning, legal counsel, or tax representation. Always verify with a licensed CPA or tax attorney for your specific tax filings.
             </div>
           </div>
         </div>
 
         {/* Copyright */}
         <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-spruce-800 pt-6 sm:flex-row text-xs text-slate-400">
-          <p>&copy; {currentYear} CashPulse FinTech Suite. All rights reserved.</p>
+          <p>&copy; {currentYear} TaxEstimator Online. All rights reserved.</p>
           <div className="flex items-center gap-4 text-[11px]">
             <span>Zero Dark UI Tropes</span>
             <span>&bull;</span>
             <span>Tabular Precision</span>
             <span>&bull;</span>
-            <span>Vercel Optimized</span>
+            <span>Client-Side Privacy</span>
           </div>
         </div>
       </div>

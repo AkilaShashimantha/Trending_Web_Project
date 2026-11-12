@@ -355,7 +355,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
       </header>
 
       {/* Top Banner AdSlot */}
-      <AdSlot slotId={`article-${article.slug}-top`} format="horizontal" label="Editorial Sponsor" />
+      <AdSlot slotId={`article-${article.slug}-top`} format="horizontal" label="Advertisement" />
 
       {/* Main Article Content */}
       <main className="mt-8 space-y-10">
@@ -504,7 +504,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
             <div className="space-y-2 max-w-xl">
               <div className="inline-flex items-center gap-1.5 rounded-full bg-emeraldTactile-600/30 px-3 py-1 text-xs font-semibold text-emeraldTactile-300 border border-emeraldTactile-400/30">
                 <Calculator className="h-3.5 w-3.5 text-emeraldTactile-400" />
-                <span>Interactive CashPulse Engine</span>
+                <span>Interactive TaxEstimator Online Engine</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
                 {article.relatedTool.name}
@@ -537,7 +537,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
         </section>
 
         {/* Mid-Article AdSlot */}
-        <AdSlot slotId={`article-${article.slug}-mid`} format="horizontal" label="Educational Sponsor" />
+        <AdSlot slotId={`article-${article.slug}-mid`} format="horizontal" label="Advertisement" />
 
         {/* Frequently Asked Questions */}
         <section aria-labelledby="faqs-heading" className="space-y-4">
@@ -556,7 +556,11 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
             <ShieldAlert className="mt-0.5 h-4 w-4 text-amberWarm-600 shrink-0" />
             <div>
               <strong className="text-slate-700">Editorial &amp; Regulatory Notice: </strong>
-              The CashPulse News Desk publishes journalistic and quantitative analysis based on public IRS schedules, Federal Reserve policy statements, and statutory legal publications. This content is for informational purposes and does not constitute Certified Public Accountant (CPA) advice or formal legal representation. Always consult a licensed CPA or tax attorney for your individual filings.
+              The TaxEstimator Online News Desk publishes journalistic and quantitative analysis based on public IRS schedules, Federal Reserve policy statements, and statutory legal publications. This content is for informational purposes and does not constitute Certified Public Accountant (CPA) advice or formal legal representation. Always consult a licensed CPA or tax attorney for your individual filings.{" "}
+              <Link href="/about#editorial-standards" className="font-semibold text-emeraldTactile-700 underline underline-offset-2 hover:text-emeraldTactile-800">
+                View Editorial &amp; Verification Standards
+              </Link>
+              .
             </div>
           </div>
         </div>

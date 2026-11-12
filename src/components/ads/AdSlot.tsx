@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 interface AdSlotProps {
   slotId?: string;
@@ -16,130 +16,54 @@ declare global {
   }
 }
 
+const VALID_ADSENSE_SLOT_REGEX = /^\d{8,}$/;
+
 export function AdSlot({
-  slotId = "1234567890",
+  slotId = "",
   format = "auto",
   className = "",
   responsive = true,
-  label = "Sponsor Advertisement",
+  label,
 }: AdSlotProps) {
   const adRef = useRef<HTMLModElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const pushedRef = useRef(false);
-  const [clickShieldActive, setClickShieldActive] = useState(false);
+
+  const slotsEnabled = process.env.NEXT_PUBLIC_ADSENSE_SLOTS_ENABLED === "true";
+  const isValidSlotId = VALID_ADSENSE_SLOT_REGEX.test(slotId);
+  const shouldRender = slotsEnabled && isValidSlotId;
   const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-3164350596356343";
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (!shouldRender) return;
 
-    // Check existing session click frequency (max 3 clicks per session to prevent IVT flags)
-    try {
-      const stored = sessionStorage.getItem("cp_ad_clicks");
-      if (stored && parseInt(stored, 10) >= 3) {
-        setClickShieldActive(true);
-        return;
-      }
-    } catch {
-      // Ignore storage errors
-    }
-
-    // Monitor iframe click/focus transitions
-    const handleBlur = () => {
-      if (
-        containerRef.current &&
-        document.activeElement &&
-        containerRef.current.contains(document.activeElement)
-      ) {
-        try {
-          const stored = sessionStorage.getItem("cp_ad_clicks");
-          const count = (stored ? parseInt(stored, 10) : 0) + 1;
-          sessionStorage.setItem("cp_ad_clicks", count.toString());
-          if (count >= 3) {
-            setClickShieldActive(true);
-          }
-        } catch {
-          // Ignore
-        }
-      }
-    };
-
-    window.addEventListener("blur", handleBlur);
-    return () => window.removeEventListener("blur", handleBlur);
-  }, []);
-
-  useEffect(() => {
-    // Standard Google AdSense queue initialization with React StrictMode and click shield guard
-    if (
-      typeof window !== "undefined" &&
-      adRef.current &&
-      !pushedRef.current &&
-      !clickShieldActive
-    ) {
+    if (typeof window !== "undefined" && adRef.current && !pushedRef.current) {
       try {
-        if (process.env.NODE_ENV === "production") {
-          (window.adsbygoogle = window.adsbygoogle || []).push({});
-          pushedRef.current = true;
-        }
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        pushedRef.current = true;
       } catch (err) {
         console.warn("AdSense push initialization error:", err);
       }
     }
-  }, [clickShieldActive]);
+  }, [shouldRender]);
 
-  // Standard CLS prevention heights based on format
-  const heightClasses = {
-    horizontal: "min-h-[90px] sm:min-h-[120px] md:min-h-[250px]",
-    rectangle: "min-h-[250px] sm:min-h-[280px]",
-    vertical: "min-h-[600px]",
-    auto: "min-h-[100px] sm:min-h-[250px]",
-  }[format];
+  if (!shouldRender) {
+    return null;
+  }
 
   return (
     <div
-      ref={containerRef}
-      className={`my-8 w-full overflow-hidden rounded-xl border border-dashed border-[#DCDCD2] bg-[#F4F4F0]/60 p-3 transition-all ${heightClasses} ${className}`}
+      className={`my-8 w-full overflow-hidden ${className}`}
+      aria-label={label || "Advertisement"}
     >
-      <div className="mb-1.5 flex items-center justify-between text-[11px] font-medium tracking-wider uppercase text-slate-400">
-        <span>{label}</span>
-        <span className="text-[10px] text-slate-400/80">Google AdSense Certified</span>
-      </div>
-
-      <div className="relative flex min-h-[90px] w-full items-center justify-center">
-        {clickShieldActive ? (
-          <div className="flex flex-col items-center justify-center p-4 text-center">
-            <span className="text-xs font-semibold text-slate-600">
-              Ad display temporarily paused for this session
-            </span>
-            <span className="mt-1 text-[10px] text-slate-400">
-              Invalid click shield active to protect advertising network integrity
-            </span>
-          </div>
-        ) : (
-          /* Production AdSense Script Container */
-          <ins
-            ref={adRef}
-            className="adsbygoogle"
-            style={{ display: "block" }}
-            data-ad-client={clientId}
-            data-ad-slot={slotId}
-            data-ad-format={format}
-            data-full-width-responsive={responsive ? "true" : "false"}
-          />
-        )}
-
-        {/* Development & Staging Layout Preservation Fallback */}
-        {process.env.NODE_ENV !== "production" && (
-          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center rounded-lg bg-[#EAEAE3]/40 p-4 text-center">
-            <div className="flex items-center gap-2 text-xs font-semibold text-spruce-800">
-              <span className="inline-block h-2 w-2 rounded-full bg-emeraldTactile"></span>
-              <span>AdSense Responsive Unit (#{slotId})</span>
-            </div>
-            <p className="mt-1 text-[11px] text-slate-500">
-              Format: <span className="font-mono">{format}</span> &bull; Zero CLS Layout Reserved
-            </p>
-          </div>
-        )}
-      </div>
+      <ins
+        ref={adRef}
+        className="adsbygoogle"
+        style={{ display: "block" }}
+        data-ad-client={clientId}
+        data-ad-slot={slotId}
+        data-ad-format={format}
+        data-full-width-responsive={responsive ? "true" : "false"}
+      />
     </div>
   );
 }

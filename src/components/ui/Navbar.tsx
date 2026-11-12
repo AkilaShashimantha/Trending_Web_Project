@@ -14,7 +14,7 @@ export function Navbar() {
       href: "/tools/freelance-tax-estimator",
       label: "1099 Tax Estimator",
       icon: Calculator,
-      tag: "IRS 2024/25",
+      tag: "IRS 2024–26",
     },
     {
       href: "/tools/stripe-fee-calculator",
@@ -47,17 +47,17 @@ export function Navbar() {
         {/* Brand */}
         <Link href="/" className="group flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-spruce-800 text-white shadow-sm transition-transform group-hover:scale-105">
-            <span className="font-mono text-base font-bold text-emeraldTactile-500">C</span>
-            <span className="font-mono text-base font-bold text-amberWarm-500">P</span>
+            <span className="font-mono text-base font-bold text-emeraldTactile-500">T</span>
+            <span className="font-mono text-base font-bold text-amberWarm-500">E</span>
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
-              <span className="text-lg font-bold tracking-tight text-slate-900">CashPulse</span>
+              <span className="text-lg font-bold tracking-tight text-slate-900">TaxEstimator Online</span>
               <span className="inline-flex items-center rounded-full bg-emeraldTactile-50 px-2 py-0.5 text-[10px] font-medium text-emeraldTactile-700">
                 FinTech Suite
               </span>
             </div>
-            <span className="text-[11px] text-slate-500">Solopreneur Wealth & Tax Engines</span>
+            <span className="text-[11px] text-slate-500">Solopreneur Wealth &amp; Tax Engines</span>
           </div>
         </Link>
 
@@ -98,7 +98,7 @@ export function Navbar() {
         <div className="hidden items-center gap-3 lg:flex">
           <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
             <span className="h-1.5 w-1.5 rounded-full bg-emeraldTactile-600 animate-pulse" />
-            <span>Updated for 2025 IRS Code</span>
+            <span>2024–2026 IRS Code</span>
           </div>
           <Link
             href="/tools/freelance-tax-estimator"
