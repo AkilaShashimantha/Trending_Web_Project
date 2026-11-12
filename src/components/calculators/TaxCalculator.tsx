@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useTaxController } from "../../controllers/useTaxController";
 import { formatCurrency, formatPercent } from "../../lib/utils";
 import { FilingStatus, TaxInputs, TaxYear } from "../../models/tax.model";
-import { US_STATE_TAX_DATA } from "../../lib/engines/taxEngine";
+import { QBI_THRESHOLDS, SOCIAL_SECURITY_WAGE_BASE, US_STATE_TAX_DATA } from "../../lib/engines/taxEngine";
 import {
   Calendar,
   Check,
@@ -96,17 +96,17 @@ export function TaxCalculator({ initialStateCode, defaultValues }: TaxCalculator
         {/* Left Form: Inputs (60% on desktop = 7 cols) */}
         <div className="space-y-6 lg:col-span-7">
           <div className="rounded-2xl border border-[#EAEAE3] bg-white p-6 shadow-sm">
-            <div className="flex items-center justify-between border-b border-[#F4F4F0] pb-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#F4F4F0] pb-4">
               <div>
                 <h2 className="text-lg font-bold text-slate-900">Income & Tax Profile</h2>
                 <p className="text-xs text-slate-500">
-                  Calibrated for IRS Form 1040 Schedule C & SE
+                  Calibrated for IRS Form 1040 Schedule C &amp; SE ({inputs.taxYear})
                 </p>
               </div>
 
               {/* Tax Year Toggle */}
-              <div className="flex rounded-lg bg-[#F4F4F0] p-1">
-                {(["2025", "2024"] as TaxYear[]).map((yr) => (
+              <div className="flex shrink-0 rounded-lg bg-[#F4F4F0] p-1">
+                {(["2026", "2025", "2024"] as TaxYear[]).map((yr) => (
                   <button
                     key={yr}
                     onClick={() => updateInput("taxYear", yr)}
@@ -233,7 +233,9 @@ export function TaxCalculator({ initialStateCode, defaultValues }: TaxCalculator
                   />
                 </div>
                 <p className="mt-1 text-[10px] text-slate-400">
-                  W-2 wages offset your Social Security $176,100 cap, lowering your self-employment tax!
+                  W-2 wages offset your {inputs.taxYear} Social Security{" "}
+                  ${SOCIAL_SECURITY_WAGE_BASE[inputs.taxYear].toLocaleString()} cap, lowering your
+                  self-employment tax!
                 </p>
               </div>
             </div>
@@ -435,22 +437,33 @@ export function TaxCalculator({ initialStateCode, defaultValues }: TaxCalculator
           </div>
 
           {/* Section 199A QBI Tax Savings Pill */}
-          <div className="flex items-center justify-between rounded-xl border border-emeraldTactile-100 bg-emeraldTactile-50/70 p-3.5">
-            <div className="flex items-center gap-2.5">
-              <Sparkles className="h-4 w-4 text-emeraldTactile-600" />
-              <div>
-                <div className="text-xs font-bold text-emeraldTactile-900">
-                  Section 199A QBI Deduction
+          {(() => {
+            const qbiCfg = QBI_THRESHOLDS[inputs.taxYear][inputs.filingStatus];
+            const taxableBeforeQBI = Math.max(0, results.adjustedGrossIncome - results.standardDeduction);
+            const qbiCeiling = qbiCfg.threshold + qbiCfg.phaseOutRange;
+            const qbiSubtitle =
+              taxableBeforeQBI >= qbiCeiling && results.netBusinessProfit > 0
+                ? `Phased out above $${qbiCeiling.toLocaleString()} (${inputs.taxYear} ceiling)`
+                : taxableBeforeQBI > qbiCfg.threshold && results.netBusinessProfit > 0
+                ? `Phase-in range ($${qbiCfg.threshold.toLocaleString()}–$${qbiCeiling.toLocaleString()})`
+                : `20% Qualified Business Income (up to $${qbiCfg.threshold.toLocaleString()})`;
+            return (
+              <div className="flex items-center justify-between rounded-xl border border-emeraldTactile-100 bg-emeraldTactile-50/70 p-3.5">
+                <div className="flex items-center gap-2.5">
+                  <Sparkles className="h-4 w-4 text-emeraldTactile-600" />
+                  <div>
+                    <div className="text-xs font-bold text-emeraldTactile-900">
+                      Section 199A QBI Deduction
+                    </div>
+                    <div className="text-[11px] text-emeraldTactile-700">{qbiSubtitle}</div>
+                  </div>
                 </div>
-                <div className="text-[11px] text-emeraldTactile-700">
-                  20% Qualified Business Income write-off
+                <div className="font-mono text-xs font-bold text-emeraldTactile-800">
+                  -{formatCurrency(results.qbiDeduction)} deduction
                 </div>
               </div>
-            </div>
-            <div className="font-mono text-xs font-bold text-emeraldTactile-800">
-              -{formatCurrency(results.qbiDeduction)} deduction
-            </div>
-          </div>
+            );
+          })()}
 
           {/* Detailed Tax Breakdown Accordion */}
           <div className="rounded-2xl border border-[#EAEAE3] bg-white p-5 shadow-sm">

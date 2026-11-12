@@ -93,7 +93,53 @@ const FEDERAL_BRACKETS_2025: Record<FilingStatus, FederalBracketConfig[]> = {
   ],
 };
 
-const STANDARD_DEDUCTIONS: Record<TaxYear, Record<FilingStatus, number>> = {
+// 2026 Federal Brackets (IRS Rev. Proc. 2025-32 / OBBBA)
+const FEDERAL_BRACKETS_2026: Record<FilingStatus, FederalBracketConfig[]> = {
+  single: [
+    { rate: 0.10, min: 0, max: 12400 },
+    { rate: 0.12, min: 12400, max: 50400 },
+    { rate: 0.22, min: 50400, max: 105700 },
+    { rate: 0.24, min: 105700, max: 201775 },
+    { rate: 0.32, min: 201775, max: 256225 },
+    { rate: 0.35, min: 256225, max: 640600 },
+    { rate: 0.37, min: 640600, max: null },
+  ],
+  married_joint: [
+    { rate: 0.10, min: 0, max: 24800 },
+    { rate: 0.12, min: 24800, max: 100800 },
+    { rate: 0.22, min: 100800, max: 211400 },
+    { rate: 0.24, min: 211400, max: 403550 },
+    { rate: 0.32, min: 403550, max: 512450 },
+    { rate: 0.35, min: 512450, max: 768700 },
+    { rate: 0.37, min: 768700, max: null },
+  ],
+  married_separate: [
+    { rate: 0.10, min: 0, max: 12400 },
+    { rate: 0.12, min: 12400, max: 50400 },
+    { rate: 0.22, min: 50400, max: 105700 },
+    { rate: 0.24, min: 105700, max: 201775 },
+    { rate: 0.32, min: 201775, max: 256225 },
+    { rate: 0.35, min: 256225, max: 384350 },
+    { rate: 0.37, min: 384350, max: null },
+  ],
+  head_of_household: [
+    { rate: 0.10, min: 0, max: 17700 },
+    { rate: 0.12, min: 17700, max: 67450 },
+    { rate: 0.22, min: 67450, max: 105700 },
+    { rate: 0.24, min: 105700, max: 201750 },
+    { rate: 0.32, min: 201750, max: 256200 },
+    { rate: 0.35, min: 256200, max: 640600 },
+    { rate: 0.37, min: 640600, max: null },
+  ],
+};
+
+export const FEDERAL_BRACKETS: Record<TaxYear, Record<FilingStatus, FederalBracketConfig[]>> = {
+  "2024": FEDERAL_BRACKETS_2024,
+  "2025": FEDERAL_BRACKETS_2025,
+  "2026": FEDERAL_BRACKETS_2026,
+};
+
+export const STANDARD_DEDUCTIONS: Record<TaxYear, Record<FilingStatus, number>> = {
   "2024": {
     single: 14600,
     married_joint: 29200,
@@ -106,11 +152,52 @@ const STANDARD_DEDUCTIONS: Record<TaxYear, Record<FilingStatus, number>> = {
     married_separate: 15000,
     head_of_household: 22500,
   },
+  "2026": {
+    single: 16100,
+    married_joint: 32200,
+    married_separate: 16100,
+    head_of_household: 24150,
+  },
 };
 
-const SOCIAL_SECURITY_WAGE_BASE: Record<TaxYear, number> = {
+export const SOCIAL_SECURITY_WAGE_BASE: Record<TaxYear, number> = {
   "2024": 168600,
   "2025": 176100,
+  "2026": 184500,
+};
+
+export interface QbiThresholdConfig {
+  threshold: number;
+  phaseOutRange: number;
+}
+
+// Section 199A QBI taxable-income thresholds & phase-in spans
+// 2024/2025: $50,000 non-joint / $100,000 MFJ; 2026 (Rev. Proc. 2025-32 & OBBBA): $75,000 / $150,000
+export const QBI_THRESHOLDS: Record<TaxYear, Record<FilingStatus, QbiThresholdConfig>> = {
+  "2024": {
+    single: { threshold: 191950, phaseOutRange: 50000 },
+    married_joint: { threshold: 383900, phaseOutRange: 100000 },
+    married_separate: { threshold: 191950, phaseOutRange: 50000 },
+    head_of_household: { threshold: 191950, phaseOutRange: 50000 },
+  },
+  "2025": {
+    single: { threshold: 197300, phaseOutRange: 50000 },
+    married_joint: { threshold: 394600, phaseOutRange: 100000 },
+    married_separate: { threshold: 197300, phaseOutRange: 50000 },
+    head_of_household: { threshold: 197300, phaseOutRange: 50000 },
+  },
+  "2026": {
+    single: { threshold: 201750, phaseOutRange: 75000 },
+    married_joint: { threshold: 403500, phaseOutRange: 150000 },
+    married_separate: { threshold: 201775, phaseOutRange: 75000 },
+    head_of_household: { threshold: 201750, phaseOutRange: 75000 },
+  },
+};
+
+export const QUARTERLY_DUE_DATES: Record<TaxYear, [string, string, string, string]> = {
+  "2024": ["April 15, 2024", "June 17, 2024", "September 16, 2024", "January 15, 2025"],
+  "2025": ["April 15, 2025", "June 16, 2025", "September 15, 2025", "January 15, 2026"],
+  "2026": ["April 15, 2026", "June 15, 2026", "September 15, 2026", "January 15, 2027"],
 };
 
 const ADDITIONAL_MEDICARE_THRESHOLDS: Record<FilingStatus, number> = {
@@ -203,9 +290,11 @@ export function calculateFreelanceTaxes(inputs: TaxInputs): TaxCalculationResult
   // 5. Standard Deduction
   const standardDeduction = STANDARD_DEDUCTIONS[taxYear][filingStatus];
 
-  // 6. Section 199A Qualified Business Income (QBI) Deduction (IRS Form 8995)
+  // 6. Section 199A Qualified Business Income (QBI) Deduction (IRS Form 8995 / 8995-A)
   // Under Treas. Reg. § 1.199A-3, QBI is net profit reduced by trade or business deductions
-  // (deductible SE tax, self-employed health insurance, SEP/retirement plans)
+  // (deductible SE tax, self-employed health insurance, SEP/retirement plans).
+  // Above the filing-status threshold, solo contractors without W-2 employee wages/UBIA
+  // phase out across the statutory phase-in range ($50k/$100k in 2024–2025; $75k/$150k in 2026 under OBBBA).
   const taxableBeforeQBI = Math.max(0, adjustedGrossIncome - standardDeduction);
   const qbiIncomeBase = Math.max(
     0,
@@ -213,16 +302,20 @@ export function calculateFreelanceTaxes(inputs: TaxInputs): TaxCalculationResult
   );
   const rawQbi = qbiIncomeBase * 0.20;
   const qbiCap = taxableBeforeQBI * 0.20;
-  const qbiDeduction = Math.min(rawQbi, qbiCap);
+  const baseQbi = Math.min(rawQbi, qbiCap);
+  const { threshold: qbiThreshold, phaseOutRange: qbiPhaseOutRange } =
+    QBI_THRESHOLDS[taxYear][filingStatus];
+  let qbiDeduction = baseQbi;
+  if (taxableBeforeQBI > qbiThreshold) {
+    const phaseOutFraction = Math.min(1, (taxableBeforeQBI - qbiThreshold) / qbiPhaseOutRange);
+    qbiDeduction = baseQbi * (1 - phaseOutFraction);
+  }
 
   // 7. Final Federal Taxable Income
   const taxableIncome = Math.max(0, taxableBeforeQBI - qbiDeduction);
 
   // 8. Federal Income Tax Brackets calculation
-  const brackets =
-    taxYear === "2025"
-      ? FEDERAL_BRACKETS_2025[filingStatus]
-      : FEDERAL_BRACKETS_2024[filingStatus];
+  const brackets = FEDERAL_BRACKETS[taxYear][filingStatus];
 
   const computeFederalTaxForIncome = (income: number): { totalTax: number; breakdown: TaxBracketBreakdown[] } => {
     let tax = 0;
@@ -319,29 +412,30 @@ export function calculateFreelanceTaxes(inputs: TaxInputs): TaxCalculationResult
   // 11. Quarterly Payment Schedule (Form 1040-ES)
   // Form 1040-ES vouchers are paid exclusively to cover unpaid self-employment and marginal freelance tax
   const perQuarterTax = roundCurrency(totalFreelanceTax / 4);
+  const [q1Due, q2Due, q3Due, q4Due] = QUARTERLY_DUE_DATES[taxYear];
   const quarterlyPayments: QuarterlyPayment[] = [
     {
       quarter: "Q1",
       periodLabel: "Jan 1 – Mar 31",
-      dueDate: `April 15, ${taxYear}`,
+      dueDate: q1Due,
       amount: perQuarterTax,
     },
     {
       quarter: "Q2",
       periodLabel: "Apr 1 – May 31",
-      dueDate: `June 16, ${taxYear}`,
+      dueDate: q2Due,
       amount: perQuarterTax,
     },
     {
       quarter: "Q3",
       periodLabel: "Jun 1 – Aug 31",
-      dueDate: `September 15, ${taxYear}`,
+      dueDate: q3Due,
       amount: perQuarterTax,
     },
     {
       quarter: "Q4",
       periodLabel: "Sep 1 – Dec 31",
-      dueDate: `January 15, ${Number(taxYear) + 1}`,
+      dueDate: q4Due,
       amount: perQuarterTax,
     },
   ];

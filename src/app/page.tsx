@@ -20,7 +20,7 @@ export default function HomePage() {
   const tools = [
     {
       title: "1099 Freelance Tax Estimator",
-      badge: "IRS 2024 & 2025 Code",
+      badge: "IRS 2024–2026 Code",
       badgeColor: "bg-emeraldTactile-50 text-emeraldTactile-800 border-emeraldTactile-200",
       description:
         "Accurately estimate your 15.3% Self-Employment Tax (Schedule SE), Federal progressive brackets, Section 199A QBI deduction, and 1040-ES quarterly vouchers.",
@@ -53,7 +53,7 @@ export default function HomePage() {
     },
   ];
 
-  const latestNews = getRecentNewsArticles(3);
+  const latestNews = getRecentNewsArticles(6);
 
   const siteJsonLd = {
     "@context": "https://schema.org",
@@ -131,7 +131,7 @@ export default function HomePage() {
         <div className="mt-10 flex flex-wrap items-center justify-center gap-6 border-t border-[#EAEAE3] pt-6 text-xs text-slate-500 font-mono">
           <div className="flex items-center gap-1.5">
             <CheckCircle2 className="h-4 w-4 text-emeraldTactile" />
-            <span>2024 &amp; 2025 IRS Brackets</span>
+            <span>2024–2026 IRS Brackets</span>
           </div>
           <div className="flex items-center gap-1.5">
             <CheckCircle2 className="h-4 w-4 text-emeraldTactile" />
@@ -334,7 +334,7 @@ export default function HomePage() {
               How does the 20% Section 199A Qualified Business Income (QBI) deduction work?
             </h3>
             <p className="mt-2 text-slate-600 leading-relaxed">
-              Enacted under the Tax Cuts and Jobs Act, Section 199A allows eligible sole proprietors, single-member LLCs, and S-Corps to deduct up to 20% of their net qualified business income from their federal taxable income. For 2024, the full deduction applies up to $191,950 for single filers ($383,900 for married filing jointly), indexed for inflation in 2025.
+              Made permanent under the One Big Beautiful Bill Act (OBBBA), Section 199A allows eligible sole proprietors, single-member LLCs, and S-Corps to deduct up to 20% of their net qualified business income from their federal taxable income. For tax year 2026 (IRS Rev. Proc. 2025-32), the full deduction applies up to $201,750 in taxable income for single filers ($403,500 for married filing jointly), with widened phase-out ranges extending to $276,750 (Single) and $553,500 (MFJ)—up from $197,300/$394,600 in 2025 and $191,950/$383,900 in 2024.
             </p>
           </div>
 

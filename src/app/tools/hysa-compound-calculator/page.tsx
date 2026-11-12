@@ -99,7 +99,7 @@ export default function HysaCompoundCalculatorPage() {
               The Real Purchasing Power Manual: Compounding, Taxes &amp; Inflation
             </h2>
             <p className="mt-2 text-xs text-slate-500">
-              Authored by CashPulse Wealth Research &bull; Macroeconomic modeling based on Federal Reserve &amp; BLS CPI data
+              Authored by TaxEstimator Online Wealth Research &bull; Macroeconomic modeling based on Federal Reserve &amp; BLS CPI data
             </p>
           </header>
 
@@ -146,10 +146,10 @@ export default function HysaCompoundCalculatorPage() {
               Many retail investors mistakenly believe that banking interest receives preferential capital gains tax rates (such as the 0%, 15%, or 20% long-term capital gains rates applied to equities held for more than a year).
             </p>
             <p>
-              This is incorrect. Under IRS tax law, interest earned in bank accounts, certificates of deposit (CDs), and money market accounts is categorized as <strong>unearned ordinary income</strong>. It is taxed at your highest marginal federal bracket (which reaches up to 37% at the federal level), plus any applicable state and municipal income taxes.
+              This is incorrect. Under IRS tax law (covering 2024–2026 brackets under Rev. Proc. 2025-32 and OBBBA), interest earned in bank accounts, certificates of deposit (CDs), and money market accounts is categorized as <strong>unearned ordinary income</strong>. It is taxed at your highest marginal federal bracket (up to 37% above $640,600 Single / $768,700 MFJ in 2026), plus any applicable state and municipal income taxes.
             </p>
             <div className="rounded-xl border border-amberWarm-200 bg-amberWarm-50/70 p-4 text-xs text-amberWarm-900 leading-relaxed">
-              <strong>Tax Drag Insight:</strong> Because interest is taxed annually as it accrues, you lose a slice of your compound growth engine each spring when settling with the IRS. CashPulse models this annual deduction directly so your multi-year balance reflects reality.
+              <strong>Tax Drag Insight:</strong> Because interest is taxed annually as it accrues, you lose a slice of your compound growth engine each spring when settling with the IRS. TaxEstimator Online models this annual deduction directly so your multi-year balance reflects reality.
             </div>
           </section>
 

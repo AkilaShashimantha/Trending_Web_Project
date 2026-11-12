@@ -99,7 +99,7 @@ export default function StripeFeeCalculatorPage() {
               The Merchant Fee Guide: Reverse Calculations &amp; Margin Protection
             </h2>
             <p className="mt-2 text-xs text-slate-500">
-              Authored by CashPulse Commerce Engineering &bull; Validated against current published payment schedules
+              Authored by TaxEstimator Online Commerce Engineering &bull; Validated against current published payment schedules
             </p>
           </header>
 
