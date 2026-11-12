@@ -9,11 +9,11 @@ export const FilingStatusSchema = z.enum([
 
 export type FilingStatus = z.infer<typeof FilingStatusSchema>;
 
-export const TaxYearSchema = z.enum(["2024", "2025"]);
+export const TaxYearSchema = z.enum(["2024", "2025", "2026"]);
 export type TaxYear = z.infer<typeof TaxYearSchema>;
 
 export const TaxInputsSchema = z.object({
-  taxYear: TaxYearSchema.default("2025"),
+  taxYear: TaxYearSchema.default("2026"),
   filingStatus: FilingStatusSchema.default("single"),
   gross1099Income: z.number().min(0, "Income must be non-negative").default(95000),
   w2Income: z.number().min(0).default(0),

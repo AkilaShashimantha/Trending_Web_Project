@@ -15,8 +15,8 @@ import sitemap from "../app/sitemap";
 import robots from "../app/robots";
 
 describe("News Desk Engine & Data Model Tests", () => {
-  it("validates that all launch articles strictly conform to NewsArticleSchema", () => {
-    expect(newsArticles.length).toBeGreaterThanOrEqual(5);
+  it("validates that at least 15 articles exist and strictly conform to NewsArticleSchema", () => {
+    expect(newsArticles.length).toBeGreaterThanOrEqual(15);
 
     newsArticles.forEach((article) => {
       const parsed = NewsArticleSchema.safeParse(article);
@@ -24,7 +24,7 @@ describe("News Desk Engine & Data Model Tests", () => {
     });
   });
 
-  it("verifies all 5 required launch article slugs exist and are unique", () => {
+  it("verifies all 5 required core slugs exist and all slugs are unique kebab-case", () => {
     const requiredSlugs = [
       "2025-2026-irs-tax-brackets-freelancers",
       "fed-rate-decision-hysa-wealth-impact",
@@ -45,6 +45,39 @@ describe("News Desk Engine & Data Model Tests", () => {
     });
   });
 
+  it("enforces unified TaxEstimator Online branding with zero CashPulse references", () => {
+    newsArticles.forEach((article) => {
+      const serialized = JSON.stringify(article).toLowerCase();
+      expect(serialized).not.toContain("cashpulse");
+      if (article.image) {
+        expect(article.image).toMatch(/^https:\/\/taxestimator\.online\//);
+      }
+    });
+  });
+
+  it("ensures 2025–2026 editorial freshness and a 2026 flagship featured article", () => {
+    const featuredArticles = newsArticles.filter((a) => a.featured);
+    expect(featuredArticles.length).toBe(1);
+
+    const flagship = getFeaturedNewsArticle();
+    expect(flagship.featured).toBe(true);
+    expect(new Date(flagship.publishedAt).getUTCFullYear()).toBeGreaterThanOrEqual(2026);
+    expect(new Date(flagship.updatedAt).getUTCFullYear()).toBeGreaterThanOrEqual(2026);
+
+    const articlesUpdatedIn2026 = newsArticles.filter(
+      (a) => new Date(a.updatedAt).getUTCFullYear() >= 2026
+    );
+    expect(articlesUpdatedIn2026.length).toBeGreaterThanOrEqual(15);
+
+    newsArticles.forEach((article) => {
+      const pubTime = new Date(article.publishedAt).getTime();
+      const updTime = new Date(article.updatedAt).getTime();
+      expect(Number.isNaN(pubTime)).toBe(false);
+      expect(Number.isNaN(updTime)).toBe(false);
+      expect(updTime).toBeGreaterThanOrEqual(pubTime);
+    });
+  });
+
   it("ensures all primary sources have valid HTTPS URLs and accredited names", () => {
     newsArticles.forEach((article) => {
       expect(article.primarySource.name.length).toBeGreaterThan(5);
@@ -57,6 +90,9 @@ describe("News Desk Engine & Data Model Tests", () => {
       expect(article.relatedTool.href).toMatch(/^\/tools\/.+/);
       expect(article.relatedTool.name.length).toBeGreaterThan(3);
       expect(article.relatedTool.ctaText.length).toBeGreaterThan(5);
+      if (article.relatedTool.secondaryHref) {
+        expect(article.relatedTool.secondaryHref).toMatch(/^\/tools\/.+/);
+      }
     });
   });
 
@@ -90,9 +126,10 @@ describe("News Desk Engine & Data Model Tests", () => {
     });
   });
 
-  it("verifies query helper functions: sorting, retrieval, and filtering", () => {
+  it("verifies query helper functions: sorting, retrieval, categories, and filtering", () => {
     const all = getAllNewsArticles();
     expect(all.length).toBe(newsArticles.length);
+    expect(all.length).toBeGreaterThanOrEqual(15);
 
     // Verify chronological descending sort
     for (let i = 0; i < all.length - 1; i++) {
@@ -100,6 +137,15 @@ describe("News Desk Engine & Data Model Tests", () => {
       const nextTime = new Date(all[i + 1].publishedAt).getTime();
       expect(currentTime).toBeGreaterThanOrEqual(nextTime);
     }
+
+    // Categories cover breadth of solopreneur topics
+    const categories = new Set(all.map((a) => a.category));
+    expect(categories.has("IRS Regulations")).toBe(true);
+    expect(categories.has("Tax Deductions")).toBe(true);
+    expect(categories.has("Business Structure")).toBe(true);
+    expect(categories.has("Banking & Rates")).toBe(true);
+    expect(categories.has("Merchant Fees")).toBe(true);
+    expect(categories.has("State Taxes")).toBe(true);
 
     // Lookup by slug
     const firstArticle = all[0];
@@ -117,8 +163,8 @@ describe("News Desk Engine & Data Model Tests", () => {
     expect(featured.featured).toBe(true);
 
     // Recent articles limit & exclusion
-    const recents = getRecentNewsArticles(2, firstArticle.slug);
-    expect(recents.length).toBeLessThanOrEqual(2);
+    const recents = getRecentNewsArticles(4, firstArticle.slug);
+    expect(recents.length).toBe(4);
     expect(recents.some((a) => a.slug === firstArticle.slug)).toBe(false);
 
     // Tags
@@ -144,7 +190,7 @@ describe("News Syndication Feeds & SEO Integration", () => {
     expect(xml).toContain("<news:name>TaxEstimator Online</news:name>");
     expect(xml).toContain("<news:language>en</news:language>");
 
-    // Ensure all 5 launch article URLs are present
+    // Ensure all article URLs are present
     newsArticles.forEach((article) => {
       expect(xml).toContain(`https://taxestimator.online/news/${article.slug}`);
     });
@@ -163,7 +209,7 @@ describe("News Syndication Feeds & SEO Integration", () => {
     expect(xml).toContain("https://taxestimator.online/news");
     expect(xml).toContain("<item>");
 
-    // Ensure all 5 launch article items are included
+    // Ensure all article items are included
     newsArticles.forEach((article) => {
       expect(xml).toContain(`https://taxestimator.online/news/${article.slug}`);
     });

@@ -16,12 +16,12 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "1099 Freelance Tax Estimator (2024 & 2025 IRS Code)",
+  title: "1099 Freelance Tax Estimator (2024–2026 IRS Code)",
   description:
-    "Free 1099 self-employment tax calculator. Computes 15.3% SECA tax (Schedule SE), Federal income tax brackets, Section 199A QBI deduction, and quarterly 1040-ES payment schedule.",
+    "Free 1099 self-employment tax calculator updated for 2026 IRS Rev. Proc. 2025-32 and OBBBA rules. Computes 15.3% SECA tax (Schedule SE), Federal income tax brackets, Section 199A QBI deduction, and quarterly 1040-ES payment schedule.",
   keywords: [
     "1099 tax calculator",
-    "freelance tax estimator",
+    "2026 freelance tax estimator",
     "self employment tax calculator",
     "schedule se calculator",
     "section 199a qbi deduction",
@@ -37,10 +37,10 @@ export default function FreelanceTaxEstimatorPage() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "How is Self-Employment (1099) tax calculated in 2024 and 2025?",
+        name: "How is Self-Employment (1099) tax calculated in 2024, 2025, and 2026?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Self-employment tax is calculated under IRS Schedule SE at 15.3% on 92.35% of your net business profit. This consists of 12.4% for Social Security (capped at $168,600 in 2024 and $176,100 in 2025) and 2.9% for Medicare (uncapped). An additional 0.9% Medicare surtax applies on earned income over $200,000 for single filers or $250,000 for married couples filing jointly.",
+          text: "Self-employment tax is calculated under IRS Schedule SE at 15.3% on 92.35% of your net business profit. This consists of 12.4% for Social Security (capped at $168,600 in 2024, $176,100 in 2025, and $184,500 in 2026) and 2.9% for Medicare (uncapped). An additional 0.9% Medicare surtax applies on earned income over $200,000 for single filers or $250,000 for married couples filing jointly.",
         },
       },
       {
@@ -48,7 +48,7 @@ export default function FreelanceTaxEstimatorPage() {
         name: "What is the Section 199A Qualified Business Income (QBI) deduction?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Section 199A allows eligible sole proprietors, freelancers, LLC members, and S-corporation shareholders to deduct up to 20% of their qualified business net income from federal taxable income, subject to taxable income caps and phase-outs for specified service trades or businesses (SSTBs).",
+          text: "Made permanent by the One Big Beautiful Bill Act (OBBBA), Section 199A allows eligible sole proprietors, freelancers, LLC members, and S-corporation shareholders to deduct up to 20% of their qualified business net income from federal taxable income. For 2026 (Rev. Proc. 2025-32), full eligibility applies up to $201,750 (Single) or $403,500 (MFJ), with widened phase-out ranges up to $276,750 and $553,500.",
         },
       },
       {
@@ -56,7 +56,7 @@ export default function FreelanceTaxEstimatorPage() {
         name: "When are IRS quarterly estimated tax payments due?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Estimated tax payments under IRS Form 1040-ES are typically due four times a year: Q1 on April 15, Q2 on June 15 (or June 16 if a holiday/weekend), Q3 on September 15, and Q4 on January 15 of the following tax year.",
+          text: "Estimated tax payments under IRS Form 1040-ES are due four times a year: for tax year 2026, Q1 is due April 15, 2026, Q2 on June 15, 2026, Q3 on September 15, 2026, and Q4 on January 15, 2027 (shifting to the next business day if a date falls on a weekend or legal holiday).",
         },
       },
     ],
@@ -82,7 +82,7 @@ export default function FreelanceTaxEstimatorPage() {
           1099 Freelance &amp; Self-Employment Tax Estimator
         </h1>
         <p className="mt-2 max-w-3xl text-sm text-slate-600 leading-relaxed">
-          Estimate your complete federal, state, and self-employment tax burden with IRS 2024 &amp; 2025 progressive brackets, the 20% Section 199A Qualified Business Income deduction, and quarterly estimated payment vouchers.
+          Estimate your complete federal, state, and self-employment tax burden with IRS 2024–2026 progressive brackets (including Rev. Proc. 2025-32 and OBBBA updates), the 20% Section 199A Qualified Business Income deduction, and quarterly estimated payment vouchers.
         </p>
 
         {/* State Quick Switcher */}
@@ -130,7 +130,7 @@ export default function FreelanceTaxEstimatorPage() {
               The Comprehensive Guide to 1099 Taxes, Schedule SE &amp; Write-offs
             </h2>
             <p className="mt-2 text-xs text-slate-500">
-              Authored by the CashPulse Editorial Board &bull; Reviewed against IRS Publication 334 &amp; Form 1040-ES Guidelines
+              Authored by the TaxEstimator Online Editorial Board &bull; Reviewed against IRS Rev. Proc. 2025-32, Publication 334 &amp; Form 1040-ES Guidelines
             </p>
           </header>
 
@@ -158,24 +158,74 @@ export default function FreelanceTaxEstimatorPage() {
               </div>
             </div>
             <p>
-              For tax year 2024, the Social Security wage base limit is <strong>$168,600</strong>. For tax year 2025, the IRS has adjusted this wage base cap upwards to <strong>$176,100</strong>. Any net earnings above this ceiling are entirely exempt from the 12.4% Social Security portion, though they remain subject to the 2.9% Medicare tax.
+              For tax year 2024, the Social Security wage base limit is <strong>$168,600</strong>, rising to <strong>$176,100</strong> for 2025, and <strong>$184,500</strong> for tax year 2026 per the Social Security Administration (capping the 12.4% Social Security portion at $22,878 for 1099 earners). Any net earnings above this ceiling are entirely exempt from the 12.4% Social Security portion, though they remain subject to the 2.9% Medicare tax.
             </p>
           </section>
 
-          {/* Section 2: Section 199A QBI Deduction */}
+          {/* Section 2: Section 199A QBI Deduction & 2024-2026 Thresholds */}
           <section className="space-y-4 text-sm leading-relaxed text-slate-700">
             <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <span className="flex h-6 w-6 items-center justify-center rounded-md bg-spruce-800 text-xs text-white font-mono">
                 2
               </span>
-              Maximizing the Section 199A Qualified Business Income (QBI) Deduction
+              Section 199A QBI Deduction, 2026 Standard Deductions &amp; Federal Brackets
             </h3>
             <p>
-              Introduced in the Tax Cuts and Jobs Act (TCJA), the Section 199A deduction is one of the most powerful tax shelters available to American solopreneurs. It allows qualifying small businesses to deduct up to <strong>20% of their net qualified business income</strong> directly from their federal taxable income.
+              Originally enacted under the Tax Cuts and Jobs Act and made permanent under the One Big Beautiful Bill Act (OBBBA), the Section 199A deduction allows qualifying solopreneurs to deduct up to <strong>20% of their net qualified business income</strong> directly from federal taxable income.
             </p>
             <p>
-              Unlike itemized deductions (like mortgage interest or state taxes), the QBI deduction is taken in addition to your standard deduction. That means you receive the benefit whether you claim the standard deduction or itemize. For tax year 2024, the deduction begins to phase out for Specified Service Trades or Businesses (SSTBs—such as consulting, law, health, and athletics) once taxable income surpasses $191,950 for single filers ($383,900 for married couples), indexed for 2025.
+              Unlike itemized deductions (like mortgage interest or state taxes), the QBI deduction is taken in addition to your standard deduction. For tax year 2026 (IRS Rev. Proc. 2025-32), the basic standard deduction rises to <strong>$16,100</strong> for Single and Married Filing Separately filers, <strong>$32,200</strong> for Married Filing Jointly, and <strong>$24,150</strong> for Head of Household. Full QBI eligibility extends up to <strong>$201,750</strong> for Single/Head of Household ($201,775 MFS) and <strong>$403,500</strong> for Married Filing Jointly, with widened phase-out spans of $75,000 and $150,000 respectively (up from $197,300/$394,600 in 2025 and $191,950/$383,900 in 2024).
             </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border border-[#EAEAE3]">
+                <thead className="bg-[#F4F4F0] text-slate-700 font-semibold font-mono">
+                  <tr>
+                    <th className="p-3 border-b">IRS Parameter</th>
+                    <th className="p-3 border-b">2024</th>
+                    <th className="p-3 border-b">2025</th>
+                    <th className="p-3 border-b">2026 (Rev. Proc. 2025-32)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#EAEAE3] font-mono">
+                  <tr>
+                    <td className="p-3 font-sans font-semibold text-slate-900">Standard Deduction (Single / MFS)</td>
+                    <td className="p-3">$14,600</td>
+                    <td className="p-3">$15,000</td>
+                    <td className="p-3 font-bold text-spruce-800">$16,100</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-sans font-semibold text-slate-900">Standard Deduction (Married Joint)</td>
+                    <td className="p-3">$29,200</td>
+                    <td className="p-3">$30,000</td>
+                    <td className="p-3 font-bold text-spruce-800">$32,200</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-sans font-semibold text-slate-900">Standard Deduction (Head of Household)</td>
+                    <td className="p-3">$21,900</td>
+                    <td className="p-3">$22,500</td>
+                    <td className="p-3 font-bold text-spruce-800">$24,150</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-sans font-semibold text-slate-900">Social Security Wage Base</td>
+                    <td className="p-3">$168,600</td>
+                    <td className="p-3">$176,100</td>
+                    <td className="p-3 font-bold text-spruce-800">$184,500</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-sans font-semibold text-slate-900">QBI Threshold (Single / MFJ)</td>
+                    <td className="p-3">$191,950 / $383,900</td>
+                    <td className="p-3">$197,300 / $394,600</td>
+                    <td className="p-3 font-bold text-spruce-800">$201,750 / $403,500</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-sans font-semibold text-slate-900">22% Single Bracket Range</td>
+                    <td className="p-3">$47,150–$100,525</td>
+                    <td className="p-3">$48,475–$103,350</td>
+                    <td className="p-3 font-bold text-spruce-800">$50,400–$105,700</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </section>
 
           {/* Section 3: High-Value Deductions Checklist */}
@@ -206,7 +256,7 @@ export default function FreelanceTaxEstimatorPage() {
               <li className="flex items-start gap-2 rounded-lg border border-[#EAEAE3] p-3">
                 <CheckCircle className="h-4 w-4 shrink-0 text-emeraldTactile mt-0.5" />
                 <div>
-                  <strong className="text-slate-900">SEP IRA &amp; Solo 401(k):</strong> Contribute up to 25% of net adjusted self-employment earnings (up to $69,000 for 2024 / $70,000 for 2025) completely pre-tax.
+                  <strong className="text-slate-900">SEP IRA &amp; Solo 401(k):</strong> Contribute up to 25% of net adjusted self-employment earnings (up to $69,000 for 2024, $70,000 for 2025, and $72,000 for 2026 under IRS Notice 2025-67) completely pre-tax.
                 </div>
               </li>
               <li className="flex items-start gap-2 rounded-lg border border-[#EAEAE3] p-3">

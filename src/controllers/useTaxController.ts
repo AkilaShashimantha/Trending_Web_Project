@@ -2,8 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { calculateFreelanceTaxes } from "../lib/engines/taxEngine";
-import { FilingStatus, TaxCalculationResult, TaxInputs, TaxYear } from "../models/tax.model";
+import { FilingStatus, TaxCalculationResult, TaxInputs, TaxYear, TaxYearSchema } from "../models/tax.model";
 import { getStatePreference, saveStatePreference } from "../lib/utils/cookieUtils";
+
+const STORAGE_KEY = "taxestimator_tax_scenario_v1";
+const LEGACY_STORAGE_KEY = "cashpulse_tax_scenario_v1";
 
 export const TAX_PRESETS: {
   label: string;
@@ -65,7 +68,7 @@ export const TAX_PRESETS: {
 ];
 
 const DEFAULT_TAX_INPUTS: TaxInputs = {
-  taxYear: "2025",
+  taxYear: "2026",
   filingStatus: "single",
   gross1099Income: 95000,
   w2Income: 0,
@@ -93,7 +96,7 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
         const params = new URLSearchParams(window.location.search);
         if (params.has("year")) {
           const y = params.get("year");
-          if (y === "2024" || y === "2025") updates.taxYear = y as TaxYear;
+          if (y === "2024" || y === "2025" || y === "2026") updates.taxYear = y as TaxYear;
         }
         if (params.has("status")) {
           const s = params.get("status") as FilingStatus;
@@ -180,7 +183,7 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
-      if (localStorage.getItem("cashpulse_tax_scenario_v1")) {
+      if (localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY)) {
         setHasSavedScenario(true);
       }
     } catch {
@@ -191,7 +194,7 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
   const saveToLocalStorage = useCallback(() => {
     if (typeof window === "undefined") return;
     try {
-      localStorage.setItem("cashpulse_tax_scenario_v1", JSON.stringify(inputs));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(inputs));
       setHasSavedScenario(true);
       setSavedNotification("Saved to this device!");
       setTimeout(() => setSavedNotification(null), 3000);
@@ -204,10 +207,15 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
   const loadFromLocalStorage = useCallback(() => {
     if (typeof window === "undefined") return;
     try {
-      const data = localStorage.getItem("cashpulse_tax_scenario_v1");
+      const data = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(LEGACY_STORAGE_KEY);
       if (data) {
         const parsed = JSON.parse(data);
-        setInputs((prev) => ({ ...prev, ...parsed }));
+        const validTaxYear = TaxYearSchema.safeParse(parsed?.taxYear);
+        setInputs((prev) => ({
+          ...prev,
+          ...parsed,
+          taxYear: validTaxYear.success ? validTaxYear.data : prev.taxYear,
+        }));
         setSavedNotification("Restored saved scenario!");
         setTimeout(() => setSavedNotification(null), 3000);
       }
@@ -219,7 +227,8 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
   const clearLocalStorage = useCallback(() => {
     if (typeof window === "undefined") return;
     try {
-      localStorage.removeItem("cashpulse_tax_scenario_v1");
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(LEGACY_STORAGE_KEY);
       setHasSavedScenario(false);
       setInputs({
         ...DEFAULT_TAX_INPUTS,
@@ -235,7 +244,7 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
   const exportAsJson = useCallback(() => {
     if (typeof window === "undefined") return;
     const exportData = {
-      app: "CashPulse FinTech Suite - TaxEstimator Online",
+      app: "TaxEstimator Online",
       url: "https://taxestimator.online",
       privacyNotice: "100% Client-Side calculation. Zero data transmitted to remote servers.",
       exportTimestamp: new Date().toISOString(),
@@ -263,7 +272,7 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `cashpulse-tax-estimate-${inputs.taxYear}.json`;
+    link.download = `taxestimator-tax-estimate-${inputs.taxYear}.json`;
     link.click();
     URL.revokeObjectURL(url);
   }, [inputs, results]);
@@ -271,7 +280,7 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
   const exportAsCsv = useCallback(() => {
     if (typeof window === "undefined") return;
     const rows = [
-      ["CashPulse 1099 Freelance Tax Estimate", `Tax Year ${inputs.taxYear}`],
+      ["TaxEstimator Online 1099 Freelance Tax Estimate", `Tax Year ${inputs.taxYear}`],
       ["Export Date", new Date().toLocaleDateString()],
       ["Privacy Assurance", "100% Local Processing - Zero Server Tracking"],
       [],
@@ -320,7 +329,7 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `cashpulse-tax-estimate-${inputs.taxYear}.csv`;
+    link.download = `taxestimator-tax-estimate-${inputs.taxYear}.csv`;
     link.click();
     URL.revokeObjectURL(url);
   }, [inputs, results]);

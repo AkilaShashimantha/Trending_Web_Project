@@ -281,6 +281,120 @@ describe("stateTaxEngine - 50 US States + DC Tax Calculation & Data", () => {
         ).toBeGreaterThanOrEqual(800);
       }
     });
+
+    it("enriches all 51 jurisdictions with distinct entity, S-Corp, PTET, and threshold metadata", () => {
+      const allStates = getAllStates();
+      const nuanceSet = new Set<string>();
+
+      for (const st of allStates) {
+        expect(st.llcAnnualFee.trim().length).toBeGreaterThan(10);
+        expect(st.sCorpTreatment.trim().length).toBeGreaterThan(15);
+        expect(st.pteTaxNotes.trim().length).toBeGreaterThan(15);
+        expect(st.stateSpecificNuances.trim().length).toBeGreaterThan(20);
+        expect(st.estimatedTaxThreshold.trim().length).toBeGreaterThan(15);
+        nuanceSet.add(st.stateSpecificNuances);
+      }
+
+      // Every jurisdiction has genuinely unique nuances rather than boilerplate duplication
+      expect(nuanceSet.size).toBe(51);
+    });
+
+    it("marks exactly the top 10 flagship states with deeply custom non-templated guides", () => {
+      const expectedFlagshipSlugs = [
+        "california",
+        "texas",
+        "new-york",
+        "florida",
+        "washington",
+        "illinois",
+        "pennsylvania",
+        "massachusetts",
+        "new-jersey",
+        "colorado",
+      ];
+
+      const allStates = getAllStates();
+      const flaggedSlugs = allStates
+        .filter((s) => s.hasCustomGuide === true)
+        .map((s) => s.slug);
+
+      expect(flaggedSlugs).toHaveLength(10);
+      expect(flaggedSlugs.sort()).toEqual([...expectedFlagshipSlugs].sort());
+
+      const ca = getStateTaxData("california")!.editorialGuide;
+      expect(ca.freelanceSpecificRules).toContain("$800");
+      expect(ca.rateBreakdown).toContain("SDI");
+
+      const tx = getStateTaxData("texas")!.editorialGuide;
+      expect(tx.rateBreakdown).toContain("$2,470,000");
+      expect(tx.freelanceSpecificRules).toContain("Public Information Report");
+
+      const ny = getStateTaxData("new-york")!.editorialGuide;
+      expect(ny.freelanceSpecificRules).toContain("MCTMT");
+      expect(ny.freelanceSpecificRules).toContain("UBT");
+
+      const fl = getStateTaxData("florida")!.editorialGuide;
+      expect(fl.freelanceSpecificRules).toContain("$138.75");
+
+      const wa = getStateTaxData("washington")!.editorialGuide;
+      expect(wa.rateBreakdown).toContain("B&O");
+      expect(wa.rateBreakdown).toContain("7.0%");
+
+      const il = getStateTaxData("illinois")!.editorialGuide;
+      expect(il.rateBreakdown).toContain("1.5%");
+      expect(il.rateBreakdown).toContain("PPRT");
+
+      const pa = getStateTaxData("pennsylvania")!.editorialGuide;
+      expect(pa.freelanceSpecificRules).toContain("Act 32");
+      expect(pa.localTaxDetails).toContain("BIRT");
+
+      const ma = getStateTaxData("massachusetts")!.editorialGuide;
+      expect(ma.freelanceSpecificRules).toContain("Directive 08-3");
+      expect(ma.rateBreakdown).toContain("Fair Share");
+
+      const nj = getStateTaxData("new-jersey")!.editorialGuide;
+      expect(nj.freelanceSpecificRules).toContain("NJ BAIT");
+      expect(nj.freelanceSpecificRules).toContain("Solo 401(k)");
+
+      const co = getStateTaxData("colorado")!.editorialGuide;
+      expect(co.freelanceSpecificRules).toContain("SALT Parity Act");
+      expect(co.freelanceSpecificRules).toContain("FAMLI");
+      expect(co.localTaxDetails).toContain("Occupational Privilege Tax");
+    });
+
+    it("never prints flat-rate jurisdiction copy for progressive or zero-tax states and has clean branding/dates", () => {
+      const allStates = getAllStates();
+      for (const st of allStates) {
+        const guide = st.editorialGuide;
+        const combined = [
+          guide.seoTitle,
+          guide.metaDescription,
+          guide.h1Title,
+          guide.overview,
+          guide.rateBreakdown,
+          guide.freelanceSpecificRules,
+          guide.standardDeductionGuide,
+          guide.estimatedTaxesGuide,
+          guide.localTaxDetails,
+          ...guide.faqs.map((f) => `${f.question} ${f.answer}`),
+        ].join(" ");
+
+        if (st.taxType !== "flat") {
+          expect(
+            combined.toLowerCase(),
+            `${st.name} (${st.taxType}) must not mention flat-rate jurisdiction boilerplate`
+          ).not.toMatch(/flat-rate jurisdictions?/);
+        }
+
+        expect(combined).not.toContain("CashPulse");
+        expect(combined).not.toContain("&amp;");
+        expect(guide.h1Title).toContain("2024–2026");
+      }
+
+      const nh = getStateTaxData("new-hampshire")!;
+      expect(nh.localTaxNotes).toContain("January 1, 2025");
+      expect(nh.localTaxNotes).not.toContain("2027");
+    });
   });
 
   describe("Freelance Tax Engine Integration (AGI State Base)", () => {
