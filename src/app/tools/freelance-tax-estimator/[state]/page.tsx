@@ -43,13 +43,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const { editorialGuide, name, taxType } = stateData;
+  const {
+    editorialGuide,
+    name,
+    taxType,
+    hasCustomGuide,
+  } = stateData;
   const taxSummary =
     taxType === "none"
       ? "0% State Tax"
       : taxType === "flat"
       ? `${((stateData.flatRate || 0) * 100).toFixed(2)}% Flat Tax`
       : "Progressive Brackets";
+  const isIndexedFlagship = Boolean(hasCustomGuide);
 
   return {
     title: editorialGuide.seoTitle,
@@ -63,11 +69,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       `${stateData.estimatedTaxForm} calculator`,
       `${name} standard deduction freelance`,
     ],
+    robots: {
+      index: isIndexedFlagship,
+      follow: true,
+    },
     openGraph: {
-      title: `${name} 1099 Freelance Tax Estimator (2025) | CashPulse`,
-      description: `Free ${name} 1099 tax calculator. Compute state income taxes (${taxSummary}), Schedule SE 15.3%, QBI deduction, and quarterly vouchers.`,
+      title: `${name} 1099 Freelance Tax Estimator (2024–2026) | TaxEstimator Online`,
+      description: `Free ${name} 1099 tax calculator. Compute state income taxes (${taxSummary}), Schedule SE 15.3%, QBI deduction, LLC entity rules, and quarterly vouchers.`,
       url: `https://taxestimator.online/tools/freelance-tax-estimator/${stateData.slug}`,
-      siteName: "CashPulse Tax Tools",
+      siteName: "TaxEstimator Online",
       type: "website",
     },
     alternates: {
@@ -162,11 +172,11 @@ export default async function StateTaxEstimatorPage({ params }: PageProps) {
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-full bg-emeraldTactile/10 px-3 py-1 text-xs font-semibold text-emeraldTactile">
             <ShieldCheck className="h-3.5 w-3.5" />
-            <span>2024 &amp; 2025 Revenue Code</span>
+            <span>2024–2026 Tax Guide</span>
           </span>
         </div>
         <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-          {name} 1099 Freelance Tax Calculator &amp; Rates
+          {name} 1099 Freelance Tax Calculator &amp; Rates (2024–2026)
         </h1>
         <p className="mt-2 max-w-3xl text-sm text-slate-600 leading-relaxed">
           Accurate state and federal self-employment tax estimation for independent contractors, solopreneurs, and 1099-NEC earners living or operating in {name}.
@@ -220,7 +230,17 @@ export default async function StateTaxEstimatorPage({ params }: PageProps) {
               <span>Quarterly Deadlines</span>
             </div>
             <div className="mt-1 text-xs font-bold text-slate-900 line-clamp-1">
-              {taxType === "none" ? "Federal 1040-ES Only" : "Apr, Jun, Sep, Jan"}
+              {taxType === "none"
+                ? "Federal 1040-ES Only"
+                : filingDeadline.includes("%")
+                ? "30% / 40% / 0% / 30%"
+                : filingDeadline.startsWith("April 30")
+                ? "Apr 30, Jun, Sep, Jan"
+                : filingDeadline.startsWith("April 20")
+                ? "20th (Apr/Jun/Sep/Jan)"
+                : filingDeadline.startsWith("May 1")
+                ? "May 1, Jun, Sep, Jan"
+                : "Apr, Jun, Sep, Jan"}
             </div>
           </div>
         </div>
@@ -235,8 +255,19 @@ export default async function StateTaxEstimatorPage({ params }: PageProps) {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-medium text-slate-500">Popular:</span>
-            {["california", "texas", "new-york", "florida", "washington", "illinois", "pennsylvania"].map((slug) => {
+            <span className="text-[11px] font-medium text-slate-500">Flagship Guides:</span>
+            {[
+              "california",
+              "texas",
+              "new-york",
+              "florida",
+              "washington",
+              "illinois",
+              "pennsylvania",
+              "massachusetts",
+              "new-jersey",
+              "colorado",
+            ].map((slug) => {
               const st = allStates.find((s) => s.slug === slug);
               if (!st) return null;
               const isActive = st.slug === stateSlug;
@@ -277,10 +308,10 @@ export default async function StateTaxEstimatorPage({ params }: PageProps) {
               <span>Localized Solopreneur Briefing</span>
             </div>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-              {name} Freelance Tax Guide: Schedule SE, State Rules &amp; Safe Harbor
+              {editorialGuide.h1Title}
             </h2>
             <p className="mt-2 text-xs text-slate-500">
-              Researched and validated against {name} Department of Revenue guidelines and IRS 2024/2025 revenue bulletins.
+              Researched and validated against {agencyName} publications and IRS 2024–2026 revenue bulletins (including OBBBA updates).
             </p>
           </header>
 
@@ -345,9 +376,45 @@ export default async function StateTaxEstimatorPage({ params }: PageProps) {
               <span className="flex h-6 w-6 items-center justify-center rounded-md bg-spruce-800 text-xs text-white font-mono">
                 3
               </span>
-              Schedule C Deductions &amp; Maximizing Net Profit in {name}
+              Schedule C Deductions, Entity Fees &amp; S-Corp Rules in {name}
             </h3>
             <p className="whitespace-pre-line">{editorialGuide.freelanceSpecificRules}</p>
+
+            {/* Enriched State-Specific Entity & PTET Matrix */}
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="rounded-xl border border-[#EAEAE3] bg-[#FBFBF9] p-4">
+                <div className="text-[11px] font-bold uppercase tracking-wider text-spruce-800">
+                  LLC Annual Report / Franchise Fee
+                </div>
+                <p className="mt-1.5 text-xs text-slate-700 leading-relaxed">
+                  {stateData.llcAnnualFee}
+                </p>
+              </div>
+              <div className="rounded-xl border border-[#EAEAE3] bg-[#FBFBF9] p-4">
+                <div className="text-[11px] font-bold uppercase tracking-wider text-spruce-800">
+                  S-Corp State Tax Treatment
+                </div>
+                <p className="mt-1.5 text-xs text-slate-700 leading-relaxed">
+                  {stateData.sCorpTreatment}
+                </p>
+              </div>
+              <div className="rounded-xl border border-[#EAEAE3] bg-[#FBFBF9] p-4">
+                <div className="text-[11px] font-bold uppercase tracking-wider text-spruce-800">
+                  PTET (SALT Cap Workaround)
+                </div>
+                <p className="mt-1.5 text-xs text-slate-700 leading-relaxed">
+                  {stateData.pteTaxNotes}
+                </p>
+              </div>
+              <div className="rounded-xl border border-[#EAEAE3] bg-[#FBFBF9] p-4">
+                <div className="text-[11px] font-bold uppercase tracking-wider text-spruce-800">
+                  2024–2026 Conformity &amp; Special Rules
+                </div>
+                <p className="mt-1.5 text-xs text-slate-700 leading-relaxed">
+                  {stateData.stateSpecificNuances}
+                </p>
+              </div>
+            </div>
           </section>
 
           {/* Section 4: Standard Deduction */}
@@ -389,15 +456,22 @@ export default async function StateTaxEstimatorPage({ params }: PageProps) {
               <span className="flex h-6 w-6 items-center justify-center rounded-md bg-spruce-800 text-xs text-white font-mono">
                 5
               </span>
-              Estimated Quarterly Taxes &amp; Form {estimatedTaxForm} Deadlines
+              {taxType === "none"
+                ? `Estimated Quarterly Taxes & Federal 1040-ES Rules in ${name}`
+                : `Estimated Quarterly Taxes & ${estimatedTaxForm} Deadlines`}
             </h3>
             <p className="whitespace-pre-line">{editorialGuide.estimatedTaxesGuide}</p>
             <div className="rounded-xl border border-amberWarm-200 bg-amberWarm-50/70 p-4 text-xs text-amberWarm-900 space-y-1.5">
-              <strong>Statutory Quarterly Filing Calendar:</strong>
-              <div>&bull; Q1 Deadline: April 15 (Jan 1 – Mar 31 earnings)</div>
-              <div>&bull; Q2 Deadline: June 15 (Apr 1 – May 31 earnings)</div>
-              <div>&bull; Q3 Deadline: September 15 (Jun 1 – Aug 31 earnings)</div>
-              <div>&bull; Q4 Deadline: January 15 of subsequent calendar year (Sep 1 – Dec 31 earnings)</div>
+              <strong>
+                {taxType === "none"
+                  ? "Federal Form 1040-ES Statutory Filing Calendar ($0 State Income Vouchers):"
+                  : `${name} & Federal Quarterly Schedule (${filingDeadline}):`}
+              </strong>
+              <div>&bull; State Estimated Trigger: {stateData.estimatedTaxThreshold}</div>
+              <div>&bull; Federal Q1 / IRS Form 1040-ES: April 15 (Jan 1 – Mar 31 earnings)</div>
+              <div>&bull; Federal Q2 / IRS Form 1040-ES: June 15 (Apr 1 – May 31 earnings)</div>
+              <div>&bull; Federal Q3 / IRS Form 1040-ES: September 15 (Jun 1 – Aug 31 earnings)</div>
+              <div>&bull; Federal Q4 / IRS Form 1040-ES: January 15 of subsequent calendar year (Sep 1 – Dec 31 earnings)</div>
             </div>
           </section>
 

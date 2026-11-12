@@ -89,18 +89,89 @@ describe("Security and Privacy Configuration", () => {
     expect(content).not.toContain("ssn");
   });
 
-  it("ensures sitemap.ts programmatically exposes all 51 US states + DC", async () => {
+  it("exposes core routes, news routes, and strictly the 10 indexed flagship state guides in sitemap.xml while excluding noindex state pages", async () => {
     const sitemapMod = await import("../app/sitemap");
     const sitemapFn = sitemapMod.default;
     const entries = sitemapFn();
 
-    expect(entries.length).toBeGreaterThanOrEqual(51 + 8);
+    const { getAllStates } = await import("../lib/engines/stateTaxEngine");
+    const { getAllNewsArticles } = await import("../lib/data/newsArticles");
+
+    const allStates = getAllStates();
+    const articles = getAllNewsArticles();
+    const flagshipStates = allStates.filter((st) => st.hasCustomGuide === true);
+    const secondaryStates = allStates.filter((st) => st.hasCustomGuide !== true);
+
+    expect(flagshipStates).toHaveLength(10);
+    expect(secondaryStates).toHaveLength(41);
+
+    // 10 core routes + 10 indexed flagship state routes + N news routes
+    expect(entries.length).toBe(10 + 10 + articles.length);
 
     const urls = entries.map((e) => e.url);
-    expect(urls).toContain("https://taxestimator.online/tools/freelance-tax-estimator/california");
-    expect(urls).toContain("https://taxestimator.online/tools/freelance-tax-estimator/texas");
-    expect(urls).toContain("https://taxestimator.online/tools/freelance-tax-estimator/new-york");
-    expect(urls).toContain("https://taxestimator.online/tools/freelance-tax-estimator/florida");
-    expect(urls).toContain("https://taxestimator.online/tools/freelance-tax-estimator/district-of-columbia");
+
+    // Core routes
+    expect(urls).toContain("https://taxestimator.online");
+    expect(urls).toContain("https://taxestimator.online/news");
+    expect(urls).toContain("https://taxestimator.online/tools/freelance-tax-estimator");
+    expect(urls).toContain("https://taxestimator.online/tools/stripe-fee-calculator");
+    expect(urls).toContain("https://taxestimator.online/tools/hysa-compound-calculator");
+    expect(urls).toContain("https://taxestimator.online/about");
+    expect(urls).toContain("https://taxestimator.online/privacy");
+    expect(urls).toContain("https://taxestimator.online/terms");
+    expect(urls).toContain("https://taxestimator.online/disclaimer");
+    expect(urls).toContain("https://taxestimator.online/contact");
+
+    // News routes
+    for (const article of articles) {
+      expect(urls).toContain(`https://taxestimator.online/news/${article.slug}`);
+    }
+
+    // All 10 flagship state guides must be present
+    const expectedFlagships = [
+      "california",
+      "texas",
+      "new-york",
+      "florida",
+      "washington",
+      "illinois",
+      "pennsylvania",
+      "massachusetts",
+      "new-jersey",
+      "colorado",
+    ];
+    for (const slug of expectedFlagships) {
+      expect(urls).toContain(`https://taxestimator.online/tools/freelance-tax-estimator/${slug}`);
+    }
+
+    // Secondary noindex state pages must never appear in sitemap.xml
+    expect(urls).not.toContain("https://taxestimator.online/tools/freelance-tax-estimator/district-of-columbia");
+    expect(urls).not.toContain("https://taxestimator.online/tools/freelance-tax-estimator/alabama");
+    expect(urls).not.toContain("https://taxestimator.online/tools/freelance-tax-estimator/wyoming");
+    for (const sec of secondaryStates) {
+      expect(urls).not.toContain(`https://taxestimator.online/tools/freelance-tax-estimator/${sec.slug}`);
+    }
+
+    // Every sitemap entry uses a valid ISO timestamp
+    for (const entry of entries) {
+      expect(typeof entry.lastModified).toBe("string");
+      expect(Number.isNaN(Date.parse(String(entry.lastModified)))).toBe(false);
+    }
+
+    // State page component configures conditional robots indexing & TaxEstimator Online brand metadata
+    const statePagePath = path.join(
+      process.cwd(),
+      "src",
+      "app",
+      "tools",
+      "freelance-tax-estimator",
+      "[state]",
+      "page.tsx"
+    );
+    const statePageSource = fs.readFileSync(statePagePath, "utf8");
+    expect(statePageSource).toContain("robots:");
+    expect(statePageSource).toContain("hasCustomGuide");
+    expect(statePageSource).toContain("TaxEstimator Online");
+    expect(statePageSource).not.toContain("CashPulse");
   });
 });
