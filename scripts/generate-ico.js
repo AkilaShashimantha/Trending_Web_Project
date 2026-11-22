@@ -85,7 +85,7 @@ function createIco(pngBuffers) {
   return Buffer.concat([header, ...directoryEntries, ...pngBuffers.map(p => p.data)]);
 }
 
-// Generate pixel for CashPulse icon
+// Generate pixel for TaxEstimator Online TE icon
 // Spruce: [15, 56, 44]
 // Emerald: [16, 185, 129]
 // Amber: [245, 158, 11]
@@ -113,7 +113,7 @@ function renderPixel(x, y, w, h, solidBackground = false) {
   let b = 44 + Math.round((1 - ny) * 12);
   let a = 255;
 
-  // Pulse dot / spark at top right (nx around 0.82, ny around 0.2)
+  // Brand accent dot at top right (nx around 0.82, ny around 0.2)
   const sparkDist = Math.hypot(nx - 0.82, ny - 0.2);
   if (sparkDist < 0.08) {
     return [245, 158, 11, 255]; // Amber spark
@@ -122,24 +122,23 @@ function renderPixel(x, y, w, h, solidBackground = false) {
     return [52, 211, 153, 255]; // Emerald glow
   }
 
-  // Letter C (Emerald) in left half: nx in [0.20, 0.46], ny in [0.32, 0.68]
-  const inCLeft = nx >= 0.20 && nx <= 0.29 && ny >= 0.32 && ny <= 0.68;
-  const inCTop = nx >= 0.20 && nx <= 0.46 && ny >= 0.32 && ny <= 0.41;
-  const inCBottom = nx >= 0.20 && nx <= 0.46 && ny >= 0.59 && ny <= 0.68;
-  if (inCLeft || inCTop || inCBottom) {
+  // Letter T (Emerald) in left half: nx in [0.16, 0.46], ny in [0.30, 0.70]
+  const inTTop = nx >= 0.16 && nx <= 0.46 && ny >= 0.30 && ny <= 0.40;
+  const inTStem = nx >= 0.26 && nx <= 0.36 && ny >= 0.30 && ny <= 0.70;
+  if (inTTop || inTStem) {
     return [16, 185, 129, 255]; // EmeraldTactile 500
   }
 
-  // Letter P (Amber) in right half: nx in [0.54, 0.80], ny in [0.32, 0.68]
-  const inPStem = nx >= 0.54 && nx <= 0.63 && ny >= 0.32 && ny <= 0.68;
-  const inPTop = nx >= 0.54 && nx <= 0.80 && ny >= 0.32 && ny <= 0.41;
-  const inPMid = nx >= 0.54 && nx <= 0.80 && ny >= 0.48 && ny <= 0.56;
-  const inPRight = nx >= 0.72 && nx <= 0.80 && ny >= 0.32 && ny <= 0.56;
-  if (inPStem || inPTop || inPMid || inPRight) {
+  // Letter E (Amber) in right half: nx in [0.54, 0.82], ny in [0.30, 0.70]
+  const inEStem = nx >= 0.54 && nx <= 0.64 && ny >= 0.30 && ny <= 0.70;
+  const inETop = nx >= 0.54 && nx <= 0.82 && ny >= 0.30 && ny <= 0.40;
+  const inEMid = nx >= 0.54 && nx <= 0.78 && ny >= 0.46 && ny <= 0.54;
+  const inEBottom = nx >= 0.54 && nx <= 0.82 && ny >= 0.60 && ny <= 0.70;
+  if (inEStem || inETop || inEMid || inEBottom) {
     return [245, 158, 11, 255]; // AmberWarm 500
   }
 
-  // Subtle bottom pulse line at ny around 0.80
+  // Subtle bottom rule line at ny around 0.80
   if (Math.abs(ny - 0.80) < 0.03 && nx >= 0.15 && nx <= 0.85) {
     return [5, 150, 105, 180];
   }
