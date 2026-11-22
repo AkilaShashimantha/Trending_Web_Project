@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { calculateFreelanceTaxes } from "../lib/engines/taxEngine";
 import { FilingStatus, TaxCalculationResult, TaxInputs, TaxYear, TaxYearSchema } from "../models/tax.model";
-import { getStatePreference, saveStatePreference } from "../lib/utils/cookieUtils";
+import { getStatePreference, isValidStateCode, saveStatePreference } from "../lib/utils/cookieUtils";
 
 const STORAGE_KEY = "taxestimator_tax_scenario_v1";
 const LEGACY_STORAGE_KEY = "cashpulse_tax_scenario_v1";
@@ -110,7 +110,12 @@ export function useTaxController(initialOverrides?: Partial<TaxInputs>) {
         if (params.has("home")) updates.homeOfficeDeduction = Math.max(0, Number(params.get("home")) || 0);
         if (params.has("health")) updates.healthInsurancePremiums = Math.max(0, Number(params.get("health")) || 0);
         if (params.has("sep")) updates.sepIraContribution = Math.max(0, Number(params.get("sep")) || 0);
-        if (params.has("state")) updates.stateCode = params.get("state") || "CA";
+        if (params.has("state")) {
+          const rawState = (params.get("state") || "").trim().toUpperCase();
+          if (isValidStateCode(rawState)) {
+            updates.stateCode = rawState;
+          }
+        }
       }
 
       // If state is not overridden in query params and not passed in initialOverrides, check preference cookie

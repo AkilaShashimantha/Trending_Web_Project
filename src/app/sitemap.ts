@@ -4,9 +4,9 @@ import { getAllNewsArticles } from "../lib/data/newsArticles";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://taxestimator.online";
-  const coreUpdatedAt = "2026-02-15T00:00:00.000Z";
-  const legalUpdatedAt = "2025-01-15T00:00:00.000Z";
-  const flagshipStateUpdatedAt = "2026-02-15T00:00:00.000Z";
+  const coreUpdatedAt = "2026-11-22T00:00:00.000Z";
+  const legalUpdatedAt = "2026-11-22T00:00:00.000Z";
+  const flagshipStateUpdatedAt = "2026-11-22T00:00:00.000Z";
 
   const articles = getAllNewsArticles();
   const latestNewsUpdatedAt = articles.reduce(

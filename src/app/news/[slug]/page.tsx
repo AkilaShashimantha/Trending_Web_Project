@@ -22,7 +22,6 @@ import {
   HelpCircle,
   ShieldAlert,
   ShieldCheck,
-  Sparkles,
   UserCheck,
 } from "lucide-react";
 
@@ -70,8 +69,8 @@ export async function generateMetadata({
       images: [
         {
           url: imageUrl,
-          width: 512,
-          height: 512,
+          width: 1200,
+          height: 630,
           alt: article.title,
         },
       ],
@@ -155,15 +154,12 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
   });
 
   // Structured Data Schemas
-  const newsArticleJsonLd = {
+  const articleJsonLd = {
     "@context": "https://schema.org",
-    "@type": "NewsArticle",
+    "@type": "Article",
     headline: article.headline,
     description: article.summary,
-    image: [
-      article.image || "https://taxestimator.online/icon-512.png",
-      "https://taxestimator.online/apple-touch-icon.png",
-    ],
+    image: [article.image || "https://taxestimator.online/icon-512.png"],
     datePublished: article.publishedAt,
     dateModified: article.updatedAt,
     mainEntityOfPage: {
@@ -171,10 +167,9 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
       "@id": `https://taxestimator.online/news/${article.slug}`,
     },
     author: {
-      "@type": "Person",
+      "@type": "Organization",
       name: article.author.name,
-      jobTitle: article.author.role,
-      url: "https://taxestimator.online/about",
+      url: "https://taxestimator.online/about#editorial-standards",
     },
     publisher: {
       "@type": "Organization",
@@ -232,7 +227,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
       {/* Structured Data Script Tags */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
       <script
         type="application/ld+json"
@@ -299,22 +294,22 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
           {article.summary}
         </p>
 
-        {/* Author Bio Chip & Credentials */}
+        {/* Author / Research Desk Chip */}
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#EAEAE3] bg-white p-4 shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-spruce-800 font-mono text-sm font-bold text-white shadow-xs">
-              {article.author.name
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-spruce-800 font-mono text-sm font-bold text-emeraldTactile-300 shadow-xs">
+              TE
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="text-sm font-bold text-slate-900">{article.author.name}</span>
-                <span className="inline-flex items-center gap-1 rounded bg-emeraldTactile-50 px-1.5 py-0.5 text-[10px] font-medium text-emeraldTactile-700">
-                  <UserCheck className="h-3 w-3" />
-                  Verified Author
-                </span>
+                <Link
+                  href="/about#editorial-standards"
+                  className="inline-flex items-center gap-1 rounded bg-emeraldTactile-50 px-2 py-0.5 text-[10px] font-medium text-emeraldTactile-700 hover:bg-emeraldTactile-100 transition-colors"
+                >
+                  <ShieldCheck className="h-3 w-3" />
+                  <span>Primary-Source Checked</span>
+                </Link>
               </div>
               <div className="text-xs text-slate-500">{article.author.role}</div>
               <div className="text-[11px] text-slate-400 font-mono">{article.author.credentials}</div>
@@ -358,21 +353,78 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
       <AdSlot slotId={`article-${article.slug}-top`} format="horizontal" label="Advertisement" />
 
       {/* Main Article Content */}
-      <main className="mt-8 space-y-10">
-        {/* TL;DR Executive Brief Callout Box */}
-        <div className="rounded-2xl border-l-4 border-l-spruce-800 border border-[#EAEAE3] bg-gradient-to-r from-[#F4F4F0] to-[#FBFBF9] p-6 shadow-xs">
+      <article className="mt-8 space-y-10">
+        {/* Visual Editorial Infographic */}
+        {article.visual && (
+          <figure className="overflow-hidden rounded-2xl border border-[#EAEAE3] bg-white p-3 sm:p-4 shadow-xs">
+            <img
+              src={article.visual.src}
+              alt={article.visual.alt}
+              width={1200}
+              height={630}
+              className="w-full h-auto rounded-xl border border-[#F4F4F0]"
+            />
+            <figcaption className="mt-2.5 px-1 text-xs text-slate-500">
+              {article.visual.caption}
+            </figcaption>
+          </figure>
+        )}
+
+        {/* Table of Contents Navigation Box */}
+        <nav
+          aria-label="In This Guide"
+          className="rounded-2xl border-l-4 border-l-spruce-800 border border-[#EAEAE3] bg-gradient-to-r from-[#F4F4F0] to-[#FBFBF9] p-5 sm:p-6 shadow-xs"
+        >
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-spruce-800">
-            <Sparkles className="h-4 w-4 text-emeraldTactile-600" />
-            <span>Executive Brief &bull; TL;DR</span>
+            <FileText className="h-4 w-4 text-emeraldTactile-600" />
+            <span>In This Guide</span>
           </div>
-          <p className="mt-2 text-sm leading-relaxed text-slate-700 font-medium">
-            {article.summary}
-          </p>
-        </div>
+          <ol className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 text-xs sm:text-sm">
+            {article.sections.map((sec, idx) => (
+              <li key={sec.id}>
+                <a
+                  href={`#${sec.id}`}
+                  className="inline-flex items-baseline gap-2 text-slate-700 hover:text-spruce-800 hover:underline underline-offset-2"
+                >
+                  <span className="font-mono text-[11px] font-bold text-emeraldTactile-700">
+                    0{idx + 1}
+                  </span>
+                  <span className="font-medium">{sec.title}</span>
+                </a>
+              </li>
+            ))}
+            {article.personaExample && (
+              <li>
+                <a
+                  href="#worked-example"
+                  className="inline-flex items-baseline gap-2 text-slate-700 hover:text-spruce-800 hover:underline underline-offset-2"
+                >
+                  <span className="font-mono text-[11px] font-bold text-emeraldTactile-700">
+                    0{article.sections.length + 1}
+                  </span>
+                  <span className="font-medium">
+                    Worked Example: {article.personaExample.personaName}
+                  </span>
+                </a>
+              </li>
+            )}
+            <li>
+              <a
+                href="#faqs-heading"
+                className="inline-flex items-baseline gap-2 text-slate-700 hover:text-spruce-800 hover:underline underline-offset-2"
+              >
+                <span className="font-mono text-[11px] font-bold text-emeraldTactile-700">
+                  0{article.sections.length + (article.personaExample ? 2 : 1)}
+                </span>
+                <span className="font-medium">Frequently Asked Questions</span>
+              </a>
+            </li>
+          </ol>
+        </nav>
 
         {/* Detailed Sections */}
         {article.sections.map((section) => (
-          <section key={section.id} id={section.id} className="space-y-4">
+          <section key={section.id} id={section.id} className="scroll-mt-24 space-y-4">
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
               {section.title}
             </h2>
@@ -451,7 +503,10 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
 
         {/* Worked Persona Example */}
         {article.personaExample && (
-          <section className="rounded-2xl border border-spruce-800/30 bg-white p-6 sm:p-8 shadow-sm">
+          <section
+            id="worked-example"
+            className="scroll-mt-24 rounded-2xl border border-spruce-800/30 bg-white p-6 sm:p-8 shadow-sm"
+          >
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAEAE3] pb-4">
               <div>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-spruce-800 px-3 py-0.5 text-xs font-semibold text-emeraldTactile-300">
@@ -543,7 +598,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
         <section aria-labelledby="faqs-heading" className="space-y-4">
           <div className="flex items-center gap-2">
             <HelpCircle className="h-5 w-5 text-spruce-800" />
-            <h2 id="faqs-heading" className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+            <h2 id="faqs-heading" className="scroll-mt-24 text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
               Frequently Asked Questions
             </h2>
           </div>
@@ -556,7 +611,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
             <ShieldAlert className="mt-0.5 h-4 w-4 text-amberWarm-600 shrink-0" />
             <div>
               <strong className="text-slate-700">Editorial &amp; Regulatory Notice: </strong>
-              The TaxEstimator Online News Desk publishes journalistic and quantitative analysis based on public IRS schedules, Federal Reserve policy statements, and statutory legal publications. This content is for informational purposes and does not constitute Certified Public Accountant (CPA) advice or formal legal representation. Always consult a licensed CPA or tax attorney for your individual filings.{" "}
+              The TaxEstimator Online Research Desk publishes educational financial models and quantitative analysis based on public IRS schedules, Federal Reserve policy statements, and statutory publications. This content is for informational purposes and does not constitute Certified Public Accountant (CPA) advice or formal legal representation. Always consult a licensed CPA or tax attorney for your individual filings.{" "}
               <Link href="/about#editorial-standards" className="font-semibold text-emeraldTactile-700 underline underline-offset-2 hover:text-emeraldTactile-800">
                 View Editorial &amp; Verification Standards
               </Link>
@@ -564,7 +619,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
             </div>
           </div>
         </div>
-      </main>
+      </article>
 
       {/* Related News Articles */}
       <aside aria-labelledby="related-heading" className="mt-16 border-t border-[#EAEAE3] pt-10">

@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     "real yield calculator",
     "purchasing power calculator",
   ],
+  alternates: {
+    canonical: "https://taxestimator.online/tools/hysa-compound-calculator",
+  },
 };
 
 export default function HysaCompoundCalculatorPage() {
@@ -206,19 +209,105 @@ export default function HysaCompoundCalculatorPage() {
               The Solopreneur 3-Tier Liquidity Architecture
             </h3>
             <p>
-              Because solopreneurs experience lumpy cash flows (where client payments might fluctuate wildly month to month), traditional employee financial advice (3 months of expenses) is dangerously inadequate. We advise a 3-tier structure:
+              Because solopreneurs experience lumpy cash flows (where client payments might fluctuate wildly month to month), traditional employee rules of thumb (3 months of expenses) can leave independent operators under-buffered. An illustrative 3-tier liquidity framework separates cash reserves by time horizon:
             </p>
             <ul className="list-disc list-inside space-y-1 text-xs text-slate-600">
               <li>
                 <strong>Tier 1: Operating Checking:</strong> 1 to 1.5 months of living and business overhead for automated billing.
               </li>
               <li>
-                <strong>Tier 2: HYSA Emergency Fortress:</strong> 6 to 9 months of baseline expenses parked in a top-tier 4.5%+ HYSA.
+                <strong>Tier 2: HYSA Emergency Fortress:</strong> 6 to 9 months of baseline expenses parked in an FDIC-insured HYSA.
               </li>
               <li>
-                <strong>Tier 3: Rolling T-Bill Ladder:</strong> 6 to 12 months in 4-week, 8-week, and 13-week Treasury Bills for maximum state-tax-exempt yield and capital preservation.
+                <strong>Tier 3: Rolling T-Bill Ladder:</strong> 6 to 12 months in 4-week, 8-week, and 13-week Treasury Bills for state-tax-exempt yield and capital preservation.
               </li>
             </ul>
+          </section>
+
+          {/* Section 5: Tax-Equivalent Yield */}
+          <section className="space-y-4 text-sm leading-relaxed text-slate-700">
+            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-md bg-spruce-800 text-xs text-white font-mono">
+                5
+              </span>
+              Tax-Equivalent Yield: Comparing State-Taxable HYSA vs. State-Exempt U.S. Treasury Bills
+            </h3>
+            <p>
+              Comparing an online High-Yield Savings Account against U.S. Treasury Bills strictly on advertised yield ignores state taxation. Under federal law (<strong>31 U.S.C. &sect; 3124</strong>), interest earned on direct U.S. Treasury Bills, Notes, and Bonds is <strong>exempt from state and local income taxes</strong> in all 50 states, whereas HYSA interest on Form 1099-INT is taxed at both your federal marginal rate and your full state/city marginal rate.
+            </p>
+            <p>
+              To compare a state-exempt T-Bill yield directly against a fully taxable HYSA on a pre-federal-tax basis (or full after-tax basis), calculate the <strong>State Tax-Equivalent Yield (TEY)</strong>:
+            </p>
+            <div className="rounded-xl border border-[#EAEAE3] bg-[#FBFBF9] p-4 font-mono text-xs text-slate-800 space-y-1">
+              <div className="font-bold text-slate-900">State Tax-Equivalent Yield Formula:</div>
+              <div>TEY = T-Bill Yield / (1 - State Marginal Tax Rate)</div>
+              <div className="text-slate-600 pt-1">
+                Example (California 9.3% bracket, 3.95% T-Bill): 3.95% / (1 - 0.093) = <strong>4.355%</strong> (and accounting for combined 24% federal + 9.3% state tax drag, break-even HYSA APY is <strong>4.50%</strong>).
+              </div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border border-[#EAEAE3]">
+                <thead className="bg-[#F4F4F0] text-slate-700 font-semibold font-mono">
+                  <tr>
+                    <th className="p-3 border-b">State Marginal Tax Rate</th>
+                    <th className="p-3 border-b">Sample States</th>
+                    <th className="p-3 border-b">3.95% T-Bill TEY (State-Adjusted)</th>
+                    <th className="p-3 border-b">After-Tax Net @ 24% Fed (T-Bill vs. 4.30% HYSA)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#EAEAE3] font-mono">
+                  <tr>
+                    <td className="p-3 font-bold text-slate-900">0.0%</td>
+                    <td className="p-3 font-sans">Texas, Florida, Washington, Nevada</td>
+                    <td className="p-3">3.95%</td>
+                    <td className="p-3">3.00% vs. 3.27% (HYSA leads)</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-bold text-slate-900">5.0%</td>
+                    <td className="p-3 font-sans">Illinois (4.95%), Massachusetts (5.0%)</td>
+                    <td className="p-3">4.16%</td>
+                    <td className="p-3">3.00% vs. 3.05% (Rough parity)</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-bold text-slate-900">9.3%</td>
+                    <td className="p-3 font-sans">California, Oregon, New Jersey upper tiers</td>
+                    <td className="p-3 font-bold text-spruce-800">4.36%</td>
+                    <td className="p-3 text-emeraldTactile-700 font-bold">3.00% vs. 2.87% (T-Bill leads)</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-bold text-slate-900">13.3%</td>
+                    <td className="p-3 font-sans">California $1M+ / NYC State+Local (~10.8%–14.8%)</td>
+                    <td className="p-3 font-bold text-spruce-800">4.56%</td>
+                    <td className="p-3 text-emeraldTactile-700 font-bold">3.00% vs. 2.70% (T-Bill leads)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="text-xs text-slate-600">
+              Note that federal income tax still applies equally to both HYSA interest and Treasury Bill interest—only state and local income taxes are waived on direct U.S. Treasury obligations.
+            </p>
+          </section>
+
+          {/* Section 6: Aligning Cash Reserves with 1040-ES Deadlines */}
+          <section className="space-y-4 text-sm leading-relaxed text-slate-700">
+            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-md bg-spruce-800 text-xs text-white font-mono">
+                6
+              </span>
+              Aligning Cash Reserves with IRS Form 1040-ES Quarterly Tax Deadlines
+            </h3>
+            <p>
+              Unlike W-2 employees whose taxes are withheld automatically every pay period, 1099 freelancers hold their tax obligations temporarily in cash before remitting quarterly Form 1040-ES installments on <strong>April 15, June 15, September 15, and January 15</strong>. Mixing tax-reserve dollars into an operating checking account makes it dangerously easy to overestimate spendable profit.
+            </p>
+            <p>
+              By transferring 25% to 35% of each incoming client payout into a dedicated HYSA tax vault—or a 4-week Treasury Bill ladder timed to mature ahead of each quarterly IRS Direct Pay transfer—you earn interest on tax set-asides while preventing cash crunches. Just remember to include the interest earned on your tax vault (Form 1099-INT Box 1 for HYSAs, or Box 3 for U.S. Treasury interest) inside your annual ordinary income projection so your final April settlement accounts for every dollar earned.
+            </p>
+            <p>
+              When structuring a T-Bill ladder or Money Market allocation inside a brokerage account, pay close attention to <strong>state mutual-fund asset thresholds</strong>. In states such as California, New York, and Connecticut, a government money market mutual fund must hold at least 50% of its total assets directly in qualifying U.S. federal obligations at each quarter-end before any dividends qualify for state tax exemption. Buying 4-week U.S. Treasury Bills directly—either through a zero-commission brokerage or TreasuryDirect—bypasses mutual fund repo dilution, eliminates fund expense ratios, and settles cleanly on Form 1099-INT Box 3.
+            </p>
+            <p className="text-xs text-slate-600">
+              Finally, verify transfer settlement windows: ACH withdrawals from online HYSAs generally settle in 1 to 2 business days, whereas TreasuryDirect redemptions occur at scheduled weekly maturity dates. Keeping at least one month of operating cash in checking prevents overdrafts while your reserve tier compounds safely.
+            </p>
           </section>
         </div>
       </article>

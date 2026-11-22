@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -16,6 +17,12 @@ import {
 import { AdSlot } from "../components/ads/AdSlot";
 import { getRecentNewsArticles } from "../lib/data/newsArticles";
 
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://taxestimator.online",
+  },
+};
+
 export default function HomePage() {
   const tools = [
     {
@@ -26,7 +33,7 @@ export default function HomePage() {
         "Accurately estimate your 15.3% Self-Employment Tax (Schedule SE), Federal progressive brackets, Section 199A QBI deduction, and 1040-ES quarterly vouchers.",
       href: "/tools/freelance-tax-estimator",
       icon: Calculator,
-      stats: "Saves $2,400+ avg in deductions",
+      stats: "Models Schedule SE, QBI & 1040-ES",
       action: "Estimate 1099 Taxes",
     },
     {
@@ -314,7 +321,7 @@ export default function HomePage() {
               The Cash-Drag Illusion &amp; 1099-INT Tax
             </h4>
             <p className="mt-2 text-xs leading-relaxed text-slate-600">
-              Parking emergency reserves in a 0.01% checking account guarantees purchasing power destruction under 3% inflation. Even in a 5% HYSA, taxes on interest (Form 1099-INT) reduce your effective real return. You must model real net-of-tax yield.
+              Parking emergency reserves in a 0.01% checking account steadily erodes real purchasing power under 3% inflation. Even in a 5% HYSA, taxes on interest (Form 1099-INT) reduce your effective real return. You must model real net-of-tax yield.
             </p>
           </div>
         </div>

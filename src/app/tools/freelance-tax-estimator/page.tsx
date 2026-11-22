@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     "quarterly estimated taxes",
     "1040-ES calculator",
   ],
+  alternates: {
+    canonical: "https://taxestimator.online/tools/freelance-tax-estimator",
+  },
 };
 
 export default function FreelanceTaxEstimatorPage() {
@@ -63,6 +66,7 @@ export default function FreelanceTaxEstimatorPage() {
   };
 
   const allStates = getAllStates();
+  const flagshipStates = allStates.filter((s) => s.hasCustomGuide === true);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -94,19 +98,15 @@ export default function FreelanceTaxEstimatorPage() {
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-1.5">
-            {["california", "texas", "new-york", "florida", "washington", "illinois", "pennsylvania"].map((slug) => {
-              const st = allStates.find((s) => s.slug === slug);
-              if (!st) return null;
-              return (
-                <Link
-                  key={slug}
-                  href={`/tools/freelance-tax-estimator/${slug}`}
-                  className="rounded-lg border border-[#EAEAE3] bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:border-emeraldTactile hover:text-emeraldTactile transition"
-                >
-                  {st.name} {st.taxType === "none" ? "(0%)" : ""}
-                </Link>
-              );
-            })}
+            {flagshipStates.slice(0, 7).map((st) => (
+              <Link
+                key={st.slug}
+                href={`/tools/freelance-tax-estimator/${st.slug}`}
+                className="rounded-lg border border-[#EAEAE3] bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:border-emeraldTactile hover:text-emeraldTactile transition"
+              >
+                {st.name} {st.taxType === "none" ? "(0%)" : ""}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
@@ -120,7 +120,7 @@ export default function FreelanceTaxEstimatorPage() {
       </div>
 
       {/* Mid Content AdSlot */}
-      <AdSlot slotId="tax-banner-mid" format="horizontal" label="Certified Tax Software" />
+      <AdSlot slotId="tax-banner-mid" format="horizontal" label="Advertisement" />
 
       {/* 1,000+ Word Educational Guide for High CPC and AdSense Editorial Quality */}
       <article className="mt-16 rounded-3xl border border-[#EAEAE3] bg-white p-8 sm:p-12 text-slate-800 shadow-xs">
@@ -280,7 +280,7 @@ export default function FreelanceTaxEstimatorPage() {
               The United States tax system operates on a pay-as-you-go model. If you expect to owe at least $1,000 in federal tax, the IRS mandates quarterly estimated tax payments via EFTPS or DirectPay. Failure to remit sufficient funds each quarter triggers Section 6654 penalties.
             </p>
             <p>
-              To ensure 100% immunity from underpayment penalties, you can rely on the <strong>IRS Safe Harbor rule</strong>. You will owe zero penalties if your total timely payments equal either:
+              Under IRS Form 1040-ES rules (IRC &sect; 6654), taxpayers generally avoid federal estimated tax underpayment penalties when timely payments satisfy one of the statutory <strong>IRS Safe Harbor thresholds</strong>:
             </p>
             <div className="rounded-xl border border-amberWarm-200 bg-amberWarm-50/70 p-4 text-xs text-amberWarm-900 leading-relaxed">
               <strong>Safe Harbor Thresholds:</strong>
@@ -289,7 +289,7 @@ export default function FreelanceTaxEstimatorPage() {
                   <strong>90% of your current year&apos;s tax liability:</strong> Ideal when your income is stable or declining.
                 </li>
                 <li>
-                  <strong>100% of your prior year&apos;s tax liability:</strong> (or 110% if your prior year Adjusted Gross Income exceeded $150,000). This provides an ironclad guarantee even if your revenue spikes unexpectedly.
+                  <strong>100% of your prior year&apos;s tax liability:</strong> (or 110% if your prior year Adjusted Gross Income exceeded $150,000). This generally satisfies the prior-year federal safe harbor threshold even if your current-year revenue increases unexpectedly.
                 </li>
               </ul>
             </div>
@@ -310,24 +310,43 @@ export default function FreelanceTaxEstimatorPage() {
         </div>
       </article>
 
-      {/* 50 State Directory */}
-      <section className="mt-12 rounded-3xl border border-[#EAEAE3] bg-white p-8 sm:p-10">
+      {/* Flagship State Tax Guides */}
+      <section id="flagship-state-guides" className="mt-12 rounded-3xl border border-[#EAEAE3] bg-white p-8 sm:p-10">
         <h3 className="text-xl font-bold text-slate-900 mb-2">
-          50 US States + DC Freelance Tax Calculators
+          In-Depth Flagship State Freelance Tax Guides
         </h3>
         <p className="text-xs text-slate-600 mb-6 leading-relaxed">
-          Access localized tax brackets, state standard deductions, and estimated quarterly vouchers for every US jurisdiction:
+          All 50 US states + DC are available directly inside the interactive calculator dropdown above. Below are our 10 deeply researched flagship state briefings covering entity fees, PTET elections, local municipal levies, and state quarterly voucher rules:
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-          {allStates.map((st) => (
-            <Link
-              key={st.slug}
-              href={`/tools/freelance-tax-estimator/${st.slug}`}
-              className="rounded-lg border border-[#F4F4F0] bg-[#FBFBF9] px-2.5 py-1.5 text-xs text-slate-700 hover:border-emeraldTactile hover:text-emeraldTactile transition truncate"
-            >
-              {st.name} {st.taxType === "none" ? "(0%)" : ""}
-            </Link>
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+          {flagshipStates.map((st) => {
+            const summaryBadge =
+              st.taxType === "none"
+                ? "0% State Tax"
+                : st.taxType === "flat"
+                ? `${((st.flatRate || 0) * 100).toFixed(2)}% Flat Tax`
+                : "Progressive Brackets";
+            return (
+              <Link
+                key={st.slug}
+                href={`/tools/freelance-tax-estimator/${st.slug}`}
+                className="rounded-xl border border-[#EAEAE3] bg-[#FBFBF9] p-3.5 hover:border-emeraldTactile hover:bg-white transition"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-bold text-slate-900">{st.name}</span>
+                  <span className="font-mono text-[10px] font-semibold text-slate-500">
+                    {st.code}
+                  </span>
+                </div>
+                <div className="mt-1 text-[11px] font-semibold text-emeraldTactile-700">
+                  {summaryBadge}
+                </div>
+                <div className="mt-1 text-[10px] text-slate-500 truncate">
+                  {st.estimatedTaxForm}
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </section>
 

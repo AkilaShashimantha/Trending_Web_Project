@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import fs from "fs";
+import path from "path";
 import { NewsArticleSchema } from "../models/news.model";
 import {
   newsArticles,
@@ -9,14 +11,13 @@ import {
   getAllNewsTags,
   getArticlesByTag,
 } from "../lib/data/newsArticles";
-import { GET as getNewsSitemap } from "../app/news-sitemap.xml/route";
 import { GET as getRssFeed } from "../app/rss.xml/route";
 import sitemap from "../app/sitemap";
 import robots from "../app/robots";
 
 describe("News Desk Engine & Data Model Tests", () => {
-  it("validates that at least 15 articles exist and strictly conform to NewsArticleSchema", () => {
-    expect(newsArticles.length).toBeGreaterThanOrEqual(15);
+  it("validates that at least 20 articles exist and strictly conform to NewsArticleSchema", () => {
+    expect(newsArticles.length).toBeGreaterThanOrEqual(20);
 
     newsArticles.forEach((article) => {
       const parsed = NewsArticleSchema.safeParse(article);
@@ -45,12 +46,29 @@ describe("News Desk Engine & Data Model Tests", () => {
     });
   });
 
-  it("enforces unified TaxEstimator Online branding with zero CashPulse references", () => {
+  it("enforces unified TaxEstimator Online branding, honest research-desk authorship, post-launch dates, and article visuals", () => {
+    const domainLaunchMs = Date.parse("2026-11-02T00:00:00Z");
+
     newsArticles.forEach((article) => {
       const serialized = JSON.stringify(article).toLowerCase();
       expect(serialized).not.toContain("cashpulse");
-      if (article.image) {
-        expect(article.image).toMatch(/^https:\/\/taxestimator\.online\//);
+      expect(serialized).not.toContain("marcus vance");
+      expect(serialized).not.toContain("claire takahashi");
+
+      expect(article.author.name).toBe("TaxEstimator Online Research Desk");
+
+      const pubMs = Date.parse(article.publishedAt);
+      expect(pubMs).toBeGreaterThanOrEqual(domainLaunchMs);
+
+      expect(article.image).toBeDefined();
+      expect(article.image).toMatch(/^https:\/\/taxestimator\.online\/news\/.+\/opengraph-image$/);
+      expect(article.image).not.toContain("icon-512.png");
+
+      expect(article.visual).toBeDefined();
+      if (article.visual) {
+        expect(article.visual.src).toMatch(/^\/images\/guides\/.+\.svg$/);
+        const diskPath = path.join(process.cwd(), "public", article.visual.src.replace(/^\//, ""));
+        expect(fs.existsSync(diskPath), `Missing visual asset on disk: ${diskPath}`).toBe(true);
       }
     });
   });
@@ -129,7 +147,7 @@ describe("News Desk Engine & Data Model Tests", () => {
   it("verifies query helper functions: sorting, retrieval, categories, and filtering", () => {
     const all = getAllNewsArticles();
     expect(all.length).toBe(newsArticles.length);
-    expect(all.length).toBeGreaterThanOrEqual(15);
+    expect(all.length).toBeGreaterThanOrEqual(20);
 
     // Verify chronological descending sort
     for (let i = 0; i < all.length - 1; i++) {
@@ -176,26 +194,6 @@ describe("News Desk Engine & Data Model Tests", () => {
 });
 
 describe("News Syndication Feeds & SEO Integration", () => {
-  it("generates a valid Google News Sitemap XML response conforming to news:news specifications", async () => {
-    const response = await getNewsSitemap();
-    expect(response.status).toBe(200);
-    expect(response.headers.get("Content-Type")).toContain("application/xml");
-
-    const xml = await response.text();
-    expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>');
-    expect(xml).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"');
-    expect(xml).toContain('xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"');
-    expect(xml).toContain("<news:news>");
-    expect(xml).toContain("<news:publication>");
-    expect(xml).toContain("<news:name>TaxEstimator Online</news:name>");
-    expect(xml).toContain("<news:language>en</news:language>");
-
-    // Ensure all article URLs are present
-    newsArticles.forEach((article) => {
-      expect(xml).toContain(`https://taxestimator.online/news/${article.slug}`);
-    });
-  });
-
   it("generates a valid RSS 2.0 XML feed with channel and items", async () => {
     const response = await getRssFeed();
     expect(response.status).toBe(200);
@@ -226,7 +224,7 @@ describe("News Syndication Feeds & SEO Integration", () => {
     });
   });
 
-  it("verifies robots.ts declares news-sitemap.xml and rss.xml", () => {
+  it("verifies robots.ts declares sitemap.xml and rss.xml and omits deprecated news-sitemap.xml", () => {
     const robotsConfig = robots();
     expect(robotsConfig.sitemap).toBeDefined();
 
@@ -235,7 +233,7 @@ describe("News Syndication Feeds & SEO Integration", () => {
       : [robotsConfig.sitemap];
 
     expect(sitemaps).toContain("https://taxestimator.online/sitemap.xml");
-    expect(sitemaps).toContain("https://taxestimator.online/news-sitemap.xml");
     expect(sitemaps).toContain("https://taxestimator.online/rss.xml");
+    expect(sitemaps).not.toContain("https://taxestimator.online/news-sitemap.xml");
   });
 });

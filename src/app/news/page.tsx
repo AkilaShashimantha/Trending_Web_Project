@@ -60,14 +60,15 @@ export default function NewsHubPage() {
       },
     },
     hasPart: articles.map((article) => ({
-      "@type": "NewsArticle",
+      "@type": "Article",
       headline: article.headline,
       url: `https://taxestimator.online/news/${article.slug}`,
       datePublished: article.publishedAt,
       dateModified: article.updatedAt,
       author: {
-        "@type": "Person",
+        "@type": "Organization",
         name: article.author.name,
+        url: "https://taxestimator.online/about#editorial-standards",
       },
     })),
   };

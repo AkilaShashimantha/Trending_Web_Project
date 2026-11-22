@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 import { Navbar } from "../components/ui/Navbar";
 import { Footer } from "../components/ui/Footer";
@@ -22,7 +21,7 @@ export const metadata: Metadata = {
     "inflation calculator",
     "solopreneur finance",
   ],
-  authors: [{ name: "TaxEstimator Online Engineering Team" }],
+  authors: [{ name: "TaxEstimator Online Research Desk", url: "https://taxestimator.online/about" }],
   openGraph: {
     title: "TaxEstimator Online | 1099 Freelance, Fee & Wealth Engines",
     description:
@@ -65,13 +64,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <head>
-        {/* Google AdSense Script - Client Verification */}
-        <Script
-          id="adsense-script"
+        {/* Google AdSense Ownership & Auto Ads Script */}
+        <meta name="google-adsense-account" content={adsenseClientId} />
+        <script
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}`}
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
       </head>
       <body className="flex min-h-full flex-col bg-[#FBFBF9] text-slate-900 antialiased">

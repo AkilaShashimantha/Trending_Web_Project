@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { TaxCalculator } from "../../../../components/calculators/TaxCalculator";
 import { AdSlot } from "../../../../components/ads/AdSlot";
 import {
@@ -26,10 +26,11 @@ interface PageProps {
 }
 
 export function generateStaticParams() {
-  const all = getAllStates();
-  return all.map((s) => ({
-    state: s.slug,
-  }));
+  return getAllStates()
+    .filter((s) => s.hasCustomGuide === true)
+    .map((s) => ({
+      state: s.slug,
+    }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -94,7 +95,12 @@ export default async function StateTaxEstimatorPage({ params }: PageProps) {
     notFound();
   }
 
+  if (!stateData.hasCustomGuide) {
+    permanentRedirect(`/tools/freelance-tax-estimator?state=${stateData.code}`);
+  }
+
   const allStates = getAllStates();
+  const flagshipStates = allStates.filter((s) => s.hasCustomGuide === true);
   const { editorialGuide, name, code, taxType, flatRate, agencyName, agencyUrl, estimatedTaxForm, filingDeadline } = stateData;
 
   const faqSchema = {
@@ -134,9 +140,6 @@ export default async function StateTaxEstimatorPage({ params }: PageProps) {
       },
     ],
   };
-
-  const noTaxStates = allStates.filter((s) => s.taxType === "none");
-  const flatTaxStates = allStates.filter((s) => s.taxType === "flat");
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -532,67 +535,60 @@ export default async function StateTaxEstimatorPage({ params }: PageProps) {
         </div>
       </article>
 
-      {/* Cross-State Directory & Geographic Comparison */}
+      {/* Cross-State Comparison & Flagship State Tax Guides */}
       <section className="mt-16 rounded-3xl border border-[#EAEAE3] bg-white p-8 sm:p-12">
-        <h3 className="text-xl font-bold text-slate-900 mb-2">
-          Compare Freelance Taxes Across All 50 States
-        </h3>
-        <p className="text-xs text-slate-600 mb-6">
-          Exploring geographic tax arbitrage or moving your remote freelance business? Compare state income tax brackets and estimated payment rules across the country:
-        </p>
-
-        <div className="mb-6 space-y-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
           <div>
-            <h4 className="text-xs font-bold text-spruce-800 uppercase tracking-wider mb-2">
-              0% State Income Tax States (Highest Take-Home Pay):
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {noTaxStates.map((st) => (
-                <Link
-                  key={st.slug}
-                  href={`/tools/freelance-tax-estimator/${st.slug}`}
-                  className="rounded-lg border border-emeraldTactile/30 bg-emeraldTactile/5 px-3 py-1.5 text-xs font-semibold text-emeraldTactile hover:bg-emeraldTactile/10 transition"
-                >
-                  {st.name} (0%)
-                </Link>
-              ))}
-            </div>
+            <h3 className="text-xl font-bold text-slate-900">
+              Compare In-Depth Flagship State Tax Guides
+            </h3>
+            <p className="mt-1 text-xs text-slate-600 max-w-2xl">
+              Explore our deeply researched state tax guides covering progressive brackets, LLC franchise fees, PTET rules, and local surcharges—or model all 50 states + DC in the main calculator.
+            </p>
           </div>
-
-          <div>
-            <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-              Flat Tax States:
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {flatTaxStates.map((st) => (
-                <Link
-                  key={st.slug}
-                  href={`/tools/freelance-tax-estimator/${st.slug}`}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-slate-400 transition"
-                >
-                  {st.name} ({((st.flatRate || 0) * 100).toFixed(2)}%)
-                </Link>
-              ))}
-            </div>
-          </div>
+          <Link
+            href="/tools/freelance-tax-estimator"
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-spruce-800 px-4 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-spruce-700"
+          >
+            <span>Calculate Any of the 50 States + DC in the Main Estimator</span>
+          </Link>
         </div>
 
-        <details className="group mt-4 rounded-xl border border-[#EAEAE3] p-4">
-          <summary className="cursor-pointer text-xs font-bold text-slate-900 group-open:text-emeraldTactile">
-            View Complete 50-State + DC Directory ({allStates.length} Jurisdictions)
-          </summary>
-          <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 pt-2">
-            {allStates.map((st) => (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {flagshipStates.map((st) => {
+            const isCurrent = st.slug === stateSlug;
+            const summaryBadge =
+              st.taxType === "none"
+                ? "0% Income Tax"
+                : st.taxType === "flat"
+                ? `${((st.flatRate || 0) * 100).toFixed(2)}% Flat`
+                : "Progressive";
+            return (
               <Link
                 key={st.slug}
                 href={`/tools/freelance-tax-estimator/${st.slug}`}
-                className="text-xs text-slate-600 hover:text-emeraldTactile hover:underline py-1 truncate"
+                className={`rounded-xl border p-3.5 transition ${
+                  isCurrent
+                    ? "border-spruce-800 bg-spruce-50/70"
+                    : "border-[#EAEAE3] bg-[#FBFBF9] hover:border-emeraldTactile hover:bg-white"
+                }`}
               >
-                {st.name}
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-bold text-slate-900">{st.name}</span>
+                  <span className="font-mono text-[10px] font-semibold text-slate-500">
+                    {st.code}
+                  </span>
+                </div>
+                <div className="mt-1 text-[11px] font-semibold text-emeraldTactile-700">
+                  {summaryBadge}
+                </div>
+                <div className="mt-1 text-[10px] text-slate-500 truncate">
+                  {st.estimatedTaxForm}
+                </div>
               </Link>
-            ))}
-          </div>
-        </details>
+            );
+          })}
+        </div>
       </section>
 
       {/* Bottom AdSlot */}

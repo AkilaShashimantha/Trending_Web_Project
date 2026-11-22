@@ -87,6 +87,21 @@ export default function PrivacyPage() {
               .
             </li>
             <li>
+              <strong>How Google Uses Partner Data:</strong> For complete details on how Google collects and processes information when you visit partner websites or apps, please review{" "}
+              <a
+                href="https://policies.google.com/technologies/partner-sites"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-spruce-800 font-semibold underline inline-flex items-center gap-1"
+              >
+                How Google uses data when you use our partners&apos; sites or apps <ExternalLink className="h-3 w-3" />
+              </a>
+              .
+            </li>
+            <li>
+              <strong>EEA, UK &amp; Swiss Visitor Consent (Google CMP):</strong> For visitors located in the European Economic Area (EEA), the United Kingdom, and Switzerland, advertising cookie consent is requested and managed via a Google-certified IAB TCF v2.2 Consent Management Platform (Google Funding Choices). Visitors in those regions may review, adjust, or withdraw their consent preferences at any time.
+            </li>
+            <li>
               Third-party ad networks or servers may also use technologies such as cookies, JavaScript, or Web Beacons in advertisements and links that appear on TaxEstimator Online, which are sent directly to users&apos; browsers and automatically receive your IP address when this occurs. TaxEstimator Online has no access to or control over these cookies used by third-party advertisers.
             </li>
           </ul>

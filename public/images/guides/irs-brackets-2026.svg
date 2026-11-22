@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="2026 IRS Tax Brackets, Standard Deduction, and Schedule SE Flow Diagram">
+  <rect width="1200" height="630" fill="#FBFBF9"/>
+  <rect x="24" y="24" width="1152" height="582" rx="24" fill="#FFFFFF" stroke="#EAEAE3" stroke-width="2"/>
+  <rect x="24" y="24" width="1152" height="86" rx="24" fill="#16503E"/>
+  <rect x="24" y="80" width="1152" height="30" fill="#16503E"/>
+  <text x="64" y="66" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="24" font-weight="800" fill="#FFFFFF">2026 IRS 1099 Tax Calculation Waterfall (Rev. Proc. 2025-32 &amp; OBBBA)</text>
+  <text x="64" y="94" font-family="ui-monospace, SFMono-Regular, monospace" font-size="14" font-weight="600" fill="#6EE7B7">TaxEstimator Online Research Desk  •  Schedule C  →  Schedule SE  →  Section 199A QBI  →  Form 1040</text>
+
+  <!-- Step 1: Gross to Net -->
+  <rect x="64" y="140" width="248" height="190" rx="16" fill="#FBFBF9" stroke="#DCDCD2" stroke-width="2"/>
+  <text x="84" y="172" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#16503E">STEP 01  •  SCHEDULE C</text>
+  <text x="84" y="200" font-family="ui-sans-serif, system-ui, sans-serif" font-size="19" font-weight="700" fill="#0F172A">Net Business Profit</text>
+  <text x="84" y="228" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#475569">Gross 1099-NEC / 1099-K</text>
+  <text x="84" y="248" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#475569">minus IRC § 162 Expenses</text>
+  <rect x="84" y="270" width="208" height="42" rx="10" fill="#ECFDF5" stroke="#A7F3D0"/>
+  <text x="98" y="296" font-family="ui-monospace, monospace" font-size="14" font-weight="700" fill="#065F46">Lowers BOTH SE + Fed Tax</text>
+
+  <!-- Arrow 1 -->
+  <path d="M318 235 L344 235" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="342,228 356,235 342,242" fill="#059669"/>
+
+  <!-- Step 2: Schedule SE -->
+  <rect x="358" y="140" width="248" height="190" rx="16" fill="#FBFBF9" stroke="#DCDCD2" stroke-width="2"/>
+  <text x="378" y="172" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#B45309">STEP 02  •  SCHEDULE SE</text>
+  <text x="378" y="200" font-family="ui-sans-serif, system-ui, sans-serif" font-size="19" font-weight="700" fill="#0F172A">15.3% SECA Tax</text>
+  <text x="378" y="228" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#475569">Base = Net Profit × 92.35%</text>
+  <text x="378" y="248" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#475569">12.4% SS Cap: $184,500 (2026)</text>
+  <rect x="378" y="270" width="208" height="42" rx="10" fill="#FFFBEB" stroke="#FDE68A"/>
+  <text x="392" y="296" font-family="ui-monospace, monospace" font-size="14" font-weight="700" fill="#92400E">50% SE Tax Deductible (AGI)</text>
+
+  <!-- Arrow 2 -->
+  <path d="M612 235 L638 235" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="636,228 650,235 636,242" fill="#059669"/>
+
+  <!-- Step 3: Deductions & QBI -->
+  <rect x="652" y="140" width="248" height="190" rx="16" fill="#FBFBF9" stroke="#DCDCD2" stroke-width="2"/>
+  <text x="672" y="172" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#16503E">STEP 03  •  DEDUCTIONS &amp; QBI</text>
+  <text x="672" y="200" font-family="ui-sans-serif, system-ui, sans-serif" font-size="19" font-weight="700" fill="#0F172A">Standard + 20% QBI</text>
+  <text x="672" y="228" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#475569">2026 Std Ded: $16,100 / $32,200</text>
+  <text x="672" y="248" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#475569">Full QBI Ceiling: $201,750 (S)</text>
+  <rect x="672" y="270" width="208" height="42" rx="10" fill="#ECFDF5" stroke="#A7F3D0"/>
+  <text x="686" y="296" font-family="ui-monospace, monospace" font-size="14" font-weight="700" fill="#065F46">20% QBI Permanent (OBBBA)</text>
+
+  <!-- Arrow 3 -->
+  <path d="M906 235 L932 235" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="930,228 944,235 930,242" fill="#059669"/>
+
+  <!-- Step 4: Form 1040 Brackets -->
+  <rect x="946" y="140" width="190" height="190" rx="16" fill="#16503E"/>
+  <text x="966" y="172" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#6EE7B7">STEP 04  •  1040-ES</text>
+  <text x="966" y="200" font-family="ui-sans-serif, system-ui, sans-serif" font-size="19" font-weight="700" fill="#FFFFFF">7 Marginal Tiers</text>
+  <text x="966" y="228" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#CBD5E1">10% to 37% Progressive</text>
+  <text x="966" y="248" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#CBD5E1">Safe Harbor: 90% / 100%</text>
+  <rect x="966" y="270" width="150" height="42" rx="10" fill="#059669"/>
+  <text x="980" y="296" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#FFFFFF">4 Quarterly Vouchers</text>
+
+  <!-- Bottom Bracket Comparison Bar Chart -->
+  <rect x="64" y="362" width="1072" height="214" rx="16" fill="#FBFBF9" stroke="#EAEAE3" stroke-width="2"/>
+  <text x="92" y="396" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="700" fill="#0F172A">2024 vs. 2025 vs. 2026 Federal Single Standard Deduction &amp; Social Security Wage Base</text>
+
+  <!-- Left bars: Standard Deduction -->
+  <text x="92" y="432" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#475569">Single Standard Deduction</text>
+  <text x="92" y="462" font-family="ui-monospace, monospace" font-size="12" fill="#64748B">2024</text>
+  <rect x="148" y="448" width="240" height="20" rx="6" fill="#94A3B8"/>
+  <text x="400" y="462" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#334155">$14,600</text>
+
+  <text x="92" y="496" font-family="ui-monospace, monospace" font-size="12" fill="#64748B">2025</text>
+  <rect x="148" y="482" width="265" height="20" rx="6" fill="#059669"/>
+  <text x="425" y="496" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#065F46">$15,750 (OBBBA)</text>
+
+  <text x="92" y="530" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#16503E">2026</text>
+  <rect x="148" y="516" width="282" height="20" rx="6" fill="#16503E"/>
+  <text x="442" y="530" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#16503E">$16,100 (Rev. Proc. 2025-32)</text>
+
+  <!-- Right bars: Social Security Cap -->
+  <text x="640" y="432" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#475569">Social Security OASDI Cap (12.4% Portion)</text>
+  <text x="640" y="462" font-family="ui-monospace, monospace" font-size="12" fill="#64748B">2024</text>
+  <rect x="696" y="448" width="280" height="20" rx="6" fill="#94A3B8"/>
+  <text x="988" y="462" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#334155">$168,600</text>
+
+  <text x="640" y="496" font-family="ui-monospace, monospace" font-size="12" fill="#64748B">2025</text>
+  <rect x="696" y="482" width="304" height="20" rx="6" fill="#D97706"/>
+  <text x="1012" y="496" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#B45309">$176,100</text>
+
+  <text x="640" y="530" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#16503E">2026</text>
+  <rect x="696" y="516" width="330" height="20" rx="6" fill="#16503E"/>
+  <text x="1038" y="530" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#16503E">$184,500</text>
+
+  <text x="92" y="562" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#64748B">Source: IRS Revenue Procedure 2025-32, Public Law 119-21 (OBBBA), and Social Security Administration Contribution &amp; Benefit Base Notices.</text>
+</svg>

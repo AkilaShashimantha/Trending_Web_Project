@@ -61,6 +61,13 @@ export const PersonaExampleSchema = z.object({
 });
 export type PersonaExample = z.infer<typeof PersonaExampleSchema>;
 
+export const NewsVisualSchema = z.object({
+  src: z.string().startsWith("/images/guides/"),
+  alt: z.string().min(10),
+  caption: z.string().min(10),
+});
+export type NewsVisual = z.infer<typeof NewsVisualSchema>;
+
 export const NewsArticleSchema = z.object({
   slug: z.string().min(3),
   title: z.string().min(5),
@@ -73,6 +80,7 @@ export const NewsArticleSchema = z.object({
   category: z.string().default("Tax Updates"),
   readTime: z.string().min(2), // e.g., "6 min read"
   image: z.string().optional(),
+  visual: NewsVisualSchema.optional(),
   primarySource: PrimarySourceSchema,
   relatedTool: RelatedToolSchema,
   personaExample: PersonaExampleSchema.optional(),

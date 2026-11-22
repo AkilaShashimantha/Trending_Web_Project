@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Merchant Processing Fee Comparison and Reverse Gross-Up Formula Diagram">
+  <rect width="1200" height="630" fill="#FBFBF9"/>
+  <rect x="24" y="24" width="1152" height="582" rx="24" fill="#FFFFFF" stroke="#EAEAE3" stroke-width="2"/>
+  <rect x="24" y="24" width="1152" height="86" rx="24" fill="#16503E"/>
+  <rect x="24" y="80" width="1152" height="30" fill="#16503E"/>
+  <text x="64" y="66" font-family="ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="800" fill="#FFFFFF">Payment Rail Cost on a $10,000 B2B Invoice &amp; Reverse Pass-Through</text>
+  <text x="64" y="94" font-family="ui-monospace, SFMono-Regular, monospace" font-size="14" font-weight="600" fill="#6EE7B7">Comparing Total Processor Fee Drag vs. Closed-Form Invoice Gross-Up  •  A = (P + f) / (1 - r)</text>
+
+  <!-- Left Bar Chart -->
+  <rect x="64" y="140" width="664" height="416" rx="18" fill="#FBFBF9" stroke="#EAEAE3" stroke-width="2"/>
+  <text x="92" y="180" font-family="ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="800" fill="#0F172A">Processor Fee Deducted on a $10,000 Client Invoice</text>
+
+  <!-- Bar 1: Stripe Intl + FX -->
+  <text x="92" y="222" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="700" fill="#334155">Stripe Intl Card + FX (5.40% + $0.30)</text>
+  <rect x="92" y="234" width="520" height="28" rx="6" fill="#DC2626"/>
+  <text x="488" y="253" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#FFFFFF">$540.30 (5.40%)</text>
+
+  <!-- Bar 2: PayPal Wallet -->
+  <text x="92" y="294" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="700" fill="#334155">PayPal Checkout Wallet (3.49% + $0.49)</text>
+  <rect x="92" y="306" width="336" height="28" rx="6" fill="#D97706"/>
+  <text x="304" y="325" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#FFFFFF">$349.49 (3.49%)</text>
+
+  <!-- Bar 3: Stripe Domestic -->
+  <text x="92" y="366" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="700" fill="#334155">Stripe Domestic Card (2.90% + $0.30)</text>
+  <rect x="92" y="378" width="280" height="28" rx="6" fill="#059669"/>
+  <text x="252" y="397" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#FFFFFF">$290.30 (2.90%)</text>
+
+  <!-- Bar 4: Wise -->
+  <text x="92" y="438" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="700" fill="#334155">Wise Local ACH / Bank Transfer (~0.43% + $0.39)</text>
+  <rect x="92" y="450" width="60" height="28" rx="6" fill="#0D9488"/>
+  <text x="164" y="469" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#0F766E">$43.39 (0.43%)</text>
+
+  <!-- Bar 5: Stripe ACH -->
+  <text x="92" y="508" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="700" fill="#16503E">Stripe ACH Direct Debit (0.80%, Capped at $5.00)</text>
+  <rect x="92" y="518" width="16" height="24" rx="4" fill="#16503E"/>
+  <text x="118" y="535" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#16503E">$5.00 Flat (0.05% — Saves $285.30 vs. Domestic Card)</text>
+
+  <!-- Right Formula Card -->
+  <rect x="756" y="140" width="380" height="416" rx="18" fill="#16503E"/>
+  <text x="784" y="182" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#6EE7B7">REVERSE PASS-THROUGH PROOF</text>
+  <text x="784" y="214" font-family="ui-sans-serif, system-ui, sans-serif" font-size="19" font-weight="800" fill="#FFFFFF">Target Net: $1,000.00</text>
+  <text x="784" y="238" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#CBD5E1">At Stripe Domestic Rate (2.9% + $0.30)</text>
+
+  <rect x="784" y="262" width="324" height="100" rx="12" fill="#0F3A2D" stroke="#059669"/>
+  <text x="802" y="290" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="700" fill="#FCA5A5">Naive Markup ($1,000 × 1.029 + $0.30)</text>
+  <text x="802" y="316" font-family="ui-monospace, monospace" font-size="14" fill="#FFFFFF">Invoice: $1,029.30  →  Fee: -$30.15</text>
+  <text x="802" y="344" font-family="ui-monospace, monospace" font-size="15" font-weight="800" fill="#FCA5A5">Net Deposit: $999.15 (-$0.85 short)</text>
+
+  <rect x="784" y="380" width="324" height="148" rx="12" fill="#FFFFFF"/>
+  <text x="802" y="408" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="700" fill="#065F46">Exact Closed-Form Gross-Up</text>
+  <text x="802" y="436" font-family="ui-monospace, monospace" font-size="15" font-weight="800" fill="#16503E">A = ($1,000 + $0.30) / (1 - 0.029)</text>
+  <text x="802" y="464" font-family="ui-monospace, monospace" font-size="14" fill="#334155">Invoice: $1,030.18  →  Fee: -$30.18</text>
+  <text x="802" y="502" font-family="ui-monospace, monospace" font-size="16" font-weight="800" fill="#059669">Net Deposit: $1,000.00 Exact</text>
+
+  <text x="64" y="586" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#64748B">Reminder: Frame fee differences as Cash/ACH discounts where state surcharge rules restrict card surcharging; never surcharge debit cards.</text>
+</svg>

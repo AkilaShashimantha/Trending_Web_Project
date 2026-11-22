@@ -54,11 +54,8 @@ export function NewsCard({ article, featured = false }: NewsCardProps) {
         {/* Action Row */}
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#EAEAE3] pt-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-spruce-800 font-mono text-xs font-bold text-white shadow-xs">
-              {article.author.name
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-spruce-800 font-mono text-xs font-bold text-emeraldTactile-300 shadow-xs">
+              TE
             </div>
             <div>
               <div className="text-xs font-bold text-slate-900">{article.author.name}</div>

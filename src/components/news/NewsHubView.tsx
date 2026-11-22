@@ -102,7 +102,7 @@ export function NewsHubView({ articles, featuredArticle }: NewsHubViewProps) {
             <span>TaxEstimator Online Editorial Charter</span>
           </div>
           <h3 className="mt-3 text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
-            Pure Primary-Source Journalism. Zero Sponsored Opinions.
+            Primary-Source Research &amp; Deterministic Math. Zero Sponsored Opinions.
           </h3>
           <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
             Every analysis published on the TaxEstimator Online News Desk is verified against official primary government sources—including IRS Revenue Procedures, Federal Reserve FOMC statements, and state tax authority codes. We embed pure mathematical calculators so you can verify the numbers against your own business ledger.{" "}

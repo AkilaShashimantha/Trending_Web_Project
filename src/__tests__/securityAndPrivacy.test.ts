@@ -64,7 +64,7 @@ describe("Security and Privacy Configuration", () => {
     const pngSig = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
     expect(pngBuf.subarray(0, 8).equals(pngSig)).toBe(true);
 
-    // Validate SVG contains CashPulse brand colors
+    // Validate SVG contains TaxEstimator Online brand colors
     const svgContent = fs.readFileSync(publicSvg, "utf8");
     expect(svgContent).toContain("#16503E"); // Spruce
     expect(svgContent).toContain("#059669"); // Emerald
@@ -172,6 +172,26 @@ describe("Security and Privacy Configuration", () => {
     expect(statePageSource).toContain("robots:");
     expect(statePageSource).toContain("hasCustomGuide");
     expect(statePageSource).toContain("TaxEstimator Online");
+    expect(statePageSource).toContain("permanentRedirect");
     expect(statePageSource).not.toContain("CashPulse");
+  });
+
+  it("verifies AdSense head verification tags, Google Partner privacy disclosure, and clean article HTML semantics", () => {
+    const layoutPath = path.join(process.cwd(), "src", "app", "layout.tsx");
+    const layoutSource = fs.readFileSync(layoutPath, "utf8");
+    expect(layoutSource).toContain("google-adsense-account");
+    expect(layoutSource).toContain("<script");
+    expect(layoutSource).toContain("adsbygoogle.js");
+    expect(layoutSource).not.toContain("afterInteractive");
+
+    const privacyPath = path.join(process.cwd(), "src", "app", "privacy", "page.tsx");
+    const privacySource = fs.readFileSync(privacyPath, "utf8");
+    expect(privacySource).toContain("policies.google.com/technologies/partner-sites");
+
+    const articlePagePath = path.join(process.cwd(), "src", "app", "news", "[slug]", "page.tsx");
+    const articlePageSource = fs.readFileSync(articlePagePath, "utf8");
+    expect(articlePageSource).not.toContain("<main");
+    expect(articlePageSource).not.toContain("Verified Author");
+    expect(articlePageSource).not.toContain('"NewsArticle"');
   });
 });

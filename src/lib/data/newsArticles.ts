@@ -1,4 +1,11 @@
 import { NewsArticle, NewsArticleSchema } from "../../models/news.model";
+import { ADDITIONAL_NEWS_ARTICLES } from "./newsArticlesAdditional";
+
+const RESEARCH_DESK_AUTHOR = {
+  name: "TaxEstimator Online Research Desk",
+  role: "Independent Tax & Financial Modeling Team",
+  credentials: "Primary-Source IRS, SSA, Federal Reserve & State Tax Code Verification",
+};
 
 const RAW_ARTICLES: NewsArticle[] = [
   {
@@ -7,22 +14,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "2026 IRS Tax Brackets, Standard Deduction & Social Security Cap: What 1099 Solopreneurs Must Model Now",
     summary:
       "Under IRS Revenue Procedure 2025-32 and the One, Big, Beautiful Bill Act (P.L. 119-21), the 2026 standard deduction rises to $16,100 ($32,200 joint), Section 199A QBI becomes permanent with wider phase-out bands, and the Social Security wage base hits $184,500.",
-    publishedAt: "2026-10-15T08:00:00Z",
-    updatedAt: "2026-11-08T10:00:00Z",
+    publishedAt: "2026-11-17T08:00:00Z",
+    updatedAt: "2026-11-22T10:00:00Z",
     category: "IRS Regulations",
     tags: ["2026 Tax Brackets", "Rev. Proc. 2025-32", "OBBBA", "Social Security Cap", "Section 199A"],
     readTime: "9 min read",
     featured: true,
-    author: {
-      name: "Marcus Vance",
-      role: "Lead Financial Analyst",
-      credentials: "MS Financial Modeling, Quantitative Tax Research",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "IRS Revenue Procedure 2025-32 & OBBBA Tax Year 2026 Inflation Adjustments",
       url: "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/2026-irs-tax-brackets-standard-deduction-freelancers/opengraph-image",
+    visual: {
+      src: "/images/guides/irs-brackets-2026.svg",
+      alt: "2026 IRS 1099 Tax Calculation Waterfall and 2024 vs 2025 vs 2026 Standard Deduction and Social Security Cap chart",
+      caption: "2026 Schedule C to Form 1040 marginal calculation flow and multi-year IRS threshold shifts under Rev. Proc. 2025-32.",
+    },
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -158,22 +166,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "Complete Schedule C Tax Deductions Checklist: Every Legal Write-Off for 1099 Contractors in 2026",
     summary:
       "Missing legitimate Schedule C expenses costs independent contractors roughly 35% in combined self-employment, federal, and state taxes. Walk through every deductible line item—including the IRS split 2026 mileage rates (72.5 cents H1 and 76 cents H2)—and audit-proof documentation.",
-    publishedAt: "2026-11-04T09:00:00Z",
-    updatedAt: "2026-11-10T09:00:00Z",
+    publishedAt: "2026-11-15T09:00:00Z",
+    updatedAt: "2026-11-21T15:00:00Z",
     category: "Tax Deductions",
     tags: ["Schedule C", "Tax Deductions", "1099 Write-Offs", "2026 Mileage Rate", "IRC 162"],
     readTime: "10 min read",
     featured: false,
-    author: {
-      name: "Claire Takahashi",
-      role: "Senior Tax Policy Editor",
-      credentials: "MS Taxation, Enrolled Agent Candidate",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "IRS Schedule C (Form 1040) Profit or Loss from Business & Notice 2026-10 / Announcement 2026-11",
       url: "https://www.irs.gov/forms-pubs/about-schedule-c-form-1040",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/schedule-c-tax-deductions-checklist-1099-contractors/opengraph-image",
+    visual: {
+      src: "/images/guides/schedule-c-deductions.svg",
+      alt: "Comparison chart showing $1,000 of Schedule C business expense vs Schedule 1 above-the-line tax savings",
+      caption: "Schedule C deductions reduce 15.3% SECA tax plus income tax ($351.34 saved per $1,000), outperforming Schedule 1 adjustments.",
+    },
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -300,22 +309,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "Sole Prop vs. LLC vs. S-Corp Election in 2026: Exact Break-Even Tax Math (Including the Hidden QBI Penalty)",
     summary:
       "Forming an LLC alone saves zero federal taxes. Electing S-Corporation status via Form 2553 can slash self-employment taxes—but lost Section 199A QBI deductions, payroll costs, and state S-Corp taxes push the true 2026 break-even point higher than most influencers claim.",
-    publishedAt: "2026-09-22T08:30:00Z",
-    updatedAt: "2026-11-05T11:00:00Z",
+    publishedAt: "2026-11-14T08:30:00Z",
+    updatedAt: "2026-11-21T13:00:00Z",
     category: "Business Structure",
     tags: ["S-Corp Election", "Single-Member LLC", "Form 2553", "Reasonable Compensation", "QBI Trap"],
     readTime: "9 min read",
     featured: false,
-    author: {
-      name: "Marcus Vance",
-      role: "Lead Financial Analyst",
-      credentials: "MS Financial Modeling, Quantitative Tax Research",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "IRS S Corporations Guidance & Form 1120-S Reasonable Compensation Rules",
       url: "https://www.irs.gov/businesses/small-businesses-self-employed/s-corporations",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/sole-proprietorship-vs-llc-vs-scorp-break-even-math/opengraph-image",
+    visual: {
+      src: "/images/guides/entity-scorp-breakeven.svg",
+      alt: "2026 S-Corporation FICA payroll tax savings vs lost QBI deduction and admin cost break-even chart",
+      caption: "True S-Corp break-even curve showing net savings across $60k, $100k, $160k, and $220k profit levels after lost QBI and payroll overhead.",
+    },
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -443,22 +453,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "Solo 401(k) vs. SEP IRA in 2026: How to Shelter Up to $72,000 ($83,250 Age 60–63) & Beat the SEP Cap",
     summary:
       "The IRS lifted the 2026 401(k) elective deferral limit to $24,500 and total defined contribution cap to $72,000 under Notice 2025-67. Compare why a Solo 401(k) unlocks more than double the SEP IRA contribution ceiling at $100k–$150k freelance income.",
-    publishedAt: "2026-08-19T10:00:00Z",
-    updatedAt: "2026-10-20T12:00:00Z",
+    publishedAt: "2026-11-13T10:00:00Z",
+    updatedAt: "2026-11-21T11:00:00Z",
     category: "Tax Deductions",
     tags: ["Solo 401k", "SEP IRA", "2026 Retirement Limits", "Notice 2025-67", "Tax Shelters"],
     readTime: "8 min read",
     featured: false,
-    author: {
-      name: "Claire Takahashi",
-      role: "Senior Tax Policy Editor",
-      credentials: "MS Taxation, Enrolled Agent Candidate",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "IRS Notice 2025-67 & IR-2025-111 (2026 Defined Contribution & Retirement Limits)",
       url: "https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/solo-401k-vs-sep-ira-2026-contribution-limits/opengraph-image",
+    visual: {
+      src: "/images/guides/schedule-c-deductions.svg",
+      alt: "Tax savings comparison diagram illustrating Schedule C vs Schedule 1 above-the-line retirement deferral mechanics",
+      caption: "Above-the-line Solo 401(k) and SEP-IRA deferrals lower ordinary taxable income while keeping the QBI interaction modeled cleanly.",
+    },
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -578,22 +589,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "Home Office Deduction in 2026: Simplified $5/Sq Ft vs. Form 8829 Actual Expense Math (Renters vs. Owners)",
     summary:
       "Choosing the $1,500 Simplified home office option out of convenience can silently forfeit $3,000+ in annual tax savings for renting freelancers—while owners face Section 1250 depreciation recapture traps. Here is the Form 8829 math and S-Corp Accountable Plan rule.",
-    publishedAt: "2026-07-14T08:00:00Z",
-    updatedAt: "2026-10-05T14:00:00Z",
+    publishedAt: "2026-11-12T08:00:00Z",
+    updatedAt: "2026-11-21T09:00:00Z",
     category: "Tax Deductions",
     tags: ["Home Office Deduction", "Form 8829", "Publication 587", "Accountable Plan", "IRC 280A"],
-    readTime: "8 min read",
+    readTime: "9 min read",
     featured: false,
-    author: {
-      name: "Claire Takahashi",
-      role: "Senior Tax Policy Editor",
-      credentials: "MS Taxation, Enrolled Agent Candidate",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "IRS Form 8829 (Expenses for Business Use of Your Home) & Publication 587",
       url: "https://www.irs.gov/forms-pubs/about-form-8829",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/home-office-deduction-simplified-vs-form-8829-guide/opengraph-image",
+    visual: {
+      src: "/images/guides/schedule-c-deductions.svg",
+      alt: "Schedule C vs Schedule 1 tax savings diagram showing why home office deductions cut both 15.3% SE tax and income tax",
+      caption: "Home office deductions flow through Schedule C Line 30, reducing both 15.3% Schedule SE and federal/state income tax.",
+    },
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -651,7 +663,7 @@ const RAW_ARTICLES: NewsArticle[] = [
         id: "exclusive-and-regular-use-test",
         title: "The Two Legal Gateways Under IRC § 280A: Exclusive Use & Principal Place",
         content:
-          "Contrary to outdated folklore, claiming the home office deduction does not automatically trigger an IRS audit—provided you strictly satisfy Internal Revenue Code Section 280A. Your workspace must meet two foundational tests: Regular and Exclusive Use, and Principal Place of Business.\n\nExclusive use means the designated area (a spare bedroom, partitioned studio alcove, or detached backyard ADU) is used solely for conducting trade or business. Working from your dining table or a guest bedroom where family members regularly sleep or watch television fails the strict exclusivity test. Exceptions exist only for daycare facilities and dedicated inventory storage.\n\nPrincipal place of business means you either perform your primary revenue-generating work there or use the space exclusively for administrative and management tasks (billing, bookkeeping, scheduling) while having no other fixed office location. A clean floor-plan sketch with measurements and dated studio photos provides ironclad documentation.",
+          "Contrary to outdated folklore, claiming the home office deduction does not automatically trigger an IRS audit—provided you strictly satisfy Internal Revenue Code Section 280A. Your workspace must meet two foundational tests: Regular and Exclusive Use, and Principal Place of Business.\n\nExclusive use means the designated area (a spare bedroom, partitioned studio alcove, or detached backyard ADU) is used solely for conducting trade or business. Working from your dining table or a guest bedroom where family members regularly sleep or watch television fails the strict exclusivity test. Exceptions exist only for daycare facilities and dedicated inventory storage.\n\nPrincipal place of business means you either perform your primary revenue-generating work there or use the space exclusively for administrative and management tasks (billing, bookkeeping, scheduling) while having no other fixed office location. A clean floor-plan sketch with measurements and dated studio photos provides strong, audit-ready documentation.",
         keyPoints: [
           "Exclusive use means zero personal overlap inside the claimed square footage.",
           "Qualifying your home office as your principal place of business also converts travel from home to client sites from commuting into deductible business mileage.",
@@ -687,6 +699,12 @@ const RAW_ARTICLES: NewsArticle[] = [
           "Dedicated business internet and cell phone lines are typically deducted directly on Schedule C utilities/office expenses based on business-use % even if you take the Simplified home office deduction.",
         ],
       },
+      {
+        id: "carryovers-and-communications-proration",
+        title: "Form 8829 Loss Carryovers, Mid-Year Moves & Internet / Cell Proration",
+        content:
+          "Two practical calculation nuances frequently trip up freelancers completing Form 8829:\n\n1. Gross Income Limitation & Indefinite Carryovers: Under IRC § 280A(c)(5), your home office deduction cannot push your business into a Schedule C net loss. If a freelancer earns $6,000 net profit before home office costs and has $9,000 of Form 8829 expenses, $6,000 is deducted this year (zeroing Schedule C profit) and the remaining $3,000 of excess indirect expenses carries forward indefinitely to future profitable tax years—whereas any excess above net profit under the Simplified Method is permanently lost.\n\n2. Mid-Year Apartment Moves & Dedicated Utilities: When moving mid-year or claiming an office for only 7 months, multiply your monthly business percentage ONLY across the months the space met the exclusive-use test (do not prorate 12 months of rent when you worked there 7 months). Separately, business internet and mobile phone bills are NOT restricted by Form 8829 square-footage ratios: deduct the documented business-usage percentage directly on Schedule C Line 25 (Utilities) or Line 27a even when electing the Simplified Method.",
+      },
     ],
     faqs: [
       {
@@ -717,22 +735,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "Quarterly Estimated Taxes (Form 1040-ES) in 2026: Safe Harbor Shields & Annualized Income Math",
     summary:
       "The IRS levies daily compounding Section 6654 penalties when freelancers underpay unequal quarterly periods. Master the 2026 Form 1040-ES deadlines, the 100%/110% Prior-Year Safe Harbor shield, and Form 2210 Schedule AI for lumpy 1099 cash flow.",
-    publishedAt: "2026-03-18T08:00:00Z",
-    updatedAt: "2026-09-02T10:30:00Z",
+    publishedAt: "2026-11-09T08:00:00Z",
+    updatedAt: "2026-11-20T10:30:00Z",
     category: "IRS Regulations",
     tags: ["Form 1040-ES", "Quarterly Taxes", "Safe Harbor", "Form 2210", "IRS Penalties"],
     readTime: "8 min read",
     featured: false,
-    author: {
-      name: "Marcus Vance",
-      role: "Lead Financial Analyst",
-      credentials: "MS Financial Modeling, Quantitative Tax Research",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "IRS Form 1040-ES (Estimated Tax for Individuals) & Publication 505",
       url: "https://www.irs.gov/forms-pubs/about-form-1040-es",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/quarterly-estimated-taxes-1040-es-safe-harbor-guide/opengraph-image",
+    visual: {
+      src: "/images/guides/irs-brackets-2026.svg",
+      alt: "2026 IRS 1099 Tax Calculation Waterfall feeding Form 1040-ES quarterly safe harbor installments",
+      caption: "Calculating annual federal liability accurately before splitting installments across the uneven April, June, September, and January 1040-ES calendar.",
+    },
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -754,7 +773,7 @@ const RAW_ARTICLES: NewsArticle[] = [
         {
           label: "2026 Safe Harbor Minimum (100% Prior Year)",
           value: "$15,400.00 ($3,850 / qtr)",
-          detail: "Paying $3,850 on each 2026 deadline guarantees $0 IRS penalty",
+          detail: "Paying $3,850 on each 2026 deadline satisfies the 100% prior-year safe harbor",
         },
         {
           label: "2026 Current-Year 90% Target",
@@ -774,7 +793,7 @@ const RAW_ARTICLES: NewsArticle[] = [
         {
           label: "IRS Section 6654 Underpayment Penalty",
           value: "$0.00",
-          detail: "100% immune because timely 1040-ES vouchers met prior-year safe harbor",
+          detail: "Meets federal prior-year safe harbor under IRC § 6654(d)",
         },
         {
           label: "Remaining Balance Due April 15, 2027",
@@ -806,7 +825,7 @@ const RAW_ARTICLES: NewsArticle[] = [
         id: "safe-harbor-100-110-rules",
         title: "Mastering the IRS Safe Harbor Shield (90% vs. 100% / 110%)",
         content:
-          "Estimating freelance profit in April when Q4 client pipelines remain uncertain is notoriously difficult. Fortunately, IRC § 6654(d) provides an ironclad safe harbor against underpayment penalties if your timely quarterly payments plus W-2 withholding cover the SMALLER of:\n\n1. 90% of your actual current-year (2026) total tax liability shown on Form 1040, OR\n2. 100% of your prior-year (2025) total tax liability (provided your 2025 return covered a full 12 months).\n\nHigh-Income Trigger: If your 2025 Adjusted Gross Income exceeded $150,000 ($75,000 if Married Filing Separately), the prior-year safe harbor increases from 100% to 110% of your 2025 tax.\n\nNotice how powerful each side of this rule is: in booming revenue years, anchor to 100%/110% of last year's tax to eliminate surprise penalties and preserve cash flow (just keep the April balance in a segregated savings reserve!). Conversely, if your 2026 freelance revenue drops sharply compared to 2025, skip the inflated prior-year baseline and pay 90% of your projected lower 2026 liability calculated inside our [1099 Freelance Tax Estimator](/tools/freelance-tax-estimator).",
+          "Estimating freelance profit in April when Q4 client pipelines remain uncertain is notoriously difficult. Fortunately, IRC § 6654(d) provides a statutory safe harbor against federal underpayment penalties when timely quarterly payments plus W-2 withholding cover the SMALLER of:\n\n1. 90% of your actual current-year (2026) total tax liability shown on Form 1040, OR\n2. 100% of your prior-year (2025) total tax liability (provided your 2025 return covered a full 12 months).\n\nHigh-Income Trigger: If your 2025 Adjusted Gross Income exceeded $150,000 ($75,000 if Married Filing Separately), the prior-year safe harbor increases from 100% to 110% of your 2025 tax.\n\nNotice how powerful each side of this rule is: in booming revenue years, anchor to 100%/110% of last year's tax to eliminate surprise penalties and preserve cash flow (just keep the April balance in a segregated savings reserve!). Conversely, if your 2026 freelance revenue drops sharply compared to 2025, skip the inflated prior-year baseline and pay 90% of your projected lower 2026 liability calculated inside our [1099 Freelance Tax Estimator](/tools/freelance-tax-estimator).",
         keyPoints: [
           "Safe harbor protects you from penalties, NOT from owing the remaining tax balance on April 15.",
           "California adds a front-loaded trap: CA Form 540-ES requires 30% in Q1, 40% in Q2, 0% in Q3, and 30% in Q4—and drops prior-year safe harbor completely once AGI exceeds $1 million.",
@@ -849,22 +868,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "Self-Employed Health Insurance (Form 7206) & 2026 HSA Strategy: Stacking $13k–$20k+ in Tax-Free Healthcare Deductions",
     summary:
       "Under IRS Rev. Proc. 2025-19, 2026 HSA limits rise to $4,400 self-only and $8,750 family. Learn how Form 7206 interacts with Schedule C net profit, S-Corp W-2 Box 1 reporting, and the California/New Jersey state HSA trap.",
-    publishedAt: "2026-06-11T09:00:00Z",
-    updatedAt: "2026-10-12T15:00:00Z",
+    publishedAt: "2026-11-11T09:00:00Z",
+    updatedAt: "2026-11-20T15:00:00Z",
     category: "Tax Deductions",
     tags: ["Health Insurance Deduction", "Form 7206", "2026 HSA Limits", "Rev. Proc. 2025-19", "HDHP"],
     readTime: "8 min read",
     featured: false,
-    author: {
-      name: "Claire Takahashi",
-      role: "Senior Tax Policy Editor",
-      credentials: "MS Taxation, Enrolled Agent Candidate",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "IRS Form 7206 (Self-Employed Health Insurance) & Rev. Proc. 2025-19 (2026 HSA Limits)",
       url: "https://www.irs.gov/forms-pubs/about-form-7206",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/self-employed-health-insurance-hsa-triple-tax-strategy/opengraph-image",
+    visual: {
+      src: "/images/guides/schedule-c-deductions.svg",
+      alt: "Comparison chart illustrating Schedule 1 above-the-line tax savings for Form 7206 health premiums and HSA contributions",
+      caption: "Form 7206 health premiums and HSA deposits shield income above the line on Schedule 1, though CA and NJ treat HSAs differently at the state level.",
+    },
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -982,22 +1002,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "Section 179, De Minimis Safe Harbor & 100% OBBBA Bonus Depreciation: How Creators Expense Gear in 2026",
     summary:
       "Public Law 119-21 and IRS Notice 2026-11 permanently restored 100% bonus depreciation alongside a $2.56M Section 179 ceiling for 2026. Learn when creators should skip Form 4562 altogether using the $2,500 De Minimis Safe Harbor election.",
-    publishedAt: "2026-05-07T09:30:00Z",
-    updatedAt: "2026-10-28T11:30:00Z",
+    publishedAt: "2026-11-10T09:30:00Z",
+    updatedAt: "2026-11-20T12:00:00Z",
     category: "Tax Deductions",
     tags: ["Section 179", "Bonus Depreciation", "Notice 2026-11", "De Minimis Safe Harbor", "Creator Taxes"],
-    readTime: "8 min read",
+    readTime: "9 min read",
     featured: false,
-    author: {
-      name: "Claire Takahashi",
-      role: "Senior Tax Policy Editor",
-      credentials: "MS Taxation, Enrolled Agent Candidate",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "IRS Notice 2026-11 & Publication 946 (100% Bonus Depreciation & Section 179 Rules)",
       url: "https://www.irs.gov/pub/irs-drop/n-26-11.pdf",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/section-179-equipment-software-expensing-creators-2026/opengraph-image",
+    visual: {
+      src: "/images/guides/schedule-c-deductions.svg",
+      alt: "Schedule C equipment expensing tax savings bridge comparing De Minimis, Section 179, and 100% Bonus Depreciation",
+      caption: "First-year equipment write-offs under De Minimis, Section 179, and OBBBA Bonus Depreciation lower both 15.3% SE tax and ordinary income tax.",
+    },
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -1086,6 +1107,12 @@ const RAW_ARTICLES: NewsArticle[] = [
         content:
           "Software taxation splits into two buckets. Monthly or annual SaaS subscriptions where you never own a permanent license—Adobe Creative Cloud, Figma, Notion, AWS, Vercel, or editing plugins—are 100% deductible in the year paid as ordinary Section 162 operating expenses. Off-the-shelf software you purchase outright for >$2,500 (such as perpetual enterprise licenses) is normally amortized over 36 months unless immediately expensed under Section 179.\n\nBe careful with 'Listed Property' under IRC § 280F—specifically cameras, audio/video recording gear, smartphones, and passenger vehicles. If your business-use percentage is under 100% (say, 75% business / 25% personal), you can only deduct 75% of the cost, and you MUST maintain a contemporaneous usage log proving >50% business use to retain Section 179 or 100% Bonus eligibility. Model your total annual write-offs inside the [1099 Freelance Tax Estimator](/tools/freelance-tax-estimator).",
       },
+      {
+        id: "state-nonconformity-and-income-caps",
+        title: "State Non-Conformity Traps & The Section 179 Net-Profit Cap",
+        content:
+          "Even though 2026 federal rules allow $2,560,000 in Section 179 expensing and 100% bonus depreciation, two hidden traps frequently surprise creators at tax time:\n\n1. State Non-Conformity (Especially California, New York & Illinois): California ignores federal 100% bonus depreciation completely and caps Section 179 at just $25,000—forcing California creators who write off a $40,000 production rig federally to depreciate the state basis slowly over 5-year MACRS on Schedule CA! Similarly, New York and Illinois decouple from federal bonus depreciation.\n\n2. Section 179 Cannot Exceed Net Earned Income: Section 179 deductions cannot create a Schedule C business loss (though any W-2 salary earned by you or your spouse counts toward the aggregate taxable-income ceiling). By contrast, 100% OBBBA bonus depreciation CAN generate a net business loss if your studio purchases exceed gross profit—or you can deliberately elect out of bonus depreciation by asset class when your income sits in a low 12% bracket this year and you expect to jump into the 24% or 32% bracket next year.",
+      },
     ],
     faqs: [
       {
@@ -1116,22 +1143,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "HYSA vs. 4-Week T-Bills vs. Money Market Funds in Late 2026: The State-Tax Arbitrage Formula",
     summary:
       "With the FOMC holding the target funds rate at 3.75%–4.00% in October 2026 and 4-week T-Bills hovering near 3.95%, high-tax-state freelancers often net MORE after-tax cash in state-exempt T-Bills than in higher-headline HYSAs.",
-    publishedAt: "2026-11-01T08:00:00Z",
-    updatedAt: "2026-11-09T16:00:00Z",
+    publishedAt: "2026-11-16T08:00:00Z",
+    updatedAt: "2026-11-22T09:00:00Z",
     category: "Banking & Rates",
     tags: ["Treasury Bills", "HYSA vs T-Bills", "Money Market Funds", "31 USC 3124", "After-Tax Yield"],
     readTime: "8 min read",
     featured: false,
-    author: {
-      name: "Marcus Vance",
-      role: "Lead Financial Analyst",
-      credentials: "MS Financial Modeling, Quantitative Tax Research",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "U.S. TreasuryDirect Auction Results & Federal Reserve FOMC October 2026 Statement",
       url: "https://www.treasurydirect.gov/auctions/announcements-data-results/",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/hysa-vs-4-week-t-bills-vs-money-market-after-tax-2026/opengraph-image",
+    visual: {
+      src: "/images/guides/hysa-real-yield.svg",
+      alt: "After-tax comparison between a 4.30% HYSA and 3.95% 4-week U.S. Treasury Bills under 31 U.S.C. 3124",
+      caption: "Federal preemption of state income taxes on U.S. Treasury obligations shifts real after-tax yield advantage in high-tax states.",
+    },
     relatedTool: {
       href: "/tools/hysa-compound-calculator",
       name: "HYSA Wealth vs Inflation Shield",
@@ -1211,7 +1239,7 @@ const RAW_ARTICLES: NewsArticle[] = [
         keyPoints: [
           "Always verify the year-end 'U.S. Government Obligations Percentage' tax supplement issued by your brokerage in February.",
           "CA, NY, and CT enforce a strict all-or-nothing 50% asset threshold for fund pass-through state exemptions.",
-          "Direct 4-week T-Bills bought at auction or in brokerage accounts bypass expense ratios (0.00% ER) and guarantee 100% state-tax exemption in all 50 states.",
+          "Direct 4-week T-Bills bought at auction or in brokerage accounts bypass expense ratios (0.00% ER) and qualify for 100% state-tax exemption under 31 U.S.C. § 3124.",
         ],
       },
       {
@@ -1250,22 +1278,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "ACH Direct Debit vs. Credit Card Processing Fees: How B2B Freelancers Recover $5,000+ Annually Without Client Pushback",
     summary:
       "Charging $7,500 B2B invoices via standard 2.9% credit cards bleeds $217.80 per payment. Switching domestic clients to Stripe ACH Direct Debit (0.8% capped at $5.00) cuts fee drag by 97.7%—here is how to eliminate bank verification friction.",
-    publishedAt: "2025-11-12T10:00:00Z",
-    updatedAt: "2026-09-18T13:00:00Z",
+    publishedAt: "2026-11-08T10:00:00Z",
+    updatedAt: "2026-11-20T09:00:00Z",
     category: "Merchant Fees",
     tags: ["ACH Direct Debit", "Stripe ACH", "B2B Invoicing", "Payment Rails", "Margin Optimization"],
-    readTime: "7 min read",
+    readTime: "8 min read",
     featured: false,
-    author: {
-      name: "Marcus Vance",
-      role: "Lead Financial Analyst",
-      credentials: "MS Financial Modeling, Quantitative Tax Research",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "Stripe Official Pricing Schedule (U.S. Cards vs. ACH Direct Debit)",
       url: "https://stripe.com/pricing",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/ach-direct-debit-vs-credit-card-processing-fees-guide/opengraph-image",
+    visual: {
+      src: "/images/guides/merchant-fee-grossup.svg",
+      alt: "Payment rail cost comparison chart on a $10,000 invoice across Stripe, PayPal, Wise, and $5-capped Stripe ACH",
+      caption: "Above $625 per invoice, Stripe ACH Direct Debit caps strictly at $5.00—saving $285.30 per $10,000 project over standard domestic cards.",
+    },
     relatedTool: {
       href: "/tools/stripe-fee-calculator",
       name: "Stripe & PayPal Fee Optimizer",
@@ -1348,6 +1377,12 @@ const RAW_ARTICLES: NewsArticle[] = [
         content:
           "ACH is not irrevocable like a Fedwire. Standard ACH debits require 3 to 5 business days to clear, and commercial buyers have up to 60 days (or 2 business days for B2B corporate unauthorized returns depending on SEC codes) to dispute unauthorized debits under NACHA rules. Stripe charges a $4.00 ACH failure fee on NSF returns (R01) or disputes.\n\nProtect cash flow on large milestones by setting invoice due dates 5 business days ahead of payroll or rent obligations, embedding explicit ACH debit authorization language inside your Master Services Agreement (MSA), and requesting direct client-initiated ACH push / wire payments for one-off projects exceeding $25,000.",
       },
+      {
+        id: "ach-push-vs-pull-and-wire-thresholds",
+        title: "Client-Initiated ACH Push vs. ACH Debit Pull & Large Wire Thresholds",
+        content:
+          "When invoicing enterprise finance departments, distinguish between ACH Debit Pull (where Stripe pulls funds from the client's bank via Financial Connections for 0.8% capped at $5.00) and Client-Initiated ACH Credit Push (where the enterprise's AP system sends an ACH transfer directly to your business checking routing/account number).\n\nMost modern business checking platforms—including Mercury, Relay, Brex, and major commercial banks—accept incoming domestic ACH credits at $0.00 fee, reducing a $25,000 retainer cost from $5.00 to literally zero. Reserve domestic Fedwire transfers ($15–$25 sender fee, often $0–$15 incoming fee) strictly for time-critical final milestone settlements or property/escrow closings exceeding $50,000 where same-day irrevocable finality justifies the wire fee. Always include both ACH instructions and an invoice-link option with a clearly stated card convenience/discount policy so clients pay on their preferred corporate rail without eroding your margin.",
+      },
     ],
     faqs: [
       {
@@ -1374,26 +1409,27 @@ const RAW_ARTICLES: NewsArticle[] = [
   },
   {
     slug: "2025-2026-irs-tax-brackets-freelancers",
-    title: "IRS 2025 Tax Brackets & OBBBA Updates: How Much More Will Freelancers Keep?",
-    headline: "IRS 2025 Inflation-Adjusted Brackets & Post-OBBBA Deduction Lift: What 1099 Freelancers Keep",
+    title: "IRS 2024 vs. 2025 Tax Brackets & Retroactive OBBBA Reconciliation for Freelancers",
+    headline: "Reconciling 2024 vs. 2025 IRS Freelance Brackets & Retroactive OBBBA Deduction Lifts",
     summary:
-      "Originally adjusted ~2.8% under IRS Revenue Procedure 2024-40—and then expanded retroactively by Public Law 119-21 (OBBBA) to a $15,750 single standard deduction ($31,500 joint)—here is the full 2025 mathematical model for 1099 solopreneurs.",
-    publishedAt: "2025-01-14T08:00:00Z",
-    updatedAt: "2026-02-10T12:00:00Z",
+      "When amending 2025 filings or benchmarking prior-year IRS Safe Harbor taxes against 2024, freelancers must factor in both Rev. Proc. 2024-40's 2.8% bracket expansion and Public Law 119-21 (OBBBA)'s retroactive 2025 standard deduction boost to $15,750 Single ($31,500 Joint).",
+    publishedAt: "2026-11-03T09:00:00Z",
+    updatedAt: "2026-11-18T10:00:00Z",
     category: "IRS Regulations",
-    tags: ["2025 Tax Brackets", "1099 Taxes", "Schedule SE", "QBI Deduction", "OBBBA"],
-    readTime: "7 min read",
+    tags: ["2025 Tax Brackets", "2024 vs 2025 Reconciliation", "Schedule SE", "QBI Deduction", "OBBBA"],
+    readTime: "8 min read",
     featured: false,
-    author: {
-      name: "Marcus Vance",
-      role: "Lead Financial Analyst",
-      credentials: "MS Financial Modeling, Quantitative Tax Research",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "IRS Revenue Procedure 2024-40 (Tax Inflation Adjustments for Tax Year 2025)",
       url: "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2025",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/2025-2026-irs-tax-brackets-freelancers/opengraph-image",
+    visual: {
+      src: "/images/guides/irs-brackets-2026.svg",
+      alt: "Multi-year 2024 vs 2025 vs 2026 IRS Standard Deduction and Social Security Wage Base comparison chart",
+      caption: "Tracking the 2024 to 2025 retroactive OBBBA standard deduction boost ($14,600 → $15,750) before 2026 indexing ($16,100).",
+    },
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -1529,22 +1565,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "Federal Reserve Rate Shifts & Your Cash: Real After-Tax HYSA Purchasing Power in 2025–2026",
     summary:
       "After easing from 5.25% peaks in 2025 before ticking up 25 bps to a 3.75%–4.00% target range in late 2026, commercial HYSA yields have settled around 4.00%–4.35%. Here is the exact 1099-INT tax drag and CPI erosion math on emergency reserves.",
-    publishedAt: "2025-01-18T09:30:00Z",
-    updatedAt: "2026-10-30T14:15:00Z",
+    publishedAt: "2026-11-04T09:30:00Z",
+    updatedAt: "2026-11-18T11:00:00Z",
     category: "Banking & Rates",
     tags: ["HYSA", "Federal Reserve", "Interest Rates", "1099-INT", "Inflation Shield"],
-    readTime: "6 min read",
+    readTime: "8 min read",
     featured: false,
-    author: {
-      name: "Marcus Vance",
-      role: "Lead Financial Analyst",
-      credentials: "MS Financial Modeling, Quantitative Tax Research",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "Federal Reserve Board FOMC Policy Decisions & Statements (2025–2026)",
       url: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/fed-rate-decision-hysa-wealth-impact/opengraph-image",
+    visual: {
+      src: "/images/guides/hysa-real-yield.svg",
+      alt: "HYSA Nominal APY vs Federal and State 1099-INT tax drag and CPI inflation real yield comparison",
+      caption: "Why nominal 4.30% bank APYs shrink dramatically once ordinary federal/state income tax drag and CPI inflation are modeled.",
+    },
     relatedTool: {
       href: "/tools/hysa-compound-calculator",
       name: "HYSA Wealth vs Inflation Shield",
@@ -1633,6 +1670,12 @@ const RAW_ARTICLES: NewsArticle[] = [
         content:
           "Solopreneurs looking to protect yields have two proven alternatives to standard HYSAs:\n\n1. U.S. Treasury Bills (T-Bills): Yields on 4-week to 26-week Treasury bills are exempt from all state and local income taxes under 31 U.S.C. § 3124. See our detailed [HYSA vs. 4-Week T-Bills vs. Money Market After-Tax Guide](/news/hysa-vs-4-week-t-bills-vs-money-market-after-tax-2026) for break-even state math.\n\n2. Fixed-Rate CD Ladders: Certificates of Deposit lock in yields for 6 or 12 months, providing a yield floor if future FOMC meetings pivot back toward easing.",
       },
+      {
+        id: "fomc-sensitivity-and-reserve-sizing",
+        title: "Modeling FOMC Rate Cuts & Avoiding Excess Cash Drag",
+        content:
+          "Because bank HYSA APYs reprice within days of every Federal Open Market Committee announcement, stress-testing your emergency reserve under a 100 bps rate shift is essential before locking into multi-year household budgets. If the FOMC trims target rates from 3.75%–4.00% down toward 2.75%–3.00% while inflation lingers near 2.6%, a freelancer in a 29% combined federal-plus-state bracket earns just 2.13% after tax—resulting in a -0.47% annual loss of real purchasing power.\n\nThat arithmetic highlights the hidden opportunity cost of hoarding overly large checking or HYSA balances beyond 6 to 9 months of lean runway: once your tax-reserve vault and emergency buffer are fully funded, excess idle cash steadily loses ground after Form 1099-INT taxation unless evaluated against real after-tax yield benchmarks.",
+      },
     ],
     faqs: [
       {
@@ -1663,22 +1706,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "Stripe & PayPal Processing Fees in 2025–2026: How Freelancers Pass Fees to Clients Legally Across All 50 States",
     summary:
       "Absorbing 2.9% to 3.9% payment processor cuts costs independent professionals thousands of dollars annually. Here is the mathematical reverse pass-through formula, Visa/Mastercard 3% surcharge compliance rules, and invoice terms to preserve 100% of earnings.",
-    publishedAt: "2025-01-22T10:00:00Z",
-    updatedAt: "2026-04-14T15:00:00Z",
+    publishedAt: "2026-11-05T10:00:00Z",
+    updatedAt: "2026-11-19T09:00:00Z",
     category: "Merchant Fees",
     tags: ["Stripe Fees", "PayPal Fees", "Invoicing", "Merchant Surcharge", "Pass-Through"],
-    readTime: "8 min read",
+    readTime: "9 min read",
     featured: false,
-    author: {
-      name: "Marcus Vance",
-      role: "Lead Financial Analyst",
-      credentials: "MS Financial Modeling, Quantitative Tax Research",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "Stripe Official Pricing & Merchant Surcharging Compliance Schedule",
       url: "https://stripe.com/pricing",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/stripe-paypal-merchant-fee-hikes-how-to-pass-fees/opengraph-image",
+    visual: {
+      src: "/images/guides/merchant-fee-grossup.svg",
+      alt: "Payment gateway fee comparison chart and exact reverse invoice gross-up proof diagram",
+      caption: "Visual proof of why naive markup loses $0.85 per $1,000 while A = (P + f) / (1 - r) lands exact net deposits.",
+    },
     relatedTool: {
       href: "/tools/stripe-fee-calculator",
       name: "Stripe & PayPal Fee Optimizer",
@@ -1740,7 +1784,7 @@ const RAW_ARTICLES: NewsArticle[] = [
         keyPoints: [
           "Grossing up naively loses money on every transaction due to fee compounding.",
           "Payment processors charge their percentage fee on the entire transaction amount, including added fees.",
-          "Using the reverse gross-up formula in our Stripe & PayPal Fee Optimizer guarantees exact zero-slippage settlement.",
+          "Using the reverse gross-up formula in our Stripe & PayPal Fee Optimizer calculates the exact gross total for zero-slippage settlement.",
         ],
       },
       {
@@ -1773,9 +1817,9 @@ const RAW_ARTICLES: NewsArticle[] = [
       },
       {
         id: "contract-and-invoice-clauses",
-        title: "Recommended Contract & Invoice Language for Solopreneurs",
+        title: "Recommended Contract & Invoice Clauses + Tax Reconciliation",
         content:
-          "To eliminate awkward client pushback and invoice disputes, embed fee transparency into your Master Services Agreement (MSA) before sending your first invoice.\n\nRecommended clause: 'Payment Terms: Standard project pricing reflects payment via ACH Direct Debit or Domestic Bank Wire. Clients electing to settle invoices via corporate or personal credit card will incur a disclosed 3.0% card handling adjustment—or may pay the standard net invoice fee-free using the ACH instructions attached.' Calculate exact numbers cleanly using the [Stripe & PayPal Fee Optimizer](/tools/stripe-fee-calculator).",
+          "To eliminate awkward client pushback and invoice disputes, embed fee transparency into your Master Services Agreement (MSA) before sending your first invoice.\n\nSample clause: 'Payment Terms: Standard project pricing reflects payment via ACH Direct Debit or Domestic Bank Wire. Clients electing to settle invoices via corporate or personal credit card receive a clearly itemized 3.0% card handling adjustment—or may pay the standard net invoice fee-free using the ACH instructions attached.' Always verify current state statutes (including California SB 478, New York GBL § 518, Connecticut, and Massachusetts rules) and your payment processor's terms before enabling surcharges.\n\nAt tax time, remember that both passed-through client payments and retained Stripe/PayPal processing cuts appear inside Form 1099-K Box 1a gross receipts. Report the full gross billed amount on Schedule C Line 1 and deduct all retained merchant fees on Line 10 ('Commissions and fees') so your net taxable profit matches your actual bank deposits. Calculate exact gross-up totals cleanly using the [Stripe & PayPal Fee Optimizer](/tools/stripe-fee-calculator).",
       },
     ],
     faqs: [
@@ -1807,22 +1851,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "IRS Form 1099-K Rules After OBBBA: The Reinstated $20,000 Federal Threshold vs. $600 State Mandates",
     summary:
       "Public Law 119-21 (OBBBA) and IRS Fact Sheet FS-2025-08 officially repealed the $600/$5,000 phase-in and restored the $20,000 and 200-transaction federal Form 1099-K rule—but $600 state thresholds and IRC § 61 reporting duties still apply.",
-    publishedAt: "2025-01-25T11:00:00Z",
-    updatedAt: "2026-03-05T09:30:00Z",
+    publishedAt: "2026-11-06T11:00:00Z",
+    updatedAt: "2026-11-19T12:00:00Z",
     category: "IRS Regulations",
     tags: ["Form 1099-K", "OBBBA", "FS-2025-08", "Venmo", "Schedule C"],
     readTime: "7 min read",
     featured: false,
-    author: {
-      name: "Marcus Vance",
-      role: "Lead Financial Analyst",
-      credentials: "MS Financial Modeling, Quantitative Tax Research",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "IRS Form 1099-K Guidance & Fact Sheet FS-2025-08 (OBBBA Threshold Reinstatement)",
       url: "https://www.irs.gov/tax-professionals/understanding-your-form-1099-k",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/irs-form-1099k-threshold-rules-guide/opengraph-image",
+    visual: {
+      src: "/images/guides/schedule-c-deductions.svg",
+      alt: "Schedule C reporting and tax reduction comparison chart for Form 1099-K gross revenue and deductible expenses",
+      caption: "All commercial revenue remains taxable under IRC § 61 from dollar one—while Schedule C deductions lower both SE and income taxes.",
+    },
     relatedTool: {
       href: "/tools/freelance-tax-estimator",
       name: "1099 Freelance Tax Estimator",
@@ -1943,22 +1988,23 @@ const RAW_ARTICLES: NewsArticle[] = [
     headline: "California vs. Texas vs. Florida: The True Solopreneur Total Tax Burden Breakdown (2025–2026)",
     summary:
       "Moving to a zero-income-tax state like Texas or Florida saves a $160,000 freelancer over $11,200 in state income and LLC franchise taxes compared to California. Yet property millage, sales taxes, and FTB domicile audits shift the true break-even math.",
-    publishedAt: "2025-01-27T08:30:00Z",
-    updatedAt: "2026-05-18T11:45:00Z",
+    publishedAt: "2026-11-07T08:30:00Z",
+    updatedAt: "2026-11-19T14:00:00Z",
     category: "State Taxes",
     tags: ["State Taxes", "California Tax", "Texas Tax", "Florida Tax", "Tax Domicile"],
     readTime: "9 min read",
     featured: false,
-    author: {
-      name: "Marcus Vance",
-      role: "Lead Financial Analyst",
-      credentials: "MS Financial Modeling, Quantitative Tax Research",
-    },
+    author: RESEARCH_DESK_AUTHOR,
     primarySource: {
       name: "Tax Foundation State Individual Income Tax Rates and Brackets (2026 Edition)",
       url: "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
     },
-    image: "https://taxestimator.online/icon-512.png",
+    image: "https://taxestimator.online/news/lowest-tax-states-for-freelancers-2025/opengraph-image",
+    visual: {
+      src: "/images/guides/state-tax-comparison.svg",
+      alt: "State freelance income tax and entity fee comparison chart across Texas, Florida, Pennsylvania, Illinois, California, and New York City",
+      caption: "Comparing state income tax and recurring entity obligations at $160,000 net profit across major US freelance hubs.",
+    },
     relatedTool: {
       href: "/tools/freelance-tax-estimator/texas",
       name: "Texas Freelance Tax Estimator",
@@ -2084,6 +2130,7 @@ const RAW_ARTICLES: NewsArticle[] = [
       },
     ],
   },
+  ...ADDITIONAL_NEWS_ARTICLES,
 ];
 
 // Validate all articles at import time

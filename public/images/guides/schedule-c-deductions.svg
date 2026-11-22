@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Schedule C vs Schedule 1 Dollar-for-Dollar Tax Savings Comparison">
+  <rect width="1200" height="630" fill="#FBFBF9"/>
+  <rect x="24" y="24" width="1152" height="582" rx="24" fill="#FFFFFF" stroke="#EAEAE3" stroke-width="2"/>
+  <rect x="24" y="24" width="1152" height="86" rx="24" fill="#16503E"/>
+  <rect x="24" y="80" width="1152" height="30" fill="#16503E"/>
+  <text x="64" y="66" font-family="ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="800" fill="#FFFFFF">How $1,000 of Schedule C Business Expense Saves More Than Schedule 1</text>
+  <text x="64" y="94" font-family="ui-monospace, SFMono-Regular, monospace" font-size="14" font-weight="600" fill="#6EE7B7">22% Federal Marginal Bracket + 5% State Rate + 15.3% Schedule SE (Under $184,500 SS Cap)</text>
+
+  <!-- Left Panel: Schedule C -->
+  <rect x="64" y="142" width="516" height="390" rx="18" fill="#ECFDF5" stroke="#059669" stroke-width="2"/>
+  <text x="92" y="182" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#065F46">PATH A  •  SCHEDULE C BUSINESS EXPENSE ($1,000)</text>
+  <text x="92" y="208" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#1E293B">Equipment, Home Office, Mileage, Software, Merchant Fees</text>
+
+  <rect x="92" y="232" width="460" height="54" rx="10" fill="#FFFFFF" stroke="#A7F3D0"/>
+  <text x="112" y="256" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">1. Schedule SE Tax Reduction (15.3% × 92.35%)</text>
+  <text x="458" y="264" font-family="ui-monospace, monospace" font-size="17" font-weight="800" fill="#059669">+$141.30</text>
+  <text x="112" y="274" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#475569">Reduces net profit BEFORE Social Security &amp; Medicare tax</text>
+
+  <rect x="92" y="298" width="460" height="54" rx="10" fill="#FFFFFF" stroke="#A7F3D0"/>
+  <text x="112" y="322" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">2. Federal Income Tax (22% QBI-Adjusted)</text>
+  <text x="458" y="330" font-family="ui-monospace, monospace" font-size="17" font-weight="800" fill="#059669">+$163.57</text>
+  <text x="112" y="340" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#475569">After 50% SE add-back ($70.65) and 20% QBI interaction</text>
+
+  <rect x="92" y="364" width="460" height="54" rx="10" fill="#FFFFFF" stroke="#A7F3D0"/>
+  <text x="112" y="388" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">3. State Income Tax Savings (5.0% AGI Base)</text>
+  <text x="466" y="396" font-family="ui-monospace, monospace" font-size="17" font-weight="800" fill="#059669">+$46.47</text>
+  <text x="112" y="406" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#475569">5.0% state rate applied to $929.35 net AGI decrease</text>
+
+  <rect x="92" y="438" width="460" height="68" rx="12" fill="#16503E"/>
+  <text x="114" y="468" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">Total Cash Tax Preserved per $1,000</text>
+  <text x="434" y="480" font-family="ui-monospace, monospace" font-size="24" font-weight="800" fill="#6EE7B7">$351.34</text>
+  <text x="114" y="490" font-family="ui-monospace, monospace" font-size="12" fill="#CBD5E1">35.1% combined tax-saving efficiency</text>
+
+  <!-- Right Panel: Schedule 1 -->
+  <rect x="620" y="142" width="516" height="390" rx="18" fill="#FFFBEB" stroke="#D97706" stroke-width="2"/>
+  <text x="648" y="182" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#92400E">PATH B  •  SCHEDULE 1 ABOVE-THE-LINE ($1,000)</text>
+  <text x="648" y="208" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#1E293B">Solo 401(k), SEP-IRA, HSA, Form 7206 Health Premiums</text>
+
+  <rect x="648" y="232" width="460" height="54" rx="10" fill="#FFFFFF" stroke="#FDE68A"/>
+  <text x="668" y="256" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">1. Schedule SE Tax Reduction</text>
+  <text x="1032" y="264" font-family="ui-monospace, monospace" font-size="17" font-weight="800" fill="#94A3B8">$0.00</text>
+  <text x="668" y="274" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#475569">Schedule 1 adjustments do NOT reduce 15.3% SE tax</text>
+
+  <rect x="648" y="298" width="460" height="54" rx="10" fill="#FFFFFF" stroke="#FDE68A"/>
+  <text x="668" y="322" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">2. Federal Income Tax (22% QBI-Adjusted)</text>
+  <text x="1014" y="330" font-family="ui-monospace, monospace" font-size="17" font-weight="800" fill="#B45309">+$176.00</text>
+  <text x="668" y="340" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#475569">22% × $800 (retirement &amp; Form 7206 trim QBI by 20%)</text>
+
+  <rect x="648" y="364" width="460" height="54" rx="10" fill="#FFFFFF" stroke="#FDE68A"/>
+  <text x="668" y="388" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">3. State Income Tax Savings (5.0% AGI Base)</text>
+  <text x="1022" y="396" font-family="ui-monospace, monospace" font-size="17" font-weight="800" fill="#B45309">+$50.00</text>
+  <text x="668" y="406" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#475569">Note: CA &amp; NJ disallow state deductions for HSA deposits</text>
+
+  <rect x="648" y="438" width="460" height="68" rx="12" fill="#B45309"/>
+  <text x="670" y="468" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">Total Cash Tax Preserved per $1,000</text>
+  <text x="990" y="480" font-family="ui-monospace, monospace" font-size="24" font-weight="800" fill="#FEF3C7">$226.00</text>
+  <text x="670" y="490" font-family="ui-monospace, monospace" font-size="12" fill="#FDE68A">22.6% combined tax-saving efficiency (+12.5 pts lower)</text>
+
+  <text x="64" y="572" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#64748B">Key Takeaway: Documenting every legitimate IRC § 162 Schedule C expense lowers SECA and income taxes simultaneously; HSA contributions remain excluded from Schedule 1 QBI reduction.</text>
+</svg>

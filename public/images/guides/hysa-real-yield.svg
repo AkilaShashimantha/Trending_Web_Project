@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="HYSA Nominal APY vs 1099-INT Tax Drag vs CPI Inflation Real Yield Bridge">
+  <rect width="1200" height="630" fill="#FBFBF9"/>
+  <rect x="24" y="24" width="1152" height="582" rx="24" fill="#FFFFFF" stroke="#EAEAE3" stroke-width="2"/>
+  <rect x="24" y="24" width="1152" height="86" rx="24" fill="#16503E"/>
+  <rect x="24" y="80" width="1152" height="30" fill="#16503E"/>
+  <text x="64" y="66" font-family="ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="800" fill="#FFFFFF">Nominal APY vs. Real Purchasing Power: The 1099-INT &amp; CPI Bridge</text>
+  <text x="64" y="94" font-family="ui-monospace, SFMono-Regular, monospace" font-size="14" font-weight="600" fill="#6EE7B7">$100,000 Reserve Comparison  •  24% Federal + 9.3% California State vs. 31 U.S.C. § 3124 State-Exempt T-Bills</text>
+
+  <!-- Option A: HYSA -->
+  <rect x="64" y="142" width="516" height="404" rx="18" fill="#FFFBEB" stroke="#D97706" stroke-width="2"/>
+  <text x="92" y="180" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#92400E">OPTION A  •  ONLINE HYSA (4.30% NOMINAL APY)</text>
+
+  <text x="92" y="220" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">Gross Annual Interest (1099-INT Box 1)</text>
+  <rect x="92" y="232" width="430" height="28" rx="6" fill="#059669"/>
+  <text x="398" y="251" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#FFFFFF">+$4,300 (4.30%)</text>
+
+  <text x="92" y="290" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">Federal Tax Drag (24.0% Ordinary Rate)</text>
+  <rect x="92" y="302" width="160" height="28" rx="6" fill="#D97706"/>
+  <text x="262" y="321" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#92400E">-$1,032.00</text>
+
+  <text x="92" y="360" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">California State Tax Drag (9.3% Rate)</text>
+  <rect x="92" y="372" width="84" height="28" rx="6" fill="#DC2626"/>
+  <text x="186" y="391" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#991B1B">-$399.90</text>
+
+  <rect x="92" y="424" width="460" height="96" rx="12" fill="#FFFFFF" stroke="#FDE68A" stroke-width="2"/>
+  <text x="114" y="454" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#475569">After-Tax Cash Net: $2,868.10 (2.87% Net)</text>
+  <text x="114" y="482" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#475569">Minus 2.70% CPI Inflation: -$2,700.00</text>
+  <text x="114" y="508" font-family="ui-monospace, monospace" font-size="15" font-weight="800" fill="#B45309">REAL PURCHASING POWER: +$168.10 (+0.17%)</text>
+
+  <!-- Option B: 4-Week T-Bills -->
+  <rect x="620" y="142" width="516" height="404" rx="18" fill="#ECFDF5" stroke="#059669" stroke-width="2"/>
+  <text x="648" y="180" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#065F46">OPTION B  •  4-WEEK U.S. TREASURY BILLS (3.95% YIELD)</text>
+
+  <text x="648" y="220" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">Gross Annual Interest (1099-INT Box 3)</text>
+  <rect x="648" y="232" width="395" height="28" rx="6" fill="#059669"/>
+  <text x="922" y="251" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#FFFFFF">+$3,950 (3.95%)</text>
+
+  <text x="648" y="290" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">Federal Tax Drag (24.0% Ordinary Rate)</text>
+  <rect x="648" y="302" width="146" height="28" rx="6" fill="#D97706"/>
+  <text x="804" y="321" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#92400E">-$948.00</text>
+
+  <text x="648" y="360" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0F172A">California State Tax (31 U.S.C. § 3124 Exempt)</text>
+  <rect x="648" y="372" width="12" height="28" rx="4" fill="#16503E"/>
+  <text x="670" y="391" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#16503E">$0.00 State Tax (100% Exempt)</text>
+
+  <rect x="648" y="424" width="460" height="96" rx="12" fill="#16503E"/>
+  <text x="670" y="454" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#CBD5E1">After-Tax Cash Net: $3,002.00 (3.00% Net)</text>
+  <text x="670" y="482" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#CBD5E1">Minus 2.70% CPI Inflation: -$2,700.00</text>
+  <text x="670" y="508" font-family="ui-monospace, monospace" font-size="15" font-weight="800" fill="#6EE7B7">REAL PURCHASING POWER: +$302.00 (+$133.90 Edge)</text>
+
+  <text x="64" y="582" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#64748B">Note: In 0%-income-tax states (TX, FL, WA, NV), the state shield is $0 and the higher-APY FDIC-insured HYSA retains the net cash lead.</text>
+</svg>

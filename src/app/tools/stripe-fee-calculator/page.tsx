@@ -15,7 +15,7 @@ import {
 export const metadata: Metadata = {
   title: "Stripe & PayPal Fee Optimizer | Reverse Invoice Calculator",
   description:
-    "Accurately calculate payment gateway merchant fees across Stripe, PayPal, Wise, and Square. Features exact reverse fee pass-through calculations to guarantee your net invoice payout.",
+    "Accurately calculate payment gateway merchant fees across Stripe, PayPal, Wise, and Square. Features exact reverse fee pass-through calculations to calculate the gross invoice amount needed to net your target payout.",
   keywords: [
     "stripe fee calculator",
     "paypal fee calculator",
@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     "stripe fee pass through",
     "wise vs stripe fees",
   ],
+  alternates: {
+    canonical: "https://taxestimator.online/tools/stripe-fee-calculator",
+  },
 };
 
 export default function StripeFeeCalculatorPage() {
@@ -230,6 +233,69 @@ export default function StripeFeeCalculatorPage() {
             </h3>
             <p>
               Every merchant account carries operational risk. If a client initiates a credit card chargeback, Stripe and PayPal levy an immediate dispute fee of $15.00 to $20.00, regardless of who ultimately wins the case. Prudent solopreneurs establish a 0.5% to 1.0% internal reserve fund on every project to buffer against unexpected refunds, chargeback fees, and processing anomalies without destabilizing cash flow.
+            </p>
+          </section>
+
+          {/* Section 5: Legal Compliance for Fee Pass-Through */}
+          <section className="space-y-4 text-sm leading-relaxed text-slate-700">
+            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-md bg-spruce-800 text-xs text-white font-mono">
+                5
+              </span>
+              Legal Compliance When Passing Credit Card Processing Fees to Clients
+            </h3>
+            <p>
+              Passing processing fees onto client invoices requires navigating both card-network merchant agreements (Visa, Mastercard, American Express) and state consumer-protection statutes. Treating a credit card fee as an unexpected surprise surcharge at checkout can violate network rules, trigger merchant account termination, or breach state fee-transparency laws.
+            </p>
+            <p>
+              Under major card-network operating rules, explicit credit card surcharges are subject to strict guardrails: the surcharge cannot exceed your actual cost of acceptance, Visa caps credit card surcharges at <strong>3.0%</strong>, and merchants are strictly prohibited from surcharging <strong>debit cards or prepaid cards</strong> (even when processed over a credit rail without a PIN). Furthermore, several states enforce strict anti-surcharge or upfront total-price disclosure mandates—including <strong>Connecticut, Massachusetts, Maine, New York (GBL &sect; 518), and California (Civ. Code &sect; 1748.1 / SB 478)</strong>.
+            </p>
+            <div className="rounded-xl border border-[#EAEAE3] bg-[#FBFBF9] p-4 space-y-2 text-xs text-slate-700">
+              <div className="font-bold text-slate-900">
+                Cash / ACH Discounting vs. Itemized Surcharging
+              </div>
+              <p>
+                <strong>1. Cash / ACH Discount Framing (Broadly Permitted):</strong> Rather than adding a fee onto a quoted price at checkout, quote your standard project rate inclusive of card handling and offer a clearly documented <strong>2.5% to 3.0% discount</strong> when the client pays via ACH Direct Debit, check, or domestic wire.
+              </p>
+              <p>
+                <strong>2. Itemized Credit Card Surcharging (Jurisdiction-Restricted):</strong> If you itemize a card convenience fee on invoices, you must notify your acquirer (where required), disclose both the cash/ACH price and the card-inclusive price clearly before invoicing, exclude debit cards, and confirm current state statutes and your payment processor&apos;s terms of service before billing.
+              </p>
+            </div>
+            <p className="text-xs text-slate-600">
+              Always verify current state laws in both your business domicile and your client&apos;s billing jurisdiction—and review your Stripe, PayPal, or Square merchant agreement—prior to implementing automated card surcharging.
+            </p>
+          </section>
+
+          {/* Section 6: Schedule C Tax Deduction & 1099-K Reconciliation */}
+          <section className="space-y-4 text-sm leading-relaxed text-slate-700">
+            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-md bg-spruce-800 text-xs text-white font-mono">
+                6
+              </span>
+              How to Deduct Stripe &amp; PayPal Merchant Fees on IRS Schedule C (Avoiding 1099-K Over-Taxation)
+            </h3>
+            <p>
+              A costly bookkeeping mistake happens every spring when solopreneurs look at the net deposits hitting their checking account rather than the gross payments processed on their gateway dashboard. Under IRS instructions, Third-Party Settlement Organizations (TPSOs) and merchant acquirers report <strong>gross payment volume</strong> in Box 1a of Form 1099-K <em>before</em> subtracting processing fees, chargebacks, or refunds.
+            </p>
+            <p>
+              If you simply report your Form 1099-K total on IRS Form 1040 Schedule C without deducting merchant processing fees—or worse, report net bank deposits that mismatch the IRS&apos;s gross 1099-K figure—you either overpay 15.3% self-employment and income taxes on money you never received or trigger an automated IRS CP2000 discrepancy notice.
+            </p>
+            <div className="rounded-xl border border-emeraldTactile-200 bg-emeraldTactile-50/50 p-4 font-mono text-xs text-slate-800 space-y-1.5">
+              <div className="font-bold text-slate-900 font-sans">
+                Worked Schedule C Reconciliation Example ($100,000 Gross via Stripe Card):
+              </div>
+              <div>1. Form 1099-K Box 1a (Gross Receipts Reported to IRS): $103,018.00 (100 invoices @ $1,030.18)</div>
+              <div>2. Schedule C Line 1 (Gross Receipts or Sales): $103,018.00</div>
+              <div>3. Schedule C Line 10 / Line 27a (Merchant Fees Deducted): -$3,018.00</div>
+              <div className="pt-1 font-bold text-spruce-800">
+                4. Net Schedule C Revenue Subject to SECA &amp; Income Tax: $100,000.00
+              </div>
+            </div>
+            <p>
+              Notice how passing fees through cleanly leaves your net taxable income aligned with your target $100,000.00 project fees: you report the full $103,018.00 gross amount matching Form 1099-K on Schedule C Line 1, then deduct the exact $3,018.00 retained by Stripe on Line 10 (<em>Commissions and fees</em>) or Line 27a (<em>Other expenses — Merchant processing fees</em>). Download your annual Stripe Balance Summary or PayPal Financial Summary every January so every penny of processing overhead offsets gross receipts.
+            </p>
+            <p className="text-xs text-slate-600">
+              Also check for client refunds and chargebacks inside that year-end processor export: refunds processed back to clients remain inside Form 1099-K Box 1a gross volume and should be backed out separately on Schedule C Line 2 (<em>Returns and allowances</em>), while non-refundable dispute fees ($15.00–$20.00) are deductible alongside merchant processing fees on Line 10.
             </p>
           </section>
         </div>

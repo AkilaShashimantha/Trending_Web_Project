@@ -57,7 +57,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/tools/freelance-tax-estimator/texas"
+                  href="/tools/freelance-tax-estimator#flagship-state-guides"
                   className="hover:text-emeraldTactile-300 transition-colors"
                 >
                   State-by-State Tax Hub
@@ -168,7 +168,16 @@ export function Footer() {
               Trust & Transparency
             </h3>
             <p className="mt-3 text-[11px] leading-relaxed text-slate-400">
-              Google AdSense and verified third-party advertising partners may place and read cookies on your browser, or use web beacons to serve personalized advertisements based on previous web visits. You can manage your ad personalization settings at{" "}
+              Google AdSense and verified third-party advertising partners may place and read cookies on your browser, or use web beacons to serve personalized advertisements based on previous web visits. Review{" "}
+              <a
+                href="https://policies.google.com/technologies/partner-sites"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-emeraldTactile-300 underline inline-flex items-center gap-0.5"
+              >
+                Google Partner Privacy <ExternalLink className="h-2.5 w-2.5" />
+              </a>{" "}
+              or manage your ad personalization settings at{" "}
               <a
                 href="https://adssettings.google.com"
                 target="_blank"

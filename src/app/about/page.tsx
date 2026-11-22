@@ -205,9 +205,38 @@ export default function AboutPage() {
           </div>
 
           <div className="rounded-xl border border-emeraldTactile-100 bg-emeraldTactile-50/60 p-4 text-xs text-slate-700 leading-relaxed">
-            <strong className="text-slate-900">Editorial Independence Guarantee:</strong>{" "}
-            Advertising and monetization never influence our mathematical formulas, tax guidance, or editorial conclusions. TaxEstimator Online does not accept paid placements disguised as financial reporting, and calculator assumptions are never altered for commercial partners.
+            <strong className="text-slate-900">Editorial Independence Policy:</strong>{" "}
+            Advertising and monetization never influence our mathematical formulas, tax guidance, or editorial conclusions. TaxEstimator Online does not accept paid placements disguised as educational reporting, and calculator assumptions are never altered for commercial partners.
           </div>
+        </section>
+
+        {/* Publisher & Authorship Transparency */}
+        <section
+          id="publisher-identity"
+          className="scroll-mt-24 space-y-4 rounded-2xl border border-[#EAEAE3] bg-white p-6 sm:p-8 shadow-xs"
+        >
+          <h2 className="text-xl font-bold text-slate-900">
+            Who Operates TaxEstimator Online &amp; Authorship Standards
+          </h2>
+          <p className="text-sm text-slate-600 leading-relaxed">
+            TaxEstimator Online is operated as an independent educational software and financial-modeling publisher. All guides, tax tables, and calculation assumptions published on the platform are authored, verified, and maintained collectively under the{" "}
+            <strong className="text-slate-900">TaxEstimator Online Research Desk</strong> byline rather than attributed to individual practitioner personas.
+          </p>
+          <ul className="space-y-2 text-xs text-slate-700 list-disc list-inside">
+            <li>
+              <strong>Educational Publisher Scope:</strong> TaxEstimator Online is not a CPA firm, enrolled agent practice, registered investment advisor, broker-dealer, or law firm, and publishing primary-source tax models does not create a client or fiduciary relationship.
+            </li>
+            <li>
+              <strong>Public-Source Verification:</strong> Every statutory rate, deduction cap, and payment fee schedule is cross-referenced against official IRS, SSA, Federal Reserve, BLS, and state revenue publications listed below.
+            </li>
+            <li>
+              <strong>Open Corrections Channel:</strong> Readers, tax preparers, and researchers can report statutory revisions or calculation discrepancies anytime via our{" "}
+              <Link href="/contact" className="font-semibold text-emeraldTactile-700 underline underline-offset-2">
+                Contact &amp; Editorial Corrections Page
+              </Link>{" "}
+              or by emailing <code className="font-mono text-spruce-800">editorial@taxestimator.online</code>.
+            </li>
+          </ul>
         </section>
 
         {/* Author & Verification Methodology */}
@@ -223,7 +252,8 @@ export default function AboutPage() {
             Author &amp; Verification Methodology
           </h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            Our articles and calculator updates are produced by the TaxEstimator Online Quantitative Tax &amp; Commerce Research Desk—combining financial software engineers with regulatory policy researchers—through a four-step verification pipeline:
+            Our guides and calculator updates are produced collectively by the{" "}
+            <strong className="text-slate-900">TaxEstimator Online Research Desk</strong> through a four-step verification pipeline:
           </p>
 
           <ol className="space-y-3 text-xs text-slate-700">
@@ -262,7 +292,7 @@ export default function AboutPage() {
           </ol>
 
           <p className="text-xs text-slate-500 pt-1">
-            Note: TaxEstimator Online publishes educational models and quantitative journalism only; we are not a CPA firm or legal practice. Please review our{" "}
+            Note: TaxEstimator Online publishes educational financial models and primary-source research guides only; we are not a CPA firm or legal practice. Please review our{" "}
             <Link href="/disclaimer" className="font-semibold text-spruce-800 underline underline-offset-2">
               Financial &amp; Tax Disclaimer
             </Link>{" "}

@@ -8,7 +8,6 @@ export default function robots(): MetadataRoute.Robots {
     },
     sitemap: [
       "https://taxestimator.online/sitemap.xml",
-      "https://taxestimator.online/news-sitemap.xml",
       "https://taxestimator.online/rss.xml",
     ],
   };
